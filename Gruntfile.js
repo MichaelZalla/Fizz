@@ -1,3 +1,4 @@
+"use strict";
 
 require('string-format');
 
@@ -22,11 +23,11 @@ var components = [
 	'Sprite'
 ];
 
-var sources = components.map(function(c, i) {
+var sources = components.map(function(c) {
 	return "js/lib/Fizz.{0}.js".format(c);
 });
 
-var specs = components.map(function(c, i) {
+var specs = components.map(function(c) {
 	return "js/spec/spec.{0}.js".format(c);
 });
 
@@ -37,16 +38,18 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		jshint: {
+			force: true,
 			files: sources.concat(specs),
 			options: {
-				reporter: './log/jshint-reporter.js'
-				,reporterOutput: './log/jshint-notices.log'
+				jshintrc: './log/.jshintrc',
+				reporter: './log/jshint-reporter.js',
+				reporterOutput: './log/jshint.log'
 			}
 		},
 
 		watch: {
 			files: sources.concat(specs),
-			tasks: ['jshint']
+			tasks: ['jasmine', 'jshint']
 		},
 
 		jasmine: {
@@ -60,16 +63,19 @@ module.exports = function(grunt) {
 		},
 
 		uglify: {
-			files: { 'js/min/fizz.min.js': sources },
+			lib: {
+				files: {
+					'js/min/fizz.min.js': sources
+				},
+			},
 			options: {
-				mangle: false,
+				mangle: true,
 				compress: true,
 				sourceMap: true,
 				// maxLineLen: 80,
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-        				'<%= grunt.template.today("yyyy-mm-dd") %> - ' +
-        				'See the full source at <%= pkg.homepage %> - ' +
-        				'(license: <%= pkg.license %>)*/'
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> | ' +
+						'(c) 2014 Michael Zalla | <%= pkg.license %> License \t\t*/\n' +
+						'/*! Read the full source at <%= pkg.homepage %> \t*/'
 			}
 		}
 
@@ -80,8 +86,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('test', ['jshint', 'jasmine']);
+	grunt.registerTask('test', ['jasmine', 'jshint']);
 	grunt.registerTask('minify', ['uglify']);
-	grunt.registerTask('default', ['test', 'watch']);
+	grunt.registerTask('default', ['watch']);
 	
 };

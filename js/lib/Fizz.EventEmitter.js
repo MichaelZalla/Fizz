@@ -32,8 +32,8 @@ this.Fizz = this.Fizz || { };
 					return;
 				}
 
-				if(typeof this._events[type] == "function") {
-					if(this._events[type] == listener) return;
+				if(typeof this._events[type] === "function") {
+					if(this._events[type] === listener) return;
 					this._events[type] = [this._events[type]];
 					this._events[type].push(listener);
 				}
@@ -59,7 +59,7 @@ this.Fizz = this.Fizz || { };
 				}
 			} else {
 
-				if(this._events[type] == listener) {
+				if(this._events[type] === listener) {
 					delete this._events[type];
 					return;
 				}
@@ -90,11 +90,11 @@ this.Fizz = this.Fizz || { };
 			var listeners = [ ],
 				list = this._events[type];
 
-			if(typeof list == "function" && list.useCapture == useCapture) {
+			if(typeof list === "function" && list.useCapture === useCapture) {
 				listeners.push(list);
 			} else if(list instanceof Array) {
 				listeners = list.filter(function(fn) {
-					return (fn.useCapture == useCapture);
+					return (fn.useCapture === useCapture);
 				});
 			}
 
@@ -106,43 +106,46 @@ this.Fizz = this.Fizz || { };
 			return !!(type in this._events);
 		},
 
-		emit: function(eventObj, eventData) {
+		emit: function(E, data) {
 
-			var e = eventObj;
+			var e;
 			
 			// This should only be triggered at an Event's original source
-			if(!(e instanceof Fizz.Event)) {
+			if(!(E instanceof Fizz.Event)) {
 				// Allow Event constructors to be passed (default arguments)
-				if(typeof e == "function") e = new e();
+				if(typeof E === "function") e = new E();
 				// Allow eventType strings to be passed
-				else if(typeof e == "string") {
-					e = new Fizz.Event({ 'type': e });
+				else if(typeof E === "string") {
+					e = new Fizz.Event({ 'type': E });
 				}
 				else {
 					throw new Error("Call was made to 'emit' method with " +
 						"invalid value for argument 'eventObj'. Argument must " +
 						"be a string or Fizz.Event instance");
 				}
+			} else {
+				e = E;
 			}
 
 			e.target = this;
 			
 			// Allow decoration of Event instance with arbitrary contextual data
-			e.assign(eventData);
+			e.assign(data);
 
 			// Construct capture path for event processing
 			var capturePath = this._buildCapturePath();
 			var bubblePath = capturePath.slice(0).reverse();
+			var i, j, handlers;
 
 			// Begin capturing phase
 			e.eventPhase = Fizz.Event.PHASE.CAPTURING_PHASE;
-			for(var i = 0; i < capturePath.length; i++) {
+			for(i = 0; i < capturePath.length; i++) {
 				if(e.canceled) {
 					return e.currentTarget;
 				}
 				e.currentTarget = capturePath[i];
-				var handlers = e.currentTarget.getEventListeners(e.type, true);
-				for(var j = 0; j < handlers.length; j++) {
+				handlers = e.currentTarget.getEventListeners(e.type, true);
+				for(j = 0; j < handlers.length; j++) {
 					if(e.canceled) {
 						return e.currentTarget;
 					}
@@ -153,13 +156,13 @@ this.Fizz = this.Fizz || { };
 			// Begin bubbling phase
 			e.eventPhase = Fizz.Event.PHASE.BUBBLING_PHASE;
 
-			for(var i = 0; i < bubblePath.length; i++) {
+			for(i = 0; i < bubblePath.length; i++) {
 				if(e.canceled) {
 					return e.currentTarget;
 				}
 				e.currentTarget = bubblePath[i];
-				var handlers = e.currentTarget.getEventListeners(e.type, false);
-				for(var j = 0; j < handlers.length; j++) {
+				handlers = e.currentTarget.getEventListeners(e.type, false);
+				for(j = 0; j < handlers.length; j++) {
 					if(e.canceled) {
 						return e.currentTarget;
 					}
@@ -200,14 +203,17 @@ this.Fizz = this.Fizz || { };
 
 		// Modify the target to include the necessary emitter properties
 
-		if(target.hasOwnProperty('init') && typeof target.init == "function") {
+		if(target.hasOwnProperty('init') && typeof target.init === "function") {
 			
 			// We are extending a class prototype
 			
 			// Make a copy of the prototype's original init method
 			var init_copy = new Function('return ' + target.init.toString())();
 			for(var prop in target.init) {
+				// Note that we are also copying over properties
+				// that might be one the init method's prototype
 				init_copy[prop] = target.init[prop];
+				/*jshint -W089 */
 			}
 
 			// Decorate the original fn with a call to EventEmitter.prototype.init

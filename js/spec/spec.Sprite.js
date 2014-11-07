@@ -19,7 +19,7 @@ describe("A Sprite", function() {
 	function(done) {
 
 		sprite = new Fizz.Sprite("/suites/assets/spritesheets/spy.png");
-		sprite.spritesheet.on('load', function(e) {
+		sprite.spritesheet.on('load', function() {
 			expect([ sprite.width, sprite.height ]).toEqual([ 184, 184 ]);
 			done();
 		});
@@ -31,9 +31,9 @@ describe("A Sprite", function() {
 
 	   	var spyImage = new Image();
 
-   		spyImage.onload = function(e) {
+   		spyImage.onload = function() {
 		   	sprite = new Fizz.Sprite(spyImage);
-			sprite.spritesheet.on('load', function(e) {
+			sprite.spritesheet.on('load', function() {
 				expect([ sprite.width, sprite.height ]).toEqual([ 184, 184 ]);
 				done();
 			});
@@ -99,7 +99,7 @@ describe("A Sprite", function() {
 		sprite.scale.y = 8;
 		
 		sprite.spritesheet = sheet;
-		sprite.spritesheet.on('load', function(e) {
+		sprite.spritesheet.on('load', function() {
 
 			sprite.updateCache(); // Get initial frame cache
 			expect(sprite._currentFrame).toEqual(0);

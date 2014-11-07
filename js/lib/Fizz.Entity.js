@@ -22,10 +22,10 @@ this.Fizz = this.Fizz || { };
 		},
 
 		update: function(deltaT) {
-			var deltaT = (typeof deltaT === "number") ? deltaT : 1;
+			deltaT = (typeof deltaT === "number") ? deltaT : 1;
 			if((this._life -= deltaT) < 1) {
 				this.exists = false;
-			};
+			}
 			this._velocity.x += (this._acceleration.x * deltaT);
 			this._velocity.y += (this._acceleration.y * deltaT);
 			this.x += this._velocity.x * deltaT;
@@ -41,7 +41,7 @@ this.Fizz = this.Fizz || { };
 
 		copy: function(entity) {
 			if(!(entity instanceof Fizz.Entity) &&
-			   !(entity instanceof Fizz.Rectangle)) { return false; };
+			   !(entity instanceof Fizz.Rectangle)) { return false; }
 			this.position = entity.position;
 			this.size = entity.size;
 			if(entity instanceof Fizz.Entity) {
@@ -83,7 +83,7 @@ this.Fizz = this.Fizz || { };
 	Entity.EVENTS = { };
 
 	Entity.EVENTS.CLICK 	= 'click';
-	Entity.EVENTS.DBLCLICK  = 'dblclick'
+	Entity.EVENTS.DBLCLICK  = 'dblclick';
 	Entity.EVENTS.MOUSEMOVE = 'mouseMove';
 	Entity.EVENTS.MOUSEDOWN = 'mousedown';
 	Entity.EVENTS.MOUSEUP 	= 'mouseup';

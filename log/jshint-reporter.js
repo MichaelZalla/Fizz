@@ -10,7 +10,7 @@ module.exports = {
 		var sp = new Array(3).join(' ');
 		var noticeTemplate = "{0.file!getBaseFileName}:{0.error.line}" +
 							 ":" + sp + "{0.error.reason}\n>>>" + sp +
-							 "{0.error.evidence};";
+							 "{0.error.evidence}";
 
 		String.prototype.format.transformers.getBaseFileName = function() {
 			var p = this.split('/');

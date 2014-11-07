@@ -39,9 +39,9 @@ describe("A Color", function() {
 	it("can be instantiated with a list of arguments (or an array)", function() {
 		
 		color = new Fizz.Color(255,255,255);
-		expect(color.r == color.g &&
-			   color.g == color.b &&
-			   color.b == 255).toBeTruthy();
+		expect(color.r === color.g &&
+			   color.g === color.b &&
+			   color.b === 255).toBeTruthy();
 
 		color = new Fizz.Color([50, 150, 75]);
 		expect(color.r).toEqual(50);
@@ -52,9 +52,9 @@ describe("A Color", function() {
 
 	it("can be instantiated using a hexadecimal string", function() {
 		color = new Fizz.Color('#FFFFFF');
-		expect(color.r == color.g &&
-			   color.r == color.b &&
-			   color.b == 255).toBeTruthy();
+		expect(color.r === color.g &&
+			   color.r === color.b &&
+			   color.b === 255).toBeTruthy();
 	});
 
 	it("can have an existing hue added to its hue", function() {

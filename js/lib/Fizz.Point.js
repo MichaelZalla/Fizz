@@ -17,7 +17,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		equals: function(point) {
-			return !!(this._x == point.x && this._y == point.y);
+			return !!(this._x === point.x && this._y === point.y);
 		},
 
 		distanceFrom: function(point) {

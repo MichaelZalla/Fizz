@@ -2,7 +2,7 @@ describe("The Math module", function() {
 
 	var withGreatProbability = function(conditionalTestFn, expectedProbability) {
 		
-		expectedProbability = (typeof expectedProbability == "number") ? expectedProbability : 0.9;
+		expectedProbability = (typeof expectedProbability === "number") ? expectedProbability : 0.9;
 		
 		var pLowerBound = expectedProbability - 0.1,
 			pUpperBound = expectedProbability + 0.1,

@@ -16,8 +16,8 @@ this.Fizz = this.Fizz || { };
 			// Normalize canvas parameter
 			if(0 === arguments.length) {
 				canvas = window.document.creteElement("canvas");
-			} else if(canvas && canvas['nodeName'] !== "CANVAS") {
-				if(typeof canvas == "string") {
+			} else if(canvas && canvas.nodeName !== "CANVAS") {
+				if(typeof canvas === "string") {
 					canvas = window.document.getElementById(canvas);
 				}
 				if(null === canvas) {
@@ -25,7 +25,7 @@ this.Fizz = this.Fizz || { };
 				}
 			}
 
-			if(typeof frameRate == "number" && frameRate) {
+			if(typeof frameRate === "number" && frameRate) {
 				this._frameRate = frameRate;
 			}
 
@@ -59,12 +59,12 @@ this.Fizz = this.Fizz || { };
 
 		render: function() {
 
-			this._lastRenderTime = +new Date;
+			this._lastRenderTime = +new Date();
 
 			var render = function(now) {
 
 				if(this._logFrameRate && 0 === (now & (64 - 1))) {
-					var fps = 1000 / (now - this._lastRenderTime)
+					var fps = 1000 / (now - this._lastRenderTime);
 					console.log("Rendering at ", fps.toString(), "FPS");
 				}
 
@@ -73,7 +73,7 @@ this.Fizz = this.Fizz || { };
 				this._lastRenderTime = now;
 
 				// var r_fn = render.bind(this, now);
-				var r_fn = function() { return render(+new Date); }.bind(this);
+				var r_fn = function() { return render(+new Date()); }.bind(this);
 
 				if(this._requestAnimationFrame !== window.setTimeout) {
 					this._requestAnimationFrame.call(window, r_fn, this._canvas);

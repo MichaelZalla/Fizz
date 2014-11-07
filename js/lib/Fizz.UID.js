@@ -10,7 +10,7 @@ this.Fizz = this.Fizz || { };
 	// Public methods
 	UID.get = function() {
 		return UID._nextID++;
-	}
+	};
 
 	// Private properties
 	UID._nextID = 0;

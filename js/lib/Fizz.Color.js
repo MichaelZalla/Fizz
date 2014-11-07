@@ -18,7 +18,7 @@ this.Fizz = this.Fizz || { };
 
 					if(arguments[0] instanceof Array) {
 						this.init.apply(this, arguments[0]);
-					} else if(typeof arguments[0] == "string") {
+					} else if(typeof arguments[0] === "string") {
 						// Assign RGB values based on hexidecimal string
 						var str = arguments[0].replace('#', '');
 						for(var i = 0; i < str.length; i += 2) {
@@ -31,15 +31,13 @@ this.Fizz = this.Fizz || { };
 					break;
 
 				case 4:
-
 					this.alpha = a;
-
+				/* falls through */
 				case 3:
-
 					this.r = r;
 					this.g = g;
 					this.b = b;
-
+				/* falls through */
 				default:
 
 			}
@@ -73,12 +71,12 @@ this.Fizz = this.Fizz || { };
 			if(!(color instanceof Fizz.Color)) { return false; }
 			if(typeof considerAlpha !== "boolean") { considerAlpha = false; }
 
-			var isHueMatch = (this._r == color._r &&
-							  this._g == color._g &&
-							  this._b == color._b);
+			var isHueMatch = (this._r === color._r &&
+							  this._g === color._g &&
+							  this._b === color._b);
 
 			if(!considerAlpha) { return isHueMatch; }
-			else { return (isHueMatch && this._alpha == color._alpha); }
+			else { return (isHueMatch && this._alpha === color._alpha); }
 
 		},
 

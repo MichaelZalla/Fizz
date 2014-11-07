@@ -15,7 +15,7 @@ this.Fizz = this.Fizz || { };
 			if(position) {
 				if(position instanceof Fizz.Point) {
 					this.position = position.clone(); 
-				} else if(2 === position['length']) {
+				} else if(2 === position.length) {
 					this.position.x = position[0];
 					this.position.y = position[1];
 				}
@@ -26,7 +26,7 @@ this.Fizz = this.Fizz || { };
 			if(size) {
 				if(size instanceof Fizz.Point) {
 					this.size = size.clone();
-				} else if(2 === size['length']) {
+				} else if(2 === size.length) {
 					this.size.x = size[0];
 					this.size.y = size[1];
 				}
@@ -39,7 +39,7 @@ this.Fizz = this.Fizz || { };
 			// Accepts list of points or rectangles
 			if(rectangle instanceof Array) {
 				return rectangle.reduce(function(prev, rect) {
-					return prev && this.intersects(rect)
+					return prev && this.intersects(rect);
 				}.bind(this), true);
 			}
 
@@ -90,7 +90,7 @@ this.Fizz = this.Fizz || { };
 
 	Rectangle.prototype.exposeProperty("left", 	 function() { return this._position.x; });
 	Rectangle.prototype.exposeProperty("top", 	 function() { return this._position.y; });
-	Rectangle.prototype.exposeProperty("right",  function() { return this._position.x + this._size.x; })
+	Rectangle.prototype.exposeProperty("right",  function() { return this._position.x + this._size.x; });
 	Rectangle.prototype.exposeProperty("bottom", function() { return this._position.y + this._size.y; });
 
 	// Class export

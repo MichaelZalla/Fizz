@@ -8,8 +8,9 @@ node_modules
 bower_components
 
 # jshint notices
-log
+log/**/*.log
 
 # misc files
+_SpecRunner.html
 js/templates
 demo

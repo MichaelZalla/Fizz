@@ -1,0 +1,16 @@
+{
+	"curly": false,
+	"eqeqeq": true,
+	"evil": true,
+	"forin": true,
+	"freeze": false,
+	"immed": true,
+	"laxcomma": true,
+	"maxerr": 16,
+	"maxlen": 128,
+	"maxstatements": 32,
+	"newcap": true,
+	"noarg": true,
+	"node": true,
+	"unused": true
+}

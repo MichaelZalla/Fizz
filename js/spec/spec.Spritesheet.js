@@ -5,7 +5,7 @@ describe("A Spritesheet", function() {
 
 	beforeEach(function(done) {
 		sheet = new Fizz.Spritesheet(uri);
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			console.log("Spritesheet loaded!");
 			done();
 		});
@@ -33,7 +33,7 @@ describe("A Spritesheet", function() {
 		expect(sheet.loaded).toBeFalsy();
 
 		sheet.source = uri;
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			expect(sheet.loaded).toBeTruthy();
 			done();
 		});
@@ -60,7 +60,7 @@ describe("A Spritesheet", function() {
 		
 		expect(sheet.sourceWidth).toEqual(128);
 		sheet.source = "/suites/assets/spritesheets/spy.png";
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			expect(sheet.sourceWidth).toEqual(184);
 			done();
 		});
@@ -90,16 +90,16 @@ describe("A Spritesheet", function() {
 			]
 		});
 
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			
-			expect(sheet.getFrame(0)).toBeDefined();
-			expect(sheet.getFrame(1)).toBeDefined();
-			expect(sheet.getFrame(2)).toBeDefined();
-			expect(sheet.getFrame(-1)).toBeNull();
-			expect(sheet.getFrame(3)).toBeNull();
+			expect(this.getFrame(0)).toBeDefined();
+			expect(this.getFrame(1)).toBeDefined();
+			expect(this.getFrame(2)).toBeDefined();
+			expect(this.getFrame(-1)).toBeNull();
+			expect(this.getFrame(3)).toBeNull();
 			
-			expect(sheet.getFrame(0).width).toEqual(16);
-			expect(sheet.getFrame(0).height).toEqual(16);
+			expect(this.getFrame(0).width).toEqual(16);
+			expect(this.getFrame(0).height).toEqual(16);
 
 			done();
 
@@ -121,7 +121,7 @@ describe("A Spritesheet", function() {
 			}
 		});
 
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			expect(sheet.getAnimation('jump').begin).toEqual(0);
 			expect(sheet.getAnimation('jump').end).toEqual(2);
 			done();
@@ -154,7 +154,7 @@ describe("A Spritesheet", function() {
 			frames: [ [0, 0, 16, 16] ]
 		});
 
-		sheet.addEventListener('load', function(e) {
+		sheet.addEventListener('load', function() {
 			var frame = sheet.getFrame(0);
 			expect(frame instanceof HTMLCanvasElement).toBeTruthy();
 			done();

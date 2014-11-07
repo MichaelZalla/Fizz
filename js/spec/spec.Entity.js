@@ -106,7 +106,7 @@ describe("An Entity", function() {
 	it("emits a 'death' event when killed", function() {
 		var alive = true;
 		entity = new Fizz.Entity();
-		entity.addEventListener('death', function(e) { alive = false; });
+		entity.addEventListener('death', function() { alive = false; });
 		entity.kill();
 		expect(alive).toBeFalsy();
 	});

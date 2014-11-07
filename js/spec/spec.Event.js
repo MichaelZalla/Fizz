@@ -33,7 +33,7 @@ describe("An Event", function() {
 
 	it("can be stopped before propogating (bubbling) up " +
 	   "the hierarchy", function() {
-		e = new Fizz.Event({ bubbles: true })
+		e = new Fizz.Event({ bubbles: true });
 		expect(e.canceled).toBeFalsy();
 		e.stopPropagation();
 		expect(e.canceled).toBeTruthy();

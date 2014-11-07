@@ -85,7 +85,7 @@ this.Fizz = this.Fizz || { };
 		getChildByName: function(name) {
 			if(0 === this._children.length) return null;
 			for(var i = 0; i < this._children.length; i++) {
-				if(this._children[i].name == name) return this._children[i];
+				if(this._children[i].name === name) return this._children[i];
 			}
 			return null;
 		},
@@ -98,7 +98,7 @@ this.Fizz = this.Fizz || { };
 			this.addChildAt(child, index); // Remove and re-add
 		},
 
-		addChild: function(child) {
+		addChild: function() {
 			var args = Array.prototype.slice.call(arguments, 0);
 			return this.addChildAt.call(this, args);
 		},
@@ -107,11 +107,11 @@ this.Fizz = this.Fizz || { };
 
 			// Normalize list inputs
 			if(arguments.length > 2) {
-				child = child[0, child.length - 2];
+				child = child.splice(0, child.length - 1);
 				index = child[child.length - 1];
 			}
 
-			index = (typeof index == "number") ? index : this._children.length;
+			index = (typeof index === "number") ? index : this._children.length;
 
 			// Allow arrays of Entites to be passed
 			if(child instanceof Array) {
@@ -191,7 +191,7 @@ this.Fizz = this.Fizz || { };
 			if(0 === this._children.length) return true;
 			// Shallow copy, as we are modifying the array length
 			var copy = this._children.slice(0);
-			return copy.reduce(function(result, child) {
+			return copy.reduce(function() {
 				return this.removeChild(this._children[0]);
 			}.bind(this), true);
 		},

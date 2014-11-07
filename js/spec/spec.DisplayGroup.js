@@ -8,9 +8,9 @@ describe("A DisplayGroup", function() {
 	beforeEach(function() {
 
 		group = new Fizz.DisplayGroup();		
-		child1 = new Fizz.DisplayEntity({ 'name': "myChild1" }),
-		child2 = new Fizz.DisplayEntity({ 'name': "myChild2" }),
-		child3 = new Fizz.DisplayEntity({ 'name': "myChild3" });
+		child1 = new Fizz.DisplayEntity({ name: "myChild1" });
+		child2 = new Fizz.DisplayEntity({ name: "myChild2" });
+		child3 = new Fizz.DisplayEntity({ name: "myChild3" });
 
 	});
 
@@ -180,8 +180,8 @@ describe("A DisplayGroup", function() {
 
 		var velocity = new Fizz.Point(1, 1);
 
-		child1 = new Fizz.DisplayEntity({ 'velocity': velocity.clone() }),
-		child2 = new Fizz.DisplayEntity({ 'velocity': velocity.clone() });
+		child1 = new Fizz.DisplayEntity({ velocity: velocity.clone() });
+		child2 = new Fizz.DisplayEntity({ velocity: velocity.clone() });
 
 		expect(child1.velocity.x).toEqual(1);
 
@@ -203,15 +203,15 @@ describe("A DisplayGroup", function() {
 	   	var velocity = new Fizz.Point(1, 1);
 
 	   	var top = new Fizz.DisplayGroup({
-   			'velocity': velocity.clone()
+   			velocity: velocity.clone()
    		});
 
 	   	var middle = new Fizz.DisplayGroup({
-   			'velocity': velocity.clone()
+   			velocity: velocity.clone()
    		});
 
 	   	var bottom = new Fizz.DisplayEntity({
-   			'velocity': velocity.clone()
+   			velocity: velocity.clone()
    		});
 
 	   	middle.addChild(bottom);
@@ -241,12 +241,13 @@ describe("A DisplayGroup", function() {
 		expect(group.height).toEqual(0);
 
 		var child1 = new Fizz.DisplayEntity({
-			'position': [20,50],
-			'size': [10,10]
-		})
+			position: [20,50],
+			size: [10,10]
+		});
+
 		var child2 = new Fizz.DisplayEntity({
-			'position': [-50,100],
-			'size': [30,30]
+			position: [-50,100],
+			size: [30,30]
 		});
 
 		group.addChild(child1, child2);
@@ -257,7 +258,7 @@ describe("A DisplayGroup", function() {
 
 	it("can assume the properties of an existing DisplayGroup", function() {
 
-		var group2 = new Fizz.DisplayGroup()
+		var group2 = new Fizz.DisplayGroup();
 			group2.addChild(child1, child2, child3);
 
 		group.copy(group2);
@@ -274,13 +275,13 @@ describe("A DisplayGroup", function() {
 	it("can be used to create new DisplayGroups (clones)", function() {
 
 		child1 = new Fizz.DisplayEntity({
-			'position': [128,128],
-			'size': [16,16]
+			position: [128,128],
+			size: [16,16]
 		});		
 
 		child2 = new Fizz.DisplayEntity({
-			'position': [16,16],
-			'size': [0,0]
+			position: [16,16],
+			size: [0,0]
 		});
 
 		var group1 = new Fizz.DisplayGroup();
@@ -289,7 +290,7 @@ describe("A DisplayGroup", function() {
 		var group2 = group1.clone();
 
 		expect(group2).not.toBe(group);
-		expect(group2.children.length).toEqual(group1.children.length)
+		expect(group2.children.length).toEqual(group1.children.length);
 		
 		expect(group2.childAt(0)).not.toBe(child1);
 		expect(group2.childAt(0).position.equals(child1.position)).toBeTruthy();

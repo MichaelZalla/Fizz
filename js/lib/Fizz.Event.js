@@ -20,14 +20,17 @@ this.Fizz = this.Fizz || { };
 
 			this._timeStamp = Date.now();
 
-			if(arguments[0] != null && typeof arguments[0] == "object") {
+			if(arguments[0] !== null && typeof arguments[0] === "object") {
 				var settings = arguments[0];
 				this.assign(settings);
 			} else {
 				switch(arguments.length) {
 					case 3: this.cancelable = cancelable;
+					/* falls through */
 					case 2: this.bubbles = bubbles;
+					/* falls through */
 					case 1: this.type = type;
+					/* falls through */
 				}
 			}
 

@@ -31,7 +31,7 @@ this.Fizz = this.Fizz || { };
 			}
 
 			// Allow URI or Image object to be passed instead of a Spritesheet instance
-			if(typeof settings == "string" || settings instanceof Image && settings.src) {
+			if(typeof settings === "string" || settings instanceof Image && settings.src) {
 				this._spritesheet = new Fizz.Spritesheet({ 'source': settings });
 				settings = null;
 			}
@@ -44,7 +44,7 @@ this.Fizz = this.Fizz || { };
 			}
 
 			// Otherwise, assume that the user just passed in a config object
-			if(typeof settings == "object" && settings !== null) {
+			if(typeof settings === "object" && settings !== null) {
 				// Copy over custom object settings
 				this.assign(settings);
 			}
@@ -186,7 +186,7 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_goto: function(frameIndex) {
-			if(typeof frameIndex == "string") {
+			if(typeof frameIndex === "string") {
 				// Passed in the name of an animation
 				this._currentAnimation = this._spritesheet.getAnimation(frameIndex);
 				//this._currentFrame = ...
@@ -199,11 +199,11 @@ this.Fizz = this.Fizz || { };
 
 		_advanceFrame: function() {
 			var a = this._currentAnimation;
-			if(this._currentFrame == a.end && a.next) {
+			if(this._currentFrame === a.end && a.next) {
 				// Jump to a different animation (possibly a loop)
 				this._currentAnimation = this._spritesheet.getAnimation(a.next);
 				this._currentFrame = this._currentAnimation.begin;
-			} else if(this._currentFrame == a.end) {
+			} else if(this._currentFrame === a.end) {
 				// Reset animation (loop) if Sprite is not paused
 				this._currentFrame = a.begin;
 			} else {

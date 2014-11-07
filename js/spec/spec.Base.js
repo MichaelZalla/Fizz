@@ -40,16 +40,16 @@ describe("The Base module", function() {
 	   "(derived) properties", function() {
 
 		// Create a new class to store timestamps
-		var _Date = function(milliseconds) {
+		var DateClass = function(milliseconds) {
 			this._milliseconds = milliseconds;
-		}
-		_Date.prototype = new Function();
-		_Date.prototype.exposeProperty("seconds", function() {
+		};
+		DateClass.prototype = new Function();
+		DateClass.prototype.exposeProperty("seconds", function() {
 			return parseFloat(this._milliseconds / 1000);
 		});
 
 		// Create an instance of our new _Date class
-		var date = new _Date(8000);
+		var date = new DateClass(8000);
 		expect(date.seconds).toEqual(8);
 
 	});
@@ -64,7 +64,7 @@ describe("The Base module", function() {
 			// sanitize name inputs right inside of the class constructor
 			this._firstName = "Anonymous";
 			this.firstName = name;
-		}
+		};
 		Person.prototype = new Function();
 		// A person's first name must be a string, and no longer than 32 characters
 		Person.prototype.exposeProperty("firstName", "_firstName", function(value) {
@@ -96,10 +96,10 @@ describe("The Base module", function() {
 
    		// Set up getters and setters for the point's data
    		Point.prototype.exposeProperty("x", "_x", function(value) {
-			this._x = (typeof value == "number") ? value : this._x;
+			this._x = (typeof value === "number") ? value : this._x;
 		});
 		Point.prototype.exposeProperty("y", "_y", function(value) {
-			this._y = (typeof value == "number") ? value : this._y;
+			this._y = (typeof value === "number") ? value : this._y;
 		});
 
    		// Create a new Point instance
@@ -124,7 +124,7 @@ describe("The Base module", function() {
 
 		// Set up a getter and setter for the circle's radius
 		Circle.prototype.exposeProperty("r", "_r", function(value) {
-			this._r = (typeof value == "number") ? value : 0;
+			this._r = (typeof value === "number") ? value : 0;
 		});
 
 		// Create a new Circle instance, and ensure that it's valid

@@ -27,11 +27,11 @@ this.Fizz = this.Fizz || { };
 			this.on(Fizz.Spritesheet.EVENTS.ERROR, this._onImageError, false);
 
 			// Allow URI or Image object to be passed (simple instantiation)
-			if(typeof settings == "string" || settings instanceof Image && settings.src) {
+			if(typeof settings === "string" || settings instanceof Image && settings.src) {
 				settings = { 'source': settings };
 			}
 
-			if(typeof settings == "object" && settings !== null) {
+			if(typeof settings === "object" && settings !== null) {
 				
 				if('source' in settings) {
 					this.source = settings.source; // Will trigger onload
@@ -43,7 +43,7 @@ this.Fizz = this.Fizz || { };
 					
 					var frames = settings.frames;
 					
-					this.on(Fizz.Spritesheet.EVENTS.LOAD, function(e) {
+					this.on(Fizz.Spritesheet.EVENTS.LOAD, function() {
 						
 						// Non-literal frame notation
 						if('width' in frames && 'height' in frames) {
@@ -51,10 +51,10 @@ this.Fizz = this.Fizz || { };
 							var x = 0, y = 0,
 								w = frames.width,
 								h = frames.height,
-								count = frames['count'];
+								count = frames.count;
 
 							// Compute count if no value was specified
-							count = count || (this._sourceWidth / w) * (this._sourceHeight / h)
+							count = count || (this._sourceWidth / w) * (this._sourceHeight / h);
 
 							for(var i = 0; i < count; i++) {
 								if(x >= this._sourceWidth) {
@@ -86,7 +86,7 @@ this.Fizz = this.Fizz || { };
 
 						var anims = settings.animations;
 
-						this.on(Fizz.Spritesheet.EVENTS.LOAD, function(e) {
+						this.on(Fizz.Spritesheet.EVENTS.LOAD, function() {
 							
 							anims.forEach(function(data, name) {
 								if(data instanceof Array && data.length >= 2) {
@@ -191,7 +191,7 @@ this.Fizz = this.Fizz || { };
 
 		function(value) {
 
-			if(typeof value == "string") {
+			if(typeof value === "string") {
 				
 				this._source = value;
 				this._sourceImage = new Image();

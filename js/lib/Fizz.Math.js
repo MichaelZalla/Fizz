@@ -7,14 +7,14 @@ this.Fizz = this.Fizz || { };
 	var _Math = { };
 
 	_Math.randomInt = function(min, max) {
-		if(arguments.length == 0) { min = 0; max = 1; }
-		if(arguments.length == 1) { max = min; min = 0; }
+		if(0 === arguments.length) { min = 0; max = 1; }
+		if(1 === arguments.length) { max = min; min = 0; }
 		return (Math.floor(Math.random() * (max + 1 - min))) + Math.floor(min);
 	};
 
 	_Math.randomFloat = function(min, max) {
-		if(0 === arguments.length) { var min = 0; var max = 1; }
-		if(1 === arguments.length) { var max = min; min = 0; }
+		if(0 === arguments.length) { min = 0; max = 1; }
+		if(1 === arguments.length) { max = min; min = 0; }
 		return (Math.random() * (max - min)) + min;
 	};
 
@@ -24,7 +24,7 @@ this.Fizz = this.Fizz || { };
 		if(!(domain instanceof Array)) { throw new Error("Must provide a valid domain input!"); }		
 		domain = [Math.min.apply(this, domain), Math.max.apply(this, domain)];
 		// Clean up range input(s)
-		var range = (typeof range === "undefined") ? [0,1] : range;
+		range = (typeof range === "undefined") ? [0,1] : range;
 		if(typeof range === "number") { range = [0, range]; }
 		if(!(range instanceof Array)) { throw new Error("Must provide a valid range input!"); }
 		range = [Math.min.apply(this, range), Math.max.apply(this, range)];
@@ -32,8 +32,7 @@ this.Fizz = this.Fizz || { };
 		if(domain[0] === range[0] && domain[1] === range[1]) { return value; }
 		// Otherwise, carry out the calculation
 		var domainSize = domain[1] - domain[0],
-			rangeSize = range[1] - range[0],
-			rangeOffset = range[0] - domain[0];
+			rangeSize = range[1] - range[0];
 		// Determine a scaling coefficient and return the mapped value
 		var scalingFactor = parseFloat(domainSize / rangeSize);
 		return domain[0] + (value - range[0]) * scalingFactor;

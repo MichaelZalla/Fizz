@@ -10,7 +10,7 @@ describe("The EventEmitter constructor", function() {
 
    		Fizz.EventEmitter.initialize(Foo.prototype);
 		expect(Foo.prototype.addEventListener).toBeDefined();
-		expect(typeof Foo.prototype.addEventListener == "function").toBeTruthy();
+		expect(typeof Foo.prototype.addEventListener === "function").toBeTruthy();
 
 	});
 
@@ -27,7 +27,7 @@ describe("The EventEmitter constructor", function() {
 	   	Fizz.EventEmitter.initialize(myFoo);
 	   	expect(Foo.prototype.addEventListener).toBeUndefined();
 	   	expect(myFoo.addEventListener).toBeDefined();
-	   	expect(typeof myFoo.addEventListener == "function").toBeTruthy();
+	   	expect(typeof myFoo.addEventListener === "function").toBeTruthy();
 
 	});
 
@@ -72,9 +72,9 @@ describe("An EventEmitter", function() {
 	it("supports multiple (unique) listeners to be registered to " +
 	   "the same event type", function() {
 
-	   	var callback1 = function(e) { console.log("Me first!"); };
-	   	var callback2 = function(e) { console.log("Me second!"); };
-	   	var callback3 = function(e) { console.log("Me third!"); };
+	   	var callback1 = function() { console.log("Me first!"); };
+	   	var callback2 = function() { console.log("Me second!"); };
+	   	var callback3 = function() { console.log("Me third!"); };
 
 	   	emitter.addEventListener('getInLine', callback1);
 	   	expect(emitter._events.getInLine).toBe(callback1);
@@ -91,9 +91,9 @@ describe("An EventEmitter", function() {
 
 	it("has a method for de-registering registered event listeners", function() {
 		
-		var callback1 = function(e) { console.log("Me first!"); };
-	   	var callback2 = function(e) { console.log("Me second!"); };
-	   	var callback3 = function(e) { console.log("Me third!"); };
+		var callback1 = function() { console.log("Me first!"); };
+	   	var callback2 = function() { console.log("Me second!"); };
+	   	var callback3 = function() { console.log("Me third!"); };
 
 	   	emitter.addEventListener('getInLine', callback1);
 	   	emitter.addEventListener('getInLine', callback2);
@@ -122,7 +122,7 @@ describe("An EventEmitter", function() {
 	it("has a method that can determine whether a listener is attached " +
 	   "for a specific event type(s)", function() {
 
-	   	var listener = function(e) { console.log("Reaction!"); };
+	   	var listener = function() { console.log("Reaction!"); };
 
 	   	expect(emitter.listensFor('action')).toBeFalsy();
 	   	emitter.addEventListener('action', listener);
@@ -163,16 +163,12 @@ describe("An EventEmitter", function() {
 	   	expect(out).toEqual([]);
 
 	   	emitter1.emit(e);
-	   	expect(out).toEqual(["KAABOOOOM!"]);
-	   	emitter1.emit(e);
-	   	expect(out).toEqual(["KAABOOOOM!","KAABOOOOM!"]);
+	   	expect(out).toEqual(["KAABOOOOM!"]); out = [ ];
 
 	   	// Set up a new parental hierarchy between the emitters
 	   	emitter1.parent = emitter2;
 	   	emitter1.emit(e);
 	   	expect(out).toEqual([
-	   		"KAABOOOOM!",
-	   		"KAABOOOOM!",
 	   		"KAABOOOOM!",
 	   		"Sizzzzzzzllleeee *CRACK* ..."
 	   	]);
@@ -191,17 +187,17 @@ describe("An EventEmitter", function() {
 	   	});
 
 	   	var req1 = new Fizz.EventEmitter();
-	   		req1.addEventListener('gettingDressed', function(e) {
+	   		req1.addEventListener('gettingDressed', function() {
 	   			out.push("Put on underwear");
 	   		}, true);
 
 	   	var req2 = new Fizz.EventEmitter();
-	   		req2.addEventListener('gettingDressed', function(e) {
+	   		req2.addEventListener('gettingDressed', function() {
 	   			out.push("Put on pants");
 	   		}, true);
 
 	   	var req3 = new Fizz.EventEmitter();
-	   		req3.addEventListener('gettingDressed', function(e) {
+	   		req3.addEventListener('gettingDressed', function() {
 	   			out.push("Put on belt");
 	   		}, true);
 

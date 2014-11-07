@@ -28,7 +28,7 @@ this.Fizz = this.Fizz || { };
 
 	Object.defineProperty(Object.prototype, 'banishProperty', {
 		value: function(property, banishPrivate) {
-			var banishPrivate = (typeof banishPrivate === "undefined") ? true : banishPrivate;
+			banishPrivate = (typeof banishPrivate === "undefined") ? true : banishPrivate;
 			Object.defineProperty(this, property, {
 				// @TODO Make use of a no-op utility function when one becomes available
 				get: Fizz.noop,
@@ -85,7 +85,7 @@ this.Fizz = this.Fizz || { };
 			Class.prototype.constructor = Class;
 			// We allow the user to specify a new set of class members to
 			// add to the child class's prototype
-			for(property in members) {
+			for(var property in members) {
 				if(members.hasOwnProperty(property)) {
 					Class.prototype[property] = members[property];
 				}
@@ -127,7 +127,7 @@ this.Fizz = this.Fizz || { };
 
 	Object.defineProperty(Object.prototype, 'forEach', {
 		value: function(callback, context) {
-			if(typeof context == "undefined") {
+			if(typeof context === "undefined") {
 				context = this;
 			}
 			var i = 0;
@@ -146,7 +146,7 @@ this.Fizz = this.Fizz || { };
 	Fizz.restrict = { };
 
 	Fizz.restrict.toDataType = function(property, type, context) {
-		var context = (typeof context === "string") ? context : "this";
+		context = (typeof context === "string") ? context : "this";
 		var functionBody = context + "." + property + "=(typeof value === '" +
 			type + "')?value:" + context + "." + property + ";";
 		return new Function("value", functionBody);
@@ -166,7 +166,7 @@ this.Fizz = this.Fizz || { };
 	};
 
 	Fizz.restrict.toInstanceType = function(property, type, context) {
-		var context = (typeof context === "string") ? context : "this";
+		context = (typeof context === "string") ? context : "this";
 		var functionBody = context + "." + property + "=(value instanceof " +
 			type + "||value === null)?value:" + context + "." + property + ";";
 		return new Function("value", functionBody);
@@ -176,8 +176,8 @@ this.Fizz = this.Fizz || { };
 		if(typeof range === "undefined" || !(range instanceof Array) || (range.length < 2)) {
 			 throw new Error("Attempt to restrict property to range with invalid range value");
 		}
-		var range = [Math.min.apply(this, range), Math.max.apply(this,range)];
-		var context = (typeof context === "string") ? context : "this";
+		range = [Math.min.apply(this, range), Math.max.apply(this,range)];
+		context = (typeof context === "string") ? context : "this";
 		var functionBody = "value=(typeof value === 'number')?value:0; " +
 			context + "." + property + "=(value>=" + range[0].toString() + ")?" +
 			"((value <= " + range[1] + ")?value:" + range[1] + "):" + range[0] + ";";

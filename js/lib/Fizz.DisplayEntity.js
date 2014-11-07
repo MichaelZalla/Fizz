@@ -8,13 +8,13 @@ this.Fizz = this.Fizz || { };
 		init: function(settings, cacheOnCreation) {
 
 			var args = [];
-			if(typeof settings == "object" && settings !== null) {
+			if(typeof settings === "object" && settings !== null) {
 				args = [
-					settings['position'],
-					settings['size']
+					settings.position,
+					settings.size
 				];
-				delete settings['position']
-				delete settings['size'];
+				delete settings.position;
+				delete settings.size;
 			}
 
 			Fizz.Entity.prototype.init.apply(this, args);
@@ -34,12 +34,12 @@ this.Fizz = this.Fizz || { };
 			this._lineWidth 	= DisplayEntity.BOUNDING_BOX_LINE_WIDTH;
 
 			// Copy over custom object settings
-			if(typeof settings == "object" && settings !== null) {
+			if(typeof settings === "object" && settings !== null) {
 				this.assign(settings);
 			}
 
 			// Cache immediately if specified
-			if(typeof cacheOnCreation == "boolean" && cacheOnCreation) {
+			if(typeof cacheOnCreation === "boolean" && cacheOnCreation) {
 				this.updateCache();
 			}
 
@@ -61,7 +61,7 @@ this.Fizz = this.Fizz || { };
 
 		updateCache: function() {
 
-			if(null == this._cacheCanvas) {
+			if(null === this._cacheCanvas) {
 				this._cacheCanvas = document.createElement("canvas");
 				this._cacheCanvasContext = this._cacheCanvas.getContext("2d");
 			}
@@ -108,7 +108,12 @@ this.Fizz = this.Fizz || { };
 
 			// Post-render wireframe (for dev mode)
 			
-			var data = [this._position.x, this._position.y, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
+			var data = [
+				this._position.x,
+				this._position.y,
+				this.width * Math.abs(this.scale.x),
+				this.height * Math.abs(this.scale.y)
+			];
 			
 			context.imageSmoothingEnabled =
 			context.mozImageSmoothingEnabled =
@@ -160,9 +165,9 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_isVisible: function() {
-			return !(0 == this.width * this.scale.x ||
-					 0 == this.height * this.scale.y ||
-					 0 == this._alpha || false === this.exists);
+			return !(0 === this.width * this.scale.x ||
+					 0 === this.height * this.scale.y ||
+					 0 === this._alpha || false === this.exists);
 		},
 
 		_drawBoundingBox: function(context, data) {
@@ -201,10 +206,10 @@ this.Fizz = this.Fizz || { };
 		Fizz.restrict.toRange("_lineWidth", [0, 999]));
 
 	DisplayEntity.prototype.exposeProperty("caching", "_caching",
-		Fizz.restrict.toBoolean("_caching"))
+		Fizz.restrict.toBoolean("_caching"));
 
 	DisplayEntity.prototype.exposeProperty("snapToPixel", "_snapToPixel",
-		Fizz.restrict.toBoolean("_snapToPixel"))
+		Fizz.restrict.toBoolean("_snapToPixel"));
 	
 	// Setters that trigger the creation of a new local cache (canvas)
 	
@@ -218,7 +223,7 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("scaleX", "_scale.x",
 		function(value) {
-			if(typeof value == "number") {
+			if(typeof value === "number") {
 				this._scale.x = value;
 				this.updateCache();
 			}
@@ -226,7 +231,7 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("scaleY", "_scale.y",
 		function(value) {
-			if(typeof value == "number") {
+			if(typeof value === "number") {
 				this._scale.y = value;
 				this.updateCache();
 			}
