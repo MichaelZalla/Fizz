@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+	<!-- Metadata -->
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Fizz2D Graphics Engine - Unit Tests (powered by Jasmine 2.0)</title>
+	<meta name="description" content="Fizz2D — Frontend JavaScript library for 2D graphics, games and animation with HTML5 <canvas>">
+	<link rel="shortcut icon" type="image/png" href="../js/dependencies/jasmine/images/jasmine_favicon.png">
+		
+	<!-- Jasmine Test Engine -->
+	<link rel="stylesheet" href="../js/dependencies/jasmine/lib/jasmine-core/jasmine.css" type="text/css">
+	<script src="../js/dependencies/jasmine/lib/jasmine-core/jasmine.js"></script>
+	<script src="../js/dependencies/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+	<script src="../js/dependencies/jasmine/lib/jasmine-core/boot.js"></script>
+
+	<!-- Library classes -->
+	<script src="../js/lib/Fizz.Base.js"></script>
+	<script src="../js/lib/Fizz.Math.js"></script>
+	<script src="../js/lib/Fizz.Point.js"></script>
+	<script src="../js/lib/Fizz.Rectangle.js"></script>
+
+	<!-- Specs (test suites) -->
+	<script src="../js/spec/spec.Point.js"></script>
+	<script src="../js/spec/spec.Rectangle.js"></script>
+	
+</head>
+<body>
+	<script>
+		if(typeof jasmine === "undefined") {
+			throw new Error("Jasmine must be included as a dependency to run Fizz2D's test suites! " +
+							"Clone Jasmine 2.0 (https://github.com/pivotal/jasmine) into /js/dependencies" +
+							"/jasmine/ to make test-running possible.");
+		}
+		jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
+		jasmine.getEnv().execute();
+	</script>
+</body>
+</html>

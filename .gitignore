@@ -1,0 +1,12 @@
+# hidden osx files
+.DS_Store
+.Spotlight-V100
+.Trashes
+
+# dev dependencies
+node_modules
+bower_components
+
+# misc files
+js/templates
+demo

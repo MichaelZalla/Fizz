@@ -1,0 +1,34 @@
+{
+  "name": "Fizz2D",
+  "version": "0.0.2",
+  "description": "Front-end JavaScript library for interactive 2D graphics, games and animation with HTML5 canvas.",
+  "keywords": [
+    "game",
+    "interaction",
+    "graphic",
+    "2D",
+    "canvas",
+    "html5",
+    "javascript",
+    "library",
+    "abstraction"
+  ],
+  "authors": [
+    "Michael Zalla"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/spec",
+    "js/templates",
+    "js/dependencies",
+    "suites"
+  ],
+  "dependencies": {
+    "jasmine": "https://github.com/pivotal/jasmine.git"
+  },
+  "homepage": "https://github.com/MichaelZalla/Fizz"
+}
