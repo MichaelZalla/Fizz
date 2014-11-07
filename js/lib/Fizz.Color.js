@@ -96,7 +96,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toRGB: function(includeAlpha) {
-			var mode = (includeAlpha !== false) ? "rgba" : "rgb";
+			var mode = includeAlpha ? "rgba" : "rgb";
 			return mode + "(" + this.toList(includeAlpha).toString() + ")";
 		},
 

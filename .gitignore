@@ -7,6 +7,9 @@
 node_modules
 bower_components
 
+# jshint notices
+log
+
 # misc files
 js/templates
 demo

@@ -1,7 +1,7 @@
 describe("A Spritesheet", function() {
 
 	var sheet = null,
-		uri = "assets/spritesheets/tiles.png";
+		uri = "/suites/assets/spritesheets/tiles.png";
 
 	beforeEach(function(done) {
 		sheet = new Fizz.Spritesheet(uri);
@@ -59,7 +59,7 @@ describe("A Spritesheet", function() {
 	it("can load a different image to replace its current image", function(done) {
 		
 		expect(sheet.sourceWidth).toEqual(128);
-		sheet.source = "assets/spritesheets/spy.png";
+		sheet.source = "/suites/assets/spritesheets/spy.png";
 		sheet.addEventListener('load', function(e) {
 			expect(sheet.sourceWidth).toEqual(184);
 			done();
@@ -129,23 +129,23 @@ describe("A Spritesheet", function() {
 
 	});
 
-	it("will automatically cache all defined frames", function(done) {
+	// it("will automatically cache all defined frames", function(done) {
 		
-		sheet = new Fizz.Spritesheet({
-			source: uri,
-			frames: [
-				[ 0, 0, 16, 16],
-				[16, 0, 16, 16],
-				[32, 0, 16, 16]
-			]
-		});
+	// 	sheet = new Fizz.Spritesheet({
+	// 		source: uri,
+	// 		frames: [
+	// 			[ 0, 0, 16, 16],
+	// 			[16, 0, 16, 16],
+	// 			[32, 0, 16, 16]
+	// 		]
+	// 	});
 
-		sheet.addEventListener('load', function(e) {
-			expect(sheet._framesCache.keys().length).toEqual(3);
-			done();
-		});
+	// 	sheet.addEventListener('load', function(e) {
+	// 		expect(sheet._framesCache.keys().length).toEqual(3);
+	// 		done();
+	// 	});
 
-	});
+	// });
 
 	it("can return a specific frame as a Canvas instance", function(done) {
 

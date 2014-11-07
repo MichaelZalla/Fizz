@@ -234,10 +234,10 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("alpha", "_alpha",
 		function(value) {
-			if(typeof value == "number" && value >= 0 && value <= 1) {
-				this._alpha = value;
-				this.updateCache();
-			}
+			var tmp = this._alpha;
+			Fizz.restrict.toRange("_alpha", [0, 1]).call(this, value);
+			// Only re-cache if the alpha value really changes
+			if(this._alpha !== tmp) this.updateCache();
 		});
 
 	// Public dynamic properties

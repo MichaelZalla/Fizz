@@ -75,13 +75,11 @@ this.Fizz = this.Fizz || { };
 
 			// If a version of the current frame doesn't exist in the local cache
 			if(!(this._currentFrame in this._localFramesCache)) {
-				
-				// console.log("Fetching native sprite cache for frame " + this._currentFrame + "!");
-
 				// Get a reference to the spritesheet's native-sized frame cache,
 				// adding it to the local cache and assigning it a native scale value
-				this._localFramesCache[this._currentFrame] = this._spritesheet.getFrame(this._currentFrame);
-				this._localFramesCache[this._currentFrame].scale = Sprite.NATIVE_SCALE.clone();
+				var c = this._localFramesCache[this._currentFrame] = this._spritesheet.getFrame(this._currentFrame);
+					c.scale = Sprite.NATIVE_SCALE.clone();
+				this._size = new Fizz.Point(c.width, c.height);
 			}
 
 			// Width and height values are assigned based on the frame dimensions
@@ -92,9 +90,7 @@ this.Fizz = this.Fizz || { };
 			// If the current cached frame is dirty, re-assign it to a scaled copy
 			
 			if(false === this.scale.equals(this._localFramesCache[this._currentFrame].scale)) {
-
-				// console.log("Updating dirty sprite cache for frame " + this._currentFrame + "!");
-
+				
 				// New cache still needs to be scaled relative to the native size
 				var nativeCacheFrame = this._spritesheet.getFrame(this._currentFrame);
 

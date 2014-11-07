@@ -22,23 +22,26 @@ var components = [
 	'Sprite'
 ];
 
-var sources = components.map(function(c) {
-	return "js/lib/<%= pkg.name %>.{c}.js".format([c]);
+var sources = components.map(function(c, i) {
+	return "js/lib/Fizz.{0}.js".format(c);
 });
 
-var specs = components.map(function(c) {
-	return "js/spec/spec.{c}.js".format([c]);
+var specs = components.map(function(c, i) {
+	return "js/spec/spec.{0}.js".format(c);
 });
 
 module.exports = function(grunt) {
-
 
 	grunt.initConfig({
 
 		pkg: grunt.file.readJSON('package.json'),
 
 		jshint: {
-			files: sources.concat(specs)
+			files: sources.concat(specs),
+			options: {
+				reporter: './log/jshint-reporter.js'
+				,reporterOutput: './log/jshint-notices.log'
+			}
 		},
 
 		watch: {
@@ -48,7 +51,12 @@ module.exports = function(grunt) {
 
 		jasmine: {
 			src: sources,
-			specs: specs
+			options: {
+				specs: specs,
+				display: 'none',
+				summary: true,
+				host: 'http://localhost:8000/'
+			}
 		},
 
 		uglify: {
@@ -67,13 +75,13 @@ module.exports = function(grunt) {
 
 	});
 
-	grunt.loadNpmTasks('grunt-jslint');
-	grunt.loadNpmTasks('grunt-jasmine-runner');
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('test', ['jasmine']);
+	grunt.registerTask('test', ['jshint', 'jasmine']);
 	grunt.registerTask('minify', ['uglify']);
 	grunt.registerTask('default', ['test', 'watch']);
-
+	
 };

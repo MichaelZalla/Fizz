@@ -117,8 +117,8 @@ describe("A DisplayEntity", function() {
 		entity2.draw(context); // Should not trigger caching
 
 		// Compare old cache dimension to current cache dimension
-		expect(previousCacheWidth1).not.toEqual(entity1._cacheCanvas.width);
-		expect(previousCacheWidth2).toEqual(entity2._cacheCanvas.width);
+		expect(previousCacheWidth1).toEqual(entity1._cacheCanvas.width);
+		expect(previousCacheWidth2).not.toEqual(entity2._cacheCanvas.width);
 
 	});
 

@@ -18,7 +18,7 @@ describe("A Sprite", function() {
 	it("can be passed a URI specifying its spritesheet at instantiation",
 	function(done) {
 
-		sprite = new Fizz.Sprite("assets/spritesheets/spy.png");
+		sprite = new Fizz.Sprite("/suites/assets/spritesheets/spy.png");
 		sprite.spritesheet.on('load', function(e) {
 			expect([ sprite.width, sprite.height ]).toEqual([ 184, 184 ]);
 			done();
@@ -39,7 +39,7 @@ describe("A Sprite", function() {
 			});
    		};
 
-   		spyImage.src = "assets/spritesheets/spy.png";
+   		spyImage.src = "/suites/assets/spritesheets/spy.png";
 
 	});
 
@@ -87,7 +87,7 @@ describe("A Sprite", function() {
 	   "the current (animation) frame", function(done) {
 
 		sheet = new Fizz.Spritesheet({
-			source: "assets/spritesheets/tiles.png",
+			source: "/suites/assets/spritesheets/tiles.png",
 			frames: {
 				width: 16,
 				height: 16,
