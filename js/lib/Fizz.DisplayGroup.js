@@ -33,24 +33,28 @@ this.Fizz = this.Fizz || { };
 
 		updateCache: function() {
 
-			// Computed values
+			// Computed values (scans children to determine container width)
 			this._width = this.width;
 			this._height = this.height;
 
-			// First, call the super method to prepare the cache canvas
-			Fizz.DisplayEntities.prototype.updateCache.call(this);
+			// Call the super method to prepare the cache canvas
+			Fizz.DisplayEntity.prototype.updateCache.call(this);
 
-			// Then, clear the current display group cache
-			var ctx = this._cacheCanvasContext;
-				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			if(true === this._caching) {
 
-			// Finally, render children to the cache canvas recursively
-			this.children.forEach(function(c) {
-				if(c instanceof Fizz.DisplayEntity) {
-					c.updateCache();
-					c.draw(ctx);
-				}
-			});
+				// Clear the current display group cache
+				var ctx = this._cacheCanvasContext;
+					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+				// Finally, render children to the cache canvas recursively
+				this.children.forEach(function(c) {
+					if(c instanceof Fizz.DisplayEntity) {
+						c.updateCache();
+						c.draw(ctx);
+					}
+				});
+
+			}
 
 		},
 
@@ -58,11 +62,12 @@ this.Fizz = this.Fizz || { };
 
 			// Either we draw all children recursively
 			if(false === this._caching) {
-				this.children.forEach(function(c) {
-					c.draw(context);
+				this.children.forEach(function(child) {
+					child.draw(context);
 				});
+				return;
 			}
-
+			
 			// Or we simply paint the entire display group cache
 			Fizz.DisplayEntity.prototype.draw.call(this, context);
 

@@ -52,7 +52,7 @@ this.Fizz = this.Fizz || { };
 		return value % size - 1;
 	};
 
-	// Class export
+	// Module export
 	Fizz.math = math;
 
 })();

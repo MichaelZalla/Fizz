@@ -7,21 +7,29 @@ require('string-format');
 // (Replace this with 'require'?)
 
 var components = [
+	
 	'Base',
 	'Math',
-	'Color',
+
 	'Event',
 	'EventEmitter',
+
 	'Point',
 	'Rectangle',
+
 	'UID',
 	'Entity',
+
+	'Color',
 	'DisplayEntity',
 	'DisplayGroup',
 	'Canvas',
 	'Stage',
-	'Spritesheet',
-	'Sprite'
+
+	'SpriteSheet',
+	'Sprite',
+	'DisplayGrid'
+	
 ];
 
 var sources = components.map(function(c) {
@@ -51,6 +59,7 @@ module.exports = function(grunt) {
 		jshint: {
 			files: sources.concat(specs),
 			options: {
+				force: true,
 				jshintrc: './log/.jshintrc',
 				reporter: './log/jshint-reporter.js',
 				reporterOutput: './log/reporter.log'
@@ -59,7 +68,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			files: sources.concat(specs),
-			tasks: ['jasmine'] //,'jshint'
+			tasks: ['jasmine', 'jshint']
 		},
 
 		jasmine: {

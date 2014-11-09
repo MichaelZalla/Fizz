@@ -9,7 +9,7 @@ this.Fizz = this.Fizz || { };
 
 	var Stage = Fizz.DisplayGroup.extend({
 			
-		init: function(context, frameRate) {
+		init: function(context, framerate) {
 
 			// Normalize context parameter
 			if(0 === arguments.length) {
@@ -23,10 +23,6 @@ this.Fizz = this.Fizz || { };
 			if(!(context instanceof CanvasRenderingContext2D)) {
 				throw new Error("Attempt was made to instantiate a Stage instance without a valid drawing context");
 			}			
-
-			if(typeof frameRate === "number" && frameRate > -1) {
-				this._frameRate = frameRate;
-			}
 
 			Fizz.DisplayGroup.prototype.init.call(this, null, false);
 
@@ -49,7 +45,12 @@ this.Fizz = this.Fizz || { };
 			this._lastRenderTime = 0;
 			this._requestAnimationFrame = this._getRAFMethod();
 
-			this._frameRate = Stage.DEFAULT_FRAME_RATE;
+			if(typeof framerate === "number" && framerate > -1) {
+				this._framerate = framerate;
+			} else {
+				this._framerate = Stage.DEFAULT_FRAME_RATE;
+			}
+
 			this._logFrameRate = false;
 
 			this.name = "Stage";
@@ -83,9 +84,9 @@ this.Fizz = this.Fizz || { };
 				var r_fn = function() { return render(+new Date()); }.bind(this);
 
 				if(this._requestAnimationFrame !== window.setTimeout) {
-					this._requestAnimationFrame.call(window, r_fn); //, this._canvas
+					this._requestAnimationFrame.call(window, r_fn);
 				} else {
-					this._requestAnimationFrame.call(window, r_fn, this._frameRate);
+					this._requestAnimationFrame.call(window, r_fn, this._framerate);
 				}
 					
 			}.bind(this);
@@ -99,6 +100,7 @@ this.Fizz = this.Fizz || { };
 			if(null === this._canvas) return;
 
 			this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height);
+			
 			this._canvasContext.save();
 
 			// We never cache the Stage's display group
@@ -182,10 +184,12 @@ this.Fizz = this.Fizz || { };
 
 							// Base case (exit condition)
 							if(typeof context.children === "undefined") {
-								if(context.intersects(coordinate)) {
-									targets.push(context);
-								}
+								
+								// Map event's global space coordinate to local space
+								var rect = new Fizz.Rectangle(context.globalPosition, context.size);
+								if(rect.intersects(coordinate)) targets.push(context);
 								return targets;
+
 							}
 
 							context.children.forEach(function(child) {
@@ -232,8 +236,8 @@ this.Fizz = this.Fizz || { };
 	Stage.prototype.exposeProperty("width");
 	Stage.prototype.exposeProperty("height");
 	
-	Stage.prototype.exposeProperty("frameRate", "_frameRate",
-		Fizz.restrict.toRange("_frameRate", [1, 999]));
+	Stage.prototype.exposeProperty("framerate", "_framerate",
+		Fizz.restrict.toRange("_framerate", [1, 999]));
 	
 	Stage.prototype.exposeProperty("logFrameRate", "_logFrameRate",
 		Fizz.restrict.toBoolean("_logFrameRate"));
@@ -241,6 +245,7 @@ this.Fizz = this.Fizz || { };
 	// Banished (protected) properties
 
 	Stage.prototype.banishProperty("parent");
+	Stage.prototype.banishProperty("stage");
 	Stage.prototype.banishProperty("exists");
 	Stage.prototype.banishProperty("life");
 	Stage.prototype.banishProperty("scale");

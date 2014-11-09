@@ -17,6 +17,7 @@ describe("A Canvas", function() {
 		canvasElement.style.height = canvasElement.height + 'px';
 		
 		// Append the canvas element to the detatched document
+		// (Necessary for testing)
 		doc.body.appendChild(canvasElement);
 
 		// Wrap the element with Canvas functionality

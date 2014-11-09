@@ -114,7 +114,6 @@ this.Fizz = this.Fizz || { };
 			if(typeof index !== "number") index = 0;
 			if(!(index in this._frames)) return null;
 			if(!(index in this._framesCache)) {
-				// window.console.log("Caching frame ", index);
 				this._refreshFrameCache(index);
 			}
 			return this._framesCache[index];

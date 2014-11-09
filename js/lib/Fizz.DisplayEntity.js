@@ -106,28 +106,16 @@ this.Fizz = this.Fizz || { };
 
 			context.drawImage(this._cacheCanvas, global.x + 0.5, global.y + 0.5);
 
+			//@TODO Create environment module for setting dev-mode flags
 			// Post-render wireframe (for dev mode)
 			
-			var data = [
-				this._position.x,
-				this._position.y,
+			// Make sure that we're still mapping to global space
+			var data = global.toList().concat([
 				this.width * Math.abs(this.scale.x),
 				this.height * Math.abs(this.scale.y)
-			];
+			]);
 			
-			context.imageSmoothingEnabled =
-			context.mozImageSmoothingEnabled =
-			context.webkitImageSmoothingEnable = false;
-
-			context.beginPath();
-			context.rect.apply(context, data);
-			context.closePath();
-			
-			context.strokeStyle = this._strokeStyle.toRGB(true);
-			context.lineWidth 	= this._lineWidth;
-			context.stroke();
-
-			context.restore();
+			this._drawBoundingBox(context, data);
 
 		},
 
@@ -180,7 +168,7 @@ this.Fizz = this.Fizz || { };
 			context.strokeStyle = this._strokeStyle.toRGB(true);
 			context.lineWidth 	= this._lineWidth;
 			
-			context.fill();
+			// context.fill();
 			context.stroke();
 		}
 
