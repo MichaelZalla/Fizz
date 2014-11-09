@@ -132,6 +132,9 @@ this.Fizz = this.Fizz || { };
 			// Allow decoration of Event instance with arbitrary contextual data
 			e.assign(data);
 
+			// For testing/debugging
+			// console.log("Event occurred:" + e);
+
 			// Construct capture path for event processing
 			var capturePath = this._buildCapturePath();
 			var bubblePath = capturePath.slice(0).reverse();
@@ -169,6 +172,8 @@ this.Fizz = this.Fizz || { };
 					handlers[j].call(e.currentTarget, e);
 				}
 			}
+
+			return e.currentTarget;
 
 		},
 

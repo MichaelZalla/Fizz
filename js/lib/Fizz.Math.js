@@ -4,21 +4,21 @@ this.Fizz = this.Fizz || { };
 (function() {
 
 	// Prefixed with underscore to avoid collision with Math object
-	var _Math = { };
+	var math = { };
 
-	_Math.randomInt = function(min, max) {
+	math.randomInt = function(min, max) {
 		if(0 === arguments.length) { min = 0; max = 1; }
 		if(1 === arguments.length) { max = min; min = 0; }
 		return (Math.floor(Math.random() * (max + 1 - min))) + Math.floor(min);
 	};
 
-	_Math.randomFloat = function(min, max) {
+	math.randomFloat = function(min, max) {
 		if(0 === arguments.length) { min = 0; max = 1; }
 		if(1 === arguments.length) { max = min; min = 0; }
 		return (Math.random() * (max - min)) + min;
 	};
 
-	_Math.mapToDomain = function(domain, range, value) {
+	math.mapToDomain = function(domain, range, value) {
 		// Clean up domain input(s)
 		if(typeof domain === "number") { domain = [0, domain]; }
 		if(!(domain instanceof Array)) { throw new Error("Must provide a valid domain input!"); }		
@@ -38,7 +38,7 @@ this.Fizz = this.Fizz || { };
 		return domain[0] + (value - range[0]) * scalingFactor;
 	};
 
-	_Math.wrapAround = function(domain, value) {
+	math.wrapAround = function(domain, value) {
 		// Clean up domain input(s)
 		if(typeof domain === "number") { domain = [0, domain]; }
 		if(!(domain instanceof Array)) { throw new Error("Must provide a valid domain input!"); }		
@@ -53,6 +53,6 @@ this.Fizz = this.Fizz || { };
 	};
 
 	// Class export
-	Fizz.Math = _Math;
+	Fizz.math = math;
 
 })();

@@ -3,7 +3,7 @@
     display: block;
     padding: 0px 0px;
 	background-color: #000;
-    cursor: none;
+    /*cursor: none;*/
 
     background-image: url('../assets/backgrounds/null_64x64.png');
     background-position-x: 0px;

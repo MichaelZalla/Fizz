@@ -30,7 +30,6 @@ this.Fizz = this.Fizz || { };
 		value: function(property, banishPrivate) {
 			banishPrivate = (typeof banishPrivate === "undefined") ? true : banishPrivate;
 			Object.defineProperty(this, property, {
-				// @TODO Make use of a no-op utility function when one becomes available
 				get: Fizz.noop,
 				set: Fizz.noop,
 				configurable: false,

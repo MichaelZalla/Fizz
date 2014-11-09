@@ -42,14 +42,14 @@ this.Fizz = this.Fizz || { };
 		copy: function(entity) {
 			if(!(entity instanceof Fizz.Entity) &&
 			   !(entity instanceof Fizz.Rectangle)) { return false; }
-			this.position = entity.position;
-			this.size = entity.size;
+			this.position = entity.position.clone();
+			this.size = entity.size.clone();
 			if(entity instanceof Fizz.Entity) {
 				this.name = entity.name;
 				this.exists = entity.exists;
-				this._scale = entity.scale;
-				this._velocity = entity.velocity;
-				this._acceleration = entity.acceleration;
+				this._scale = entity.scale.clone();
+				this._velocity = entity.velocity.clone();
+				this._acceleration = entity.acceleration.clone();
 				this._density = entity.density;
 			}
 			return this;

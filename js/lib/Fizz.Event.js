@@ -45,8 +45,21 @@ this.Fizz = this.Fizz || { };
 			this.stopPropagation();
 		},
 
+		copy: function(e) {
+			e.forEach(function(value, prop) {
+				this[prop] = value;
+			}, this);
+		},
+
+		clone: function() {
+			var clone = new Fizz.Event();
+			clone.copy(this);
+			return clone;
+		},
+
 		toString: function() {
-			return "[Event (type='" + this._type + "', target='" + this._target + "')]";
+			return "[Event (type='" + this._type + "', " +
+						   "target='" + this._target + "')]";
 		}
 
 	});

@@ -45,6 +45,12 @@ this.Fizz = this.Fizz || { };
 
 			// Otherwise, assume that the user just passed in a config object
 			if(typeof settings === "object" && settings !== null) {
+				if('scale' in settings && settings.scale instanceof Fizz.Point) {
+					// Triggers re-caching
+					this.scaleX = settings.scale.x;
+					this.scaleY = settings.scale.y;
+					delete settings.scale;
+				}
 				// Copy over custom object settings
 				this.assign(settings);
 			}
@@ -98,8 +104,6 @@ this.Fizz = this.Fizz || { };
 					scaled.width = Math.abs(nativeCacheFrame.width * this._scale.x);
 					scaled.height = Math.abs(nativeCacheFrame.height * this._scale.y);
 				
-				console.log(scaled.width, scaled.height);
-
 				// Record the scale at which the frame was cached
 				scaled.scale = this.scale.clone();
 
@@ -134,11 +138,8 @@ this.Fizz = this.Fizz || { };
 			this._cacheCanvas = this._localFramesCache[this._currentFrame];
 			this._cacheCanvasContext = this._cacheCanvas.getContext('2d');
 
-			// Output for testing
-			// window.document.body.appendChild(this._cacheCanvas)
-
 			// Post-processing of cache data (account for alpha, etc)
-			// @TODO Implement and utilize a generic image-filtering class
+			// @TODO Implement a generic image-filtering class
 
 		},
 
@@ -166,10 +167,9 @@ this.Fizz = this.Fizz || { };
 			Fizz.DisplayEntity.prototype.copy.call(this, sprite);
 			if(sprite instanceof Fizz.Sprite) {
 				this._spritesheet = sprite.spritesheet;
-				//@TODO Is this breaking convention with the rest of the engine?
-				this._paused = sprite._paused;
-				this._currentAnimation = sprite._currentAnimation;
-				this._currentFrame = sprite._currentFrame;
+				this._currentAnimation = sprite.currentAnimation;
+				this._currentFrame = sprite.currentFrame;
+				this._paused = sprite.paused;
 			}
 		},
 
@@ -188,8 +188,9 @@ this.Fizz = this.Fizz || { };
 		_goto: function(frameIndex) {
 			if(typeof frameIndex === "string") {
 				// Passed in the name of an animation
-				this._currentAnimation = this._spritesheet.getAnimation(frameIndex);
-				//this._currentFrame = ...
+				var data = this._spritesheet.getAnimation(frameIndex);
+				this._currentAnimation = (data !== null) ? data : this._currentAnimation;
+				this._currentFrame = this._currentAnimation.begin;
 			} else {
 				// Passed in the index of a frame (integer)
 				this._currentAnimation = Sprite.DEFAULT_ANIMATION;
@@ -223,6 +224,8 @@ this.Fizz = this.Fizz || { };
 	// Public properties
 
 	Sprite.prototype.exposeProperty("paused");
+	Sprite.prototype.exposeProperty("currentAnimation");
+	Sprite.prototype.exposeProperty("currentFrame");
 
 	Sprite.prototype.exposeProperty("spritesheet", "_spritesheet",
 		Fizz.restrict.toInstanceType("_spritesheet", "Fizz.Spritesheet"));

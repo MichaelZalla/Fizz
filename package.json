@@ -1,12 +1,20 @@
 {
   "name": "Fizz",
-  "version": "0.0.2",
-  "private": true,
+  "title": "Fizz",
   "description": "Front-end JavaScript library for interactive 2D graphics, games and animation with HTML5 canvas.",
-  "main": "Gruntfile.js",
+  "version": "0.0.2",
+  "main": "js/min/fizz.min.js",
+  "homepage": "https://github.com/MichaelZalla/Fizz",
+  "author": {
+    "name": "Michael Zalla",
+    "url": "http://zalla.io"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/MichaelZalla/Fizz"
+  },
+  "bugs": {
+    "url": "https://github.com/MichaelZalla/Fizz/issues"
   },
   "keywords": [
     "game",
@@ -19,18 +27,31 @@
     "library",
     "abstraction"
   ],
-  "author": "Michael Zalla",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/MichaelZalla/Fizz/issues"
-  },
-  "homepage": "https://github.com/MichaelZalla/Fizz",
-  "dependencies": {
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/MichaelZalla/Fizz/LICENSE"
+    }
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    
     "grunt": "^0.4.5",
+    "grunt-verbosity": "^0.2.2",
+    "grunt-debug-task": "^0.1.5",
+    
     "grunt-contrib-jasmine": "^0.8.1",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
+    
     "string-format": "^0.2.1"
-  }
+    
+  },
+  "scripts": {
+    "build": "npm install && grunt test",
+    "start": "grunt watch",
+    "test": "grunt test"
+  },
+  "private": true
 }

@@ -13,4 +13,4 @@ log/**/*.log
 # misc files
 _SpecRunner.html
 js/templates
-demo
+demos

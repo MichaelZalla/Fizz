@@ -42,12 +42,15 @@ this.Fizz = this.Fizz || { };
 				if('frames' in settings) {
 					
 					var frames = settings.frames;
-					
-					this.on(Fizz.Spritesheet.EVENTS.LOAD, function() {
-						
-						// Non-literal frame notation
-						if('width' in frames && 'height' in frames) {
-						
+
+					// Non-literal frame notation
+					if('width' in frames && 'height' in frames) {
+
+						// Must be completed after the sourceImage has loaded
+						// (Behavior is dependent on the sourceImage's dimensions!)
+
+						this.on(Fizz.Spritesheet.EVENTS.LOAD, function() {
+
 							var x = 0, y = 0,
 								w = frames.width,
 								h = frames.height,
@@ -64,41 +67,41 @@ this.Fizz = this.Fizz || { };
 								this._frames[i] = [x, y, w, h];
 								x += w;
 							}
-						
-						} else if(frames instanceof Array) {
 
-							this._frames = frames.filter(function(data) {
-								return (4 === data.length);
-							});
+						});
+					
+					} else if(frames instanceof Array) {
 
-						}
+						this._frames = frames.filter(function(data) {
+							return (4 === data.length);
+						});
 
-						// Shouldn't cache any frames until one is requested
-						// this._frames.forEach(function(data, index) {
-						// 	this._refreshFrameCache(index);
-						// }, this);
-
-					}, false);
+					}
 
 					// Parse animation inputs
 					
 					if('animations' in settings) {
 
-						var anims = settings.animations;
-
-						this.on(Fizz.Spritesheet.EVENTS.LOAD, function() {
+						settings.animations.forEach(function(data, name) {
 							
-							anims.forEach(function(data, name) {
-								if(data instanceof Array && data.length >= 2) {
-									this._animations[name] = {
-										begin: data[0],
-										end: data[1],
-										speed: data[2] || 1
-									};
-								}
-							}, this);
+							if(data instanceof Array && data.length >= 2) {
+								this._animations[name] = {
+									name: name,
+									begin: data[0],
+									end: data[1],
+									speed: data[2] || 1
+								};
+							} else if(typeof data === "number") {
+								this._animations[name] = {
+									name: name,
+									begin: data,
+									end: data,
+									speed: 1
+								};
+							}
+							
+						}, this);
 
-						}, false);
 					}
 
 				}
@@ -162,8 +165,8 @@ this.Fizz = this.Fizz || { };
 		_refreshFrameCache: function(index) {
 			var data = this._frames[index];
 			if(data) {
-				this._framesCache[index] = Fizz.image
-					.spliceCanvasArea(this._sourceImageCache, data);
+				var canvas = new Fizz.Canvas(this._sourceImageCache);
+				this._framesCache[index] = canvas.splice.apply(canvas, data);
 			}
 		}
 		
@@ -175,8 +178,8 @@ this.Fizz = this.Fizz || { };
 	// Static class members
 
 	Spritesheet.EVENTS = { };
-	Spritesheet.EVENTS.LOAD 	= 'load';
-	Spritesheet.EVENTS.ERROR 	= 'error';
+	Spritesheet.EVENTS.LOAD = 'load';
+	Spritesheet.EVENTS.ERROR = 'error';
 
 	// Public properties
 
@@ -191,12 +194,15 @@ this.Fizz = this.Fizz || { };
 
 		function(value) {
 
+			function interceptLoad() { this.emit(Fizz.Spritesheet.EVENTS.LOAD); }
+			function interceptError() { this.emit(Fizz.Spritesheet.EVENTS.ERROR); }
+
 			if(typeof value === "string") {
 				
 				this._source = value;
 				this._sourceImage = new Image();
-				this._sourceImage.onload = this.emit.bind(this, 'load');
-				this._sourceImage.onerror = this.emit.bind(this, 'error');
+				this._sourceImage.onload = interceptLoad.bind(this);
+				this._sourceImage.onerror = interceptError.bind(this);
 				this._sourceImage.src = this._source;
 
 			} else if(value instanceof Image && value.src) {
@@ -208,8 +214,8 @@ this.Fizz = this.Fizz || { };
 					setTimeout(this.emit.bind(this, Fizz.Spritesheet.EVENTS.LOAD), 10);
 				}
 				else {
-					this._sourceImage.onload = this.emit.bind(this, 'load');
-					this._sourceImage.onerror = this.emit.bind(this, 'error');
+					this._sourceImage.onload = interceptLoad.bind(this);
+					this._sourceImage.onerror = interceptError.bind(this);
 				}
 			}
 		

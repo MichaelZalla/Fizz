@@ -116,19 +116,89 @@ describe("A Sprite", function() {
 
 	it("offers methods for changing its current animation", function() {
 
-		//@TODO Write unit test
+		sheet = new Fizz.Spritesheet({
+			source: "/suites/assets/spritesheets/tiles.png",
+			frames: {
+				width: 16,
+				height: 16,
+				count: 3
+			},
+			animations: {
+				'dirt': 0,
+				'grass': 1,
+				'stone': 2
+			}
+		});
+
+		sprite.spritesheet = sheet;
+
+		sprite.gotoAndStop('dirt');
+		expect(sprite._currentAnimation.name).toMatch('dirt');
+		expect(sprite._currentFrame).toMatch(sprite._currentAnimation.begin);
+
+		sprite.gotoAndStop('grass');
+		expect(sprite._currentAnimation.name).toMatch('grass');
+		expect(sprite._currentFrame).toMatch(sprite._currentAnimation.begin);
 
 	});
 
 	it("can assume the properties of an existing Sprite", function() {
 
-		//@TODO Write unit test
+		sheet = new Fizz.Spritesheet({
+			source: "/suites/assets/spritesheets/tiles.png",
+			frames: {
+				width: 16,
+				height: 16,
+				count: 3
+			},
+			animations: {
+				'dirt': 0,
+				'grass': 1,
+				'stone': 2
+			}
+		});
+
+		var mysteryBlock = new Fizz.Sprite(),
+			dirtBlock = new Fizz.Sprite(sheet);
+
+		dirtBlock.gotoAndStop('dirt');
+		
+		expect(mysteryBlock.spritesheet).toBeNull();
+
+		mysteryBlock.copy(dirtBlock);
+
+		expect(mysteryBlock.spritesheet).toBe(dirtBlock.spritesheet);
+		expect(mysteryBlock.currentFrame).toEqual(dirtBlock.currentFrame);
+		expect(mysteryBlock.currentAnimation).toEqual(dirtBlock.currentAnimation);
+		expect(mysteryBlock).not.toBe(dirtBlock);
 
 	});
 
 	it("can be used to create new Sprites (clones)", function() {
 
-		//@TODO Write unit test
+		sheet = new Fizz.Spritesheet({
+			source: "/suites/assets/spritesheets/tiles.png",
+			frames: {
+				width: 16,
+				height: 16,
+				count: 3
+			},
+			animations: {
+				'dirt': 0,
+				'grass': 1,
+				'stone': 2
+			}
+		});
+
+		var block = new Fizz.Sprite(sheet);
+			block.gotoAndStop('stop');
+
+		var clone = block.clone();
+
+		expect(clone.spritesheet).toBe(block.spritesheet);
+		expect(clone.currentAnimation).toMatch(block.currentAnimation);
+		expect(clone.currentFrame).toMatch(block.currentFrame);
+		expect(clone).not.toBe(block);
 
 	});
 
