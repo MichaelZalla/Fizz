@@ -2,9 +2,10 @@ describe("An Event", function() {
 
 	var e = null;
 
-	it("is an Event", function() {
+	it("is an Event, and extends the native Object", function() {
 		e = new Fizz.Event();
 		expect(e instanceof Fizz.Event).toBeTruthy();
+		expect(e instanceof Object).toBeTruthy();
 	});
 
 	it("can be given a type, bubbling behavior, and cancelability " +

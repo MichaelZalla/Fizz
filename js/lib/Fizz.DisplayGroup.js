@@ -33,14 +33,24 @@ this.Fizz = this.Fizz || { };
 
 		updateCache: function() {
 
+			var bounds = this._getChildrenBoundingBox();
+			var width = bounds[1].x - bounds[0].x;
+			var height = bounds[1].y - bounds[0].y;
+
 			// Computed values (scans children to determine container width)
-			this._width = this.width;
-			this._height = this.height;
+			//@TODO Figure out why 'width' and 'height' getters return 'undefined',
+			// but '_size.x' and '_size.y' work correctly?
+			this._width = width;
+			this._height = height;
 
 			// Call the super method to prepare the cache canvas
 			Fizz.DisplayEntity.prototype.updateCache.call(this);
 
 			if(true === this._caching) {
+
+				// Update the group's cache canvas dimensions
+				this._cacheCanvas.width = this._width;
+				this._cacheCanvas.height = this._height;
 
 				// Clear the current display group cache
 				var ctx = this._cacheCanvasContext;

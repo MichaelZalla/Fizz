@@ -21,14 +21,19 @@ var components = [
 	'Entity',
 
 	'Color',
+	'Canvas',
+	
 	'DisplayEntity',
 	'DisplayGroup',
-	'Canvas',
+	'DisplayGrid',
 	'Stage',
 
-	'SpriteSheet',
+	'Spritesheet',
+	'Graphic',
 	'Sprite',
-	'DisplayGrid'
+	
+	'Fontsheet',
+	'Textbox'
 	
 ];
 
@@ -93,7 +98,7 @@ module.exports = function(grunt) {
 				sourceMap: true,
 				report: 'gzip',
 				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> | ' +
-						'(c) 2014 <%= pkg.author.name %> | <%= pkg.license %> License */\n' +
+						'(c) 2014 <%= pkg.author.name %> | <%= pkg.licenses[0].type %> License */\n' +
 						'/*! Read the full source at <%= pkg.repository.url %> */'
 			}
 		}
@@ -110,7 +115,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('test', ['jasmine', 'jshint']);
+	grunt.registerTask('test', ['jshint', 'jasmine']);
 	grunt.registerTask('minify', ['uglify']);
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('debug', ['debug']);

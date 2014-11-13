@@ -15,6 +15,7 @@ this.Fizz = this.Fizz || { };
 			this._cellHeight 	= DisplayGrid.DEFAULT_CELL_SIZE;
 
 			// Copy over custom object settings
+
 			if(typeof settings === "object" && settings !== null) {
 				
 				// We're keeping 'rows' and 'columns' as read-only for now,

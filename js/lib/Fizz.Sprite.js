@@ -3,144 +3,32 @@ this.Fizz = this.Fizz || { };
 
 (function() {
 
-	var Sprite = Fizz.DisplayEntity.extend({
+	var Sprite = Fizz.Graphic.extend({
 
 		init: function(settings) {
 
-			// Call to cache may can be triggered inside of super-init method
-			Fizz.DisplayEntity.prototype.init.call(this, null, false);
-
-			this._fillStyle = Fizz.Color.CLEAR;
-			this._strokeStyle = Fizz.Color.CYAN;
-			this._lineWidth = 2;
-
-			this._spritesheet = null;
-
-			this._localFramesCache = { };
+			Fizz.Graphic.prototype.init.call(this, settings, false);
 
 			this._currentAnimation = Sprite.DEFAULT_ANIMATION;
-			this._currentFrame = this._currentAnimation.begin;
-
+			this._texture = this._currentAnimation.begin;
 			this._paused = true;
 
-			// Allow existing Spritesheet instances to be passed in
-			//@TODO Clean up code redundancies
-			if(settings instanceof Fizz.Spritesheet) {
-				this._spritesheet = settings;
-				settings = null;
-			}
-
-			// Allow URI or Image object to be passed instead of a Spritesheet instance
-			if(typeof settings === "string" || settings instanceof Image && settings.src) {
-				this._spritesheet = new Fizz.Spritesheet({ 'source': settings });
-				settings = null;
-			}
-
-			// If a Spritesheet has been assigned already, update the Sprite
-			// cache as soon as the spritesheet data is available
-			if(this._spritesheet) {
-				if(this._spritesheet.loaded) this.updateCache();
-				else this._spritesheet.on('load', this.updateCache.bind(this));
-			}
-
-			// Otherwise, assume that the user just passed in a config object
-			if(typeof settings === "object" && settings !== null) {
-				if('scale' in settings && settings.scale instanceof Fizz.Point) {
-					// Triggers re-caching
-					this.scaleX = settings.scale.x;
-					this.scaleY = settings.scale.y;
-					delete settings.scale;
+			// Allow animation to be specified at creation for pre-caching
+			if(null !== settings && typeof settings === "object") {
+				if('animation' in settings && typeof settings.animation === "string") {
+					this.gotoAndStop(settings.animation);
+					delete settings.animation;
 				}
-				// Copy over custom object settings
-				this.assign(settings);
 			}
 
 		},
 
 		update: function(deltaT) {
-
-			Fizz.DisplayEntity.prototype.update.call(this, deltaT);
-
-			if(false === this._paused &&
-			   this._currentAnimation.begin < this._currentAnimation.end) {
-				//@TODO Shouldn't this depend on the 'speed' value?
+			Fizz.Graphic.prototype.update.call(this, deltaT);
+			if(false === this._paused && this._currentAnimation.begin < this._currentAnimation.end) {
+				//@TODO Implement speed variable in animation objects
 				this._advanceFrame();
 			}
-
-		},
-
-		updateCache: function() {
-
-			// Nothing more to render if the Sprite has no image data
-			if(null === this._spritesheet || false === this._spritesheet.loaded) {
-				// Draw bounding box until bitmap data is available
-				//@TODO Behavior should depend on env setting (dev/test/alpha)
-				Fizz.DisplayEntity.prototype.updateCache.call(this);
-				return;
-			}
-
-			// If a version of the current frame doesn't exist in the local cache
-			if(!(this._currentFrame in this._localFramesCache)) {
-				// Get a reference to the spritesheet's native-sized frame cache,
-				// adding it to the local cache and assigning it a native scale value
-				var c = this._localFramesCache[this._currentFrame] = this._spritesheet.getFrame(this._currentFrame);
-					c.scale = Sprite.NATIVE_SCALE.clone();
-				this._size = new Fizz.Point(c.width, c.height);
-			}
-
-			// Width and height values are assigned based on the frame dimensions
-			//@TODO Should width and height really incr/decr as scale changes?
-			// this.width = canvas.width;
-			// this.height = canvas.height;
-
-			// If the current cached frame is dirty, re-assign it to a scaled copy
-			
-			if(false === this.scale.equals(this._localFramesCache[this._currentFrame].scale)) {
-				
-				// New cache still needs to be scaled relative to the native size
-				var nativeCacheFrame = this._spritesheet.getFrame(this._currentFrame);
-
-				var scaled = document.createElement('canvas');
-					scaled.width = Math.abs(nativeCacheFrame.width * this._scale.x);
-					scaled.height = Math.abs(nativeCacheFrame.height * this._scale.y);
-				
-				// Record the scale at which the frame was cached
-				scaled.scale = this.scale.clone();
-
-				var pointOfReflection = new Fizz.Point((this._scale.x < 0) ? this.width : 0,
-													   (this._scale.y < 0) ? this.height : 0);
-
-				var ctx = scaled.getContext('2d');
-				
-				// Nearest-neighbor sampling for scaling
-				ctx.imageSmoothingEnabled =
-				ctx.mozImageSmoothingEnabled =
-				ctx.webkitImageSmoothingEnable = false;
-
-				ctx.save(); // Save original ctx transform data to stack
-
-				// Transform the context to account for scale, and draw
-				ctx.translate.apply(ctx, pointOfReflection.toList());
-				ctx.scale(this._scale.x, this._scale.y);			
-				ctx.drawImage(nativeCacheFrame, 0, 0);
-				
-				ctx.restore(); // Restore original ctx transform data
-
-				// Update the cache reference to the scaled canvas
-				
-				this._localFramesCache[this._currentFrame] = scaled;
-
-			}
-
-			// Finally, update this._cacheCanvas and this._cacheCanvasContext,
-			// which are referenced in the DisplayEntity's 'draw' method
-
-			this._cacheCanvas = this._localFramesCache[this._currentFrame];
-			this._cacheCanvasContext = this._cacheCanvas.getContext('2d');
-
-			// Post-processing of cache data (account for alpha, etc)
-			// @TODO Implement a generic image-filtering class
-
 		},
 
 		play: function() {
@@ -164,11 +52,9 @@ this.Fizz = this.Fizz || { };
 		},
 
 		copy: function(sprite) {
-			Fizz.DisplayEntity.prototype.copy.call(this, sprite);
+			Fizz.Graphic.prototype.copy.call(this, sprite);
 			if(sprite instanceof Fizz.Sprite) {
-				this._spritesheet = sprite.spritesheet;
 				this._currentAnimation = sprite.currentAnimation;
-				this._currentFrame = sprite.currentFrame;
 				this._paused = sprite.paused;
 			}
 		},
@@ -190,26 +76,26 @@ this.Fizz = this.Fizz || { };
 				// Passed in the name of an animation
 				var data = this._spritesheet.getAnimation(frameIndex);
 				this._currentAnimation = (data !== null) ? data : this._currentAnimation;
-				this._currentFrame = this._currentAnimation.begin;
+				this._texture = this._currentAnimation.begin;
 			} else {
 				// Passed in the index of a frame (integer)
 				this._currentAnimation = Sprite.DEFAULT_ANIMATION;
-				this._currentFrame = frameIndex;
+				this._texture = frameIndex;
 			}
 		},
 
 		_advanceFrame: function() {
 			var a = this._currentAnimation;
-			if(this._currentFrame === a.end && a.next) {
+			if(this._texture === a.end && a.next) {
 				// Jump to a different animation (possibly a loop)
 				this._currentAnimation = this._spritesheet.getAnimation(a.next);
-				this._currentFrame = this._currentAnimation.begin;
-			} else if(this._currentFrame === a.end) {
+				this._texture = this._currentAnimation.begin;
+			} else if(this._texture === a.end) {
 				// Reset animation (loop) if Sprite is not paused
-				this._currentFrame = a.begin;
+				this._texture = a.begin;
 			} else {
 				// Advance a single frame
-				this._currentFrame += 1;
+				this._texture += 1;
 			}
 		}
 
@@ -217,18 +103,12 @@ this.Fizz = this.Fizz || { };
 
 	// Static class members
 	
-	Sprite.NATIVE_SCALE = new Fizz.Point(1,1);
-
 	Sprite.DEFAULT_ANIMATION = { begin: 0, end: 0, next: null };
 
 	// Public properties
 
-	Sprite.prototype.exposeProperty("paused");
 	Sprite.prototype.exposeProperty("currentAnimation");
-	Sprite.prototype.exposeProperty("currentFrame");
-
-	Sprite.prototype.exposeProperty("spritesheet", "_spritesheet",
-		Fizz.restrict.toInstanceType("_spritesheet", "Fizz.Spritesheet"));
+	Sprite.prototype.exposeProperty("paused");
 
 	// Class export
 	Fizz.Sprite = Sprite;

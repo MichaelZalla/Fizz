@@ -2,9 +2,10 @@ describe("A Rectangle", function() {
 	
 	var rect = null;
 
-	it("is a Rectangle", function() {
+	it("is a Rectangle, and extends the native Object", function() {
 		point = new Fizz.Rectangle();
 		expect(point instanceof Fizz.Rectangle).toBeTruthy();
+		expect(point instanceof Object).toBeTruthy();
 	});
 
 	it("has a position property and a size property", function() {

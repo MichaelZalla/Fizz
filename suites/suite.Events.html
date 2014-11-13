@@ -15,25 +15,14 @@
 	<script src="../js/dependencies/jasmine/lib/jasmine-core/boot.js"></script>
 
 	<!-- Library classes -->
-	
 	<script src="../js/lib/Fizz.Base.js"></script>
-	<script src="../js/lib/Fizz.Math.js"></script>
+	
 	<script src="../js/lib/Fizz.Event.js"></script>
 	<script src="../js/lib/Fizz.EventEmitter.js"></script>
-	<script src="../js/lib/Fizz.Point.js"></script>
-	<script src="../js/lib/Fizz.Rectangle.js"></script>
-	<script src="../js/lib/Fizz.UID.js"></script>
-	<script src="../js/lib/Fizz.Entity.js"></script>
-	<script src="../js/lib/Fizz.Color.js"></script>
-	<script src="../js/lib/Fizz.Canvas.js"></script>
-	<script src="../js/lib/Fizz.DisplayEntity.js"></script>
-	<script src="../js/lib/Fizz.DisplayGroup.js"></script>
-
-	<script src="../js/lib/Fizz.Stage.js"></script>
 
 	<!-- Specs (test suites) -->
-
-	<script src="../js/spec/spec.Stage.js"></script>
+	<script src="../js/spec/spec.Event.js"></script>
+	<script src="../js/spec/spec.EventEmitter.js"></script>
 	
 </head>
 <body>
@@ -41,11 +30,10 @@
 		if(typeof jasmine === "undefined") {
 			throw new Error("Jasmine must be included as a dependency to run Fizz2D's test suites! " +
 							"Clone Jasmine 2.0 (https://github.com/pivotal/jasmine) into /js/dependencies" +
-							"/jasmine/ to make test-running possible.");
+							"/jasmine/ to make test-running possible." );
 		}
 		jasmine.getEnv().addReporter(new jasmine.HtmlReporter());
 		jasmine.getEnv().execute();
 	</script>
 </body>
 </html>
-

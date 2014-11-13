@@ -8,39 +8,9 @@ describe("A Sprite", function() {
 		sprite = new Fizz.Sprite(sheet);
 	});
 
-	it("is a Sprite, and extends the DisplayEntity class", function() {
-		
+	it("is a Sprite, and extends the Graphic class", function() {
 		expect(sprite instanceof Fizz.Sprite).toBeTruthy();
-		expect(sprite instanceof Fizz.DisplayEntity).toBeTruthy();
-
-	});
-
-	it("can be passed a URI specifying its spritesheet at instantiation",
-	function(done) {
-
-		sprite = new Fizz.Sprite("/suites/assets/spritesheets/spy.png");
-		sprite.spritesheet.on('load', function() {
-			expect([ sprite.width, sprite.height ]).toEqual([ 184, 184 ]);
-			done();
-		});
-
-	});
-
-	it("can be passed an existing HTMLImageElement specifying its " +
-	   "spritesheet at instantiation", function(done) {
-
-	   	var spyImage = new Image();
-
-   		spyImage.onload = function() {
-		   	sprite = new Fizz.Sprite(spyImage);
-			sprite.spritesheet.on('load', function() {
-				expect([ sprite.width, sprite.height ]).toEqual([ 184, 184 ]);
-				done();
-			});
-   		};
-
-   		spyImage.src = "/suites/assets/spritesheets/spy.png";
-
+		expect(sprite instanceof Fizz.Graphic).toBeTruthy();
 	});
 
 	it("accepts a settings object to configure the Sprite at instantiation",
@@ -48,36 +18,24 @@ describe("A Sprite", function() {
 
 	   	sprite = new Fizz.Sprite({
 	   		spritesheet: sheet,
-	   		caching: true,
-			snapToPixel: true,
 			velocity: new Fizz.Point(8,8),
-			density: 0
+	   		caching: true
 	   	});
 
 	   	expect(sprite.spritesheet).toBe(sheet);
+	   	expect(sprite.velocity.equals(new Fizz.Point(8,8))).toBeTruthy();
 	   	expect(sprite.caching).toBeTruthy();
-	   	expect(sprite.snapToPixel).toBeTruthy();
 
 	});
-
-	it("can be re-assigned its spritesheet after being instantiated",
-	function() {
-
-		sprite = new Fizz.Sprite();
-		expect(sprite.spritesheet).toBeNull();
-		sprite.spritesheet = new Fizz.Spritesheet();
-		expect(sprite.spritesheet).not.toBeNull();
-
-	});
-
-	//@TODO Write unit tests for cache creation and updates
 
 	it("offers 'play' and 'stop' methods for controllings its playback",
 	function() {
 
 		expect(sprite.paused).toBeTruthy();
+		
 		sprite.play();
 		expect(sprite.paused).toBeFalsy();
+		
 		sprite.stop();
 		expect(sprite.paused).toBeTruthy();
 
@@ -101,12 +59,15 @@ describe("A Sprite", function() {
 		sprite.spritesheet = sheet;
 		sprite.spritesheet.on('load', function() {
 
-			sprite.updateCache(); // Get initial frame cache
-			expect(sprite._currentFrame).toEqual(0);
+			// Get initial frame cache
+			sprite.updateCache();
+			expect(sprite.texture).toEqual(0);
+
 			sprite.gotoAndStop(1);
-			expect(sprite._currentFrame).toEqual(1);
+			expect(sprite.texture).toEqual(1);
+
 			sprite.gotoAndPlay(2);
-			expect(sprite._currentFrame).toEqual(2);
+			expect(sprite.texture).toEqual(2);
 			
 			done();
 
@@ -133,12 +94,12 @@ describe("A Sprite", function() {
 		sprite.spritesheet = sheet;
 
 		sprite.gotoAndStop('dirt');
-		expect(sprite._currentAnimation.name).toMatch('dirt');
-		expect(sprite._currentFrame).toMatch(sprite._currentAnimation.begin);
+		expect(sprite.currentAnimation.name).toMatch('dirt');
+		expect(sprite.texture).toMatch(sprite.currentAnimation.begin);
 
 		sprite.gotoAndStop('grass');
-		expect(sprite._currentAnimation.name).toMatch('grass');
-		expect(sprite._currentFrame).toMatch(sprite._currentAnimation.begin);
+		expect(sprite.currentAnimation.name).toMatch('grass');
+		expect(sprite.texture).toMatch(sprite.currentAnimation.begin);
 
 	});
 
@@ -168,7 +129,7 @@ describe("A Sprite", function() {
 		mysteryBlock.copy(dirtBlock);
 
 		expect(mysteryBlock.spritesheet).toBe(dirtBlock.spritesheet);
-		expect(mysteryBlock.currentFrame).toEqual(dirtBlock.currentFrame);
+		expect(mysteryBlock.texture).toEqual(dirtBlock.texture);
 		expect(mysteryBlock.currentAnimation).toEqual(dirtBlock.currentAnimation);
 		expect(mysteryBlock).not.toBe(dirtBlock);
 
@@ -197,16 +158,14 @@ describe("A Sprite", function() {
 
 		expect(clone.spritesheet).toBe(block.spritesheet);
 		expect(clone.currentAnimation).toMatch(block.currentAnimation);
-		expect(clone.currentFrame).toMatch(block.currentFrame);
+		expect(clone.texture).toMatch(block.texture);
 		expect(clone).not.toBe(block);
 
 	});
 
 	it("can be represented by a string", function() {
-		
 		var name = "[Sprite (name='" + sprite.name + "')]";
 		expect(sprite.toString()).toMatch(name);
-
 	});
 
 });

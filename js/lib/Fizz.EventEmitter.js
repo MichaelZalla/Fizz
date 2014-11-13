@@ -15,6 +15,7 @@ this.Fizz = this.Fizz || { };
 		addEventListener: function(type, listener, useCapture) {
 			
 			// Decorate listener function with phase information
+			//@TODO Double-check that this type of value-casting works as expected
 			listener.useCapture = (!!useCapture !== false);
 
 			// Allow first argument to be comma-separated list of types

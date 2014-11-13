@@ -8,6 +8,11 @@ describe("A Stage", function() {
 		stage = new Fizz.Stage(context);
 	});
 
+	it("is a Stage, and extends the DisplayGroup class", function() {
+		expect(stage instanceof Fizz.Stage).toBeTruthy();
+		expect(stage instanceof Object).toBeTruthy();
+	});
+
 	it("exposes a read-only reference to its assigned context's canvas", function() {
 	   	expect(stage.canvas).toBe(context.canvas);
 	});
@@ -21,12 +26,12 @@ describe("A Stage", function() {
 
 	});
 
-	it("assumes a default size of 600x400 pixels if no rendering context is " +
+	it("assumes a default size of 640-by-480 pixels if no rendering context is " +
 	   "passed to the 'init' method", function() {
 
 	   	var defaultStage = new Fizz.Stage();
-	   	expect(defaultStage.width).toEqual(600);
-	   	expect(defaultStage.height).toEqual(400);
+	   	expect(defaultStage.width).toEqual(640);
+	   	expect(defaultStage.height).toEqual(480);
 
 	});
 
@@ -45,15 +50,13 @@ describe("A Stage", function() {
 	   "appropriate for Stage", function() {
 
 	   		var banished = [
-	   			'parent',
-	   			'stage',
+	   			'acceleration',
+	   			'alpha',
 	   			'exists',
 	   			'life',
 	   			'scale',
-	   			'velocity',
-	   			'acceleration',
-	   			'density',
-	   			'alpha'
+	   			'stage',
+	   			'velocity'
 	   		];
 
 	   		banished.forEach(function(prop) {

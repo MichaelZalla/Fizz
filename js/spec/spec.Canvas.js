@@ -11,8 +11,8 @@ describe("A Canvas", function() {
 		
 		// Create a HTMLCanvasElement and configure
 		canvasElement = doc.createElement("canvas");
-		canvasElement.width = 600;
-		canvasElement.height = 400;
+		canvasElement.width = 640;
+		canvasElement.height = 480;
 		canvasElement.style.width = canvasElement.width + 'px';
 		canvasElement.style.height = canvasElement.height + 'px';
 		
@@ -38,8 +38,8 @@ describe("A Canvas", function() {
 
 	it("exposes a reference to the current associated canvas element", function() {
 
-		expect(wrapper.element.width).toEqual(600);
-		expect(wrapper.element.height).toEqual(400);
+		expect(wrapper.element.width).toEqual(640);
+		expect(wrapper.element.height).toEqual(480);
 		expect(wrapper.element.ownerDocument).toBe(doc);
 
 	});
@@ -76,7 +76,7 @@ describe("A Canvas", function() {
 
 	});
 
-	it("yields a windowPosition of [0,0] if the current associated canvas " +
+	it("yields a windowPosition of [0, 0] if the current associated canvas " +
 	   "element is not attached to a document", function() {
 
 	   	doc.body.removeChild(canvasElement);
@@ -89,10 +89,31 @@ describe("A Canvas", function() {
 
 	   	expect(wrapper.width === wrapper.element.width).toBeTruthy();
 		expect(wrapper.height === wrapper.element.height).toBeTruthy();
-		expect(wrapper.height).toEqual(400);
-		expect(wrapper.width).toEqual(600);
+		expect(wrapper.width).toEqual(640);
+		expect(wrapper.height).toEqual(480);
 
 	});
+
+	it("offers a method for returning a copy of the canvas that has been " +
+	   "scaled as specified", function() {
+
+	   	var scaledDown = wrapper.scale(0.5, 0.25);
+	   	expect(scaledDown.width).toEqual(canvasElement.width * 0.5);
+	   	expect(scaledDown.height).toEqual(canvasElement.height * 0.25);
+
+	});
+
+	//@TODO Should this functionality be here?
+	// it("will decorate scaled canvas copies with a 'scale' property," +
+	//    "which holds a Fizz.Point instance describing its scale relative" +
+	//    "to the canvas from which the copy originated", function() {
+
+	//    	var newScale = new Fizz.Point(4, 4);
+	//    	var scaledUp = wrapper.scale.apply(wrapper, newScale.toList());
+	//    	expect(scaledUp.scale).not.toBe(newScale);
+	//    	expect(scaledUp.scale.equals(newScale)).toBeTruthy();
+
+	// });
 	
 	it("offers a method for copying a portion (or all) of its associated " +
 	   "canvas element's image data into a new canvas element", function() {

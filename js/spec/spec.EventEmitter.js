@@ -43,8 +43,9 @@ describe("An EventEmitter", function() {
 		out = [ ];
 	});
 
-	it("is an EventEmitter", function() {
+	it("is an EventEmitter, and extends the native Object", function() {
 		expect(emitter instanceof Fizz.EventEmitter).toBeTruthy();
+		expect(emitter instanceof Object).toBeTruthy();
 	});
 
 	it("has a method for registering callbacks (listeners) to trigger " +

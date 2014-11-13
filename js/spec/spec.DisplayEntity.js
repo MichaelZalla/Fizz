@@ -4,6 +4,7 @@ describe("A DisplayEntity", function() {
 
 	beforeEach(function() {
 		entity = new Fizz.DisplayEntity();
+		entity.updateCache();
 	});
 
 	it("is a DisplayEntity, and extends the Entity class", function() {
@@ -40,7 +41,7 @@ describe("A DisplayEntity", function() {
 	it("can determine whether it is 'visible' within local space", function() {
 		
 		// DisplayEntity instance with non-zero dimensions and non-zero alpha
-		var entity1 = new Fizz.DisplayEntity({ 'size': [10,10] });
+		var entity1 = new Fizz.DisplayEntity({ 'size': [10, 10] });
 		
 		expect(entity1.visible).toBeTruthy();
 		
@@ -50,25 +51,25 @@ describe("A DisplayEntity", function() {
 		expect(entity2.visible).toBeFalsy();
 		
 		// DisplayEntity instance with an x-scale of zero
-		var entity3 = new Fizz.DisplayEntity({ 'size': [10,10] });
+		var entity3 = new Fizz.DisplayEntity({ 'size': [10, 10] });
 			entity3.scale.x = 0;
 		
 		expect(entity3.visible).toBeFalsy();
 		
 		// DisplayEntity instance with a y-scale of zero
-		var entity4 = new Fizz.DisplayEntity({ 'size': [10,10] });
+		var entity4 = new Fizz.DisplayEntity({ 'size': [10, 10] });
 			entity4.scale.y = 0;
 		
 		expect(entity4.visible).toBeFalsy();
 		
 		// DisplayEntity instance with an alpha value of zero
-		var entity5 = new Fizz.DisplayEntity({ 'size': [10,10] });
+		var entity5 = new Fizz.DisplayEntity({ 'size': [10, 10] });
 			entity5.scale.y = 0;
 		
 		expect(entity5.visible).toBeFalsy();
 		
 		// DisplayEntity instance with a false 'exists' value
-		var entity6 = new Fizz.DisplayEntity({ 'size': [10,10] });
+		var entity6 = new Fizz.DisplayEntity({ 'size': [10, 10] });
 			entity6.exists = false;
 		
 		expect(entity6.visible).toBeFalsy();
@@ -77,7 +78,7 @@ describe("A DisplayEntity", function() {
 
 	it("can maintain its own image cache to optimize rendering performance", function() {
 		
-		entity = new Fizz.DisplayEntity({ 'size': [50,50], 'caching': true });
+		entity = new Fizz.DisplayEntity({ 'size': [50, 50], 'caching': true });
 		
 		entity.updateCache();
 		
@@ -100,11 +101,11 @@ describe("A DisplayEntity", function() {
 		// instance (set cacheImmediately flag to true)
 		
 		var entity1 = new Fizz.DisplayEntity({
-			'size': [0,50],
+			'size': [0, 50],
 			'caching': true }, true);
 
 		var entity2 = new Fizz.DisplayEntity({
-			'size': [0,50],
+			'size': [0, 50],
 			'caching': false }, true);
 
 		// Record the original width of both caches
@@ -119,6 +120,58 @@ describe("A DisplayEntity", function() {
 		// Compare old cache dimension to current cache dimension
 		expect(previousCacheWidth1).toEqual(entity1._cacheCanvas.width);
 		expect(previousCacheWidth2).not.toEqual(entity2._cacheCanvas.width);
+
+	});
+
+	it("exposes the dynamic setter properties 'scaleX' and 'scaleY'", function() {
+
+		expect(entity.scaleX).toEqual(1.0);
+		expect(entity.scaleY).toEqual(1.0);
+		
+		entity.scale = new Fizz.Point(0.5, 2.5);
+		
+		expect(entity.scaleX).toEqual(0.5);
+		expect(entity.scaleY).toEqual(2.5);
+
+	});
+
+	it("will update its cache when the entity's scale setters are called", function() {
+
+		var dirtyCache = null;
+
+		entity.width = 256;
+		entity.height = 256;
+
+		//@TODO Should this trigger re-caching automatically?
+		entity.updateCache();
+
+		dirtyCache = entity._cacheCanvas;
+
+		entity.scaleX = 0.5; // Cache will update automatically
+
+		expect(entity.scale.x).toEqual(0.5);
+		expect(entity._cacheCanvas.width).toEqual(128 + 1);
+		expect(entity._cacheCanvas.height).toEqual(256 + 1);
+
+		dirtyCache = entity._cacheCanvas;
+
+		entity.scaleY = 0.5; // Cache will update automatically
+		
+		expect(entity.scale.y).toEqual(0.5);
+		expect(entity._cacheCanvas.width).toEqual(128 + 1);
+		expect(entity._cacheCanvas.height).toEqual(128 + 1);
+
+	});
+
+	it("will update its cache when the entity's alpha value is changed", function() {
+
+		expect(entity._cacheCanvasContext.globalAlpha).toEqual(1.0);
+
+		entity.alpha = 0.5;
+		expect(Math.floor(entity._cacheCanvasContext.globalAlpha * 10)).toEqual(5);
+
+		entity.alpha = 0.3;
+		expect(Math.floor(entity._cacheCanvasContext.globalAlpha * 10)).toEqual(3);
 
 	});
 
@@ -157,8 +210,8 @@ describe("A DisplayEntity", function() {
 	it("can be used to create new DisplayEntities (clones)", function() {
 		
 		var entity1 = new Fizz.DisplayEntity({
-			'position': [50,50],
-			'size': [5,5]
+			'position': [50, 50],
+			'size': [5, 5]
 		});
 		
 		var entity2 = entity1.clone();

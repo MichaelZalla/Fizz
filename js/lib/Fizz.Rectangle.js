@@ -10,7 +10,7 @@ this.Fizz = this.Fizz || { };
 			this._position = new Fizz.Point(0,0);
 			this._size = new Fizz.Point(0,0);
 
-			// position can be a coordinate list or Point instance
+			// Position can be a coordinate list or Point instance
 
 			if(position) {
 				if(position instanceof Fizz.Point) {
@@ -21,7 +21,7 @@ this.Fizz = this.Fizz || { };
 				}
 			}
 
-			// size can be a coordinate list or Point instance
+			// Size can be a coordinate list or Point instance
 
 			if(size) {
 				if(size instanceof Fizz.Point) {
@@ -34,6 +34,8 @@ this.Fizz = this.Fizz || { };
 
 		},
 
+		//@TODO Rectangle class should not be responsible for calculating
+		// collisions. They're just buckets for data!
 		intersects: function(rectangle) {
 			
 			// Accepts list of points or rectangles

@@ -2,9 +2,10 @@ describe("A Color", function() {
 
 	var color = null;
 
-	it("is a Color", function() {
+	it("is a Color, and extends the native Object", function() {
 		color = new Fizz.Color("#000000");
 		expect(color instanceof Fizz.Color).toBeTruthy();
+		expect(color instanceof Object).toBeTruthy();
 	});
 
 	it("has a set of (r,g,b) values describing the color's hue", function() {

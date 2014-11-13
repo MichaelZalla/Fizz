@@ -5,14 +5,12 @@ describe("A Spritesheet", function() {
 
 	beforeEach(function(done) {
 		sheet = new Fizz.Spritesheet(uri);
-		sheet.addEventListener('load', function() {
-			console.log("Spritesheet loaded!");
-			done();
-		});
+		sheet.addEventListener('load', done);
 	});
 
-	it("is a Spritesheet", function() {
+	it("is a Spritesheet, and extends the native Object", function() {
 		expect(sheet instanceof Fizz.Spritesheet).toBeTruthy();
+		expect(sheet instanceof Object).toBeTruthy();
 	});
 
 	it("has a 'source' property that references the image " +
@@ -128,25 +126,7 @@ describe("A Spritesheet", function() {
 		});
 
 	});
-
-	// it("will automatically cache all defined frames", function(done) {
-		
-	// 	sheet = new Fizz.Spritesheet({
-	// 		source: uri,
-	// 		frames: [
-	// 			[ 0, 0, 16, 16],
-	// 			[16, 0, 16, 16],
-	// 			[32, 0, 16, 16]
-	// 		]
-	// 	});
-
-	// 	sheet.addEventListener('load', function(e) {
-	// 		expect(sheet._framesCache.keys().length).toEqual(3);
-	// 		done();
-	// 	});
-
-	// });
-
+	
 	it("can return a specific frame as a Canvas instance", function(done) {
 
 		sheet = new Fizz.Spritesheet({

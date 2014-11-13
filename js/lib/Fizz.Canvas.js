@@ -13,6 +13,45 @@ this.Fizz = this.Fizz || { };
 
 		},
 
+		scale: function(scaleX, scaleY, useNearestNeighbor) {
+
+			// No scaling necessary if scale is native
+			if(scaleX === scaleY && 1 === scaleY) {
+				return this._DOMElement.splice();
+			}
+
+			useNearestNeighbor = (!!useNearestNeighbor !== false);
+
+			// Create a canvas with new dimensions
+			var copy = document.createElement("canvas");
+				copy.width = this._DOMElement.width * Math.abs(scaleX);
+				copy.height = this._DOMElement.height * Math.abs(scaleY);
+
+			var pointOfReflection = new Fizz.Point(scaleX < 0 ? copy.width : 0,
+												   scaleY < 0 ? copy.height : 0);
+
+			var ctx = copy.getContext('2d');
+
+			// Save the original context transform data to the state stack
+			ctx.save();
+
+			// Use nearest-neightbor sampling for scaling
+			ctx.imageSmoothingEnabled =
+			ctx.mozImageSmoothingEnabled =
+			ctx.webkitImageSmoothingEnabled = !useNearestNeighbor;
+
+			// Transform the content of account for scale, and draw
+			ctx.translate.apply(ctx, pointOfReflection.toList());
+			ctx.scale(scaleX, scaleY);
+			ctx.drawImage(this._DOMElement, 0, 0);
+
+			// Restore the context stack to its original state
+			ctx.restore();
+
+			return copy;
+			
+		},
+
 		splice: function(x, y, width, height) {
 
 			// Allow passing in area parameters as a list

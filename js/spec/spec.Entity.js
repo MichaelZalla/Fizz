@@ -73,10 +73,11 @@ describe("An Entity", function() {
 		expect(entity.stage).toBeNull();
 	});
 
-	it("can determine whether its bounding box is within its stage's boundaries", function() {
-		entity = new Fizz.Entity();
-		expect(entity.onStage).toBeFalsy();
-	});
+	//@TODO Remove when a proper collision-handling system is implemented
+	// it("can determine whether its bounding box is within its stage's boundaries", function() {
+	// 	entity = new Fizz.Entity();
+	// 	expect(entity.onStage).toBeFalsy();
+	// });
 
 	it("can determine whether its bounding box intersects with that of an " +
 	   "existing Entity in global space", function() {
@@ -116,13 +117,6 @@ describe("An Entity", function() {
 		expect(entity.scale instanceof Fizz.Point).toBeTruthy();
 		expect(entity.velocity instanceof Fizz.Point).toBeTruthy();
 		expect(entity.acceleration instanceof Fizz.Point).toBeTruthy();
-	});
-
-	it("has a density value, which determines how other objects interact with the Entity", function() {
-		entity = new Fizz.Entity();
-		expect(entity.density).toEqual(0);
-		entity.density = 2.0;
-		expect(entity.density).toEqual(2);
 	});
 	
 	it("protects its Point-type properties from being assigned non-Point-type values",  function() {

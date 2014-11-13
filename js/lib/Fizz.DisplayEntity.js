@@ -66,6 +66,7 @@ this.Fizz = this.Fizz || { };
 				this._cacheCanvasContext = this._cacheCanvas.getContext("2d");
 			}
 
+			//@TODO should changes to width/height be triggers like scale/alpha?
 			if(!!(this.width !== this._cacheCanvas.width ||
 				  this.height !== this._cacheCanvas.height)) {
 				this._cacheCanvas.width = Math.floor(this.width * Math.abs(this.scale.x)) + 1;
@@ -106,15 +107,14 @@ this.Fizz = this.Fizz || { };
 
 			context.drawImage(this._cacheCanvas, global.x + 0.5, global.y + 0.5);
 
-			//@TODO Create environment module for setting dev-mode flags
-			// Post-render wireframe (for dev mode)
-			
 			// Make sure that we're still mapping to global space
 			var data = global.toList().concat([
 				this.width * Math.abs(this.scale.x),
 				this.height * Math.abs(this.scale.y)
 			]);
 			
+			//@TODO Create environment module for setting dev-mode flags
+			// Post-render wireframe (for dev mode)
 			this._drawBoundingBox(context, data);
 
 		},

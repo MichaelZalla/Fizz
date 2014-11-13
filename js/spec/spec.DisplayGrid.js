@@ -9,7 +9,7 @@ describe("A DisplayGrid", function() {
 		});
 	});
 
-	it("is a DisplayGrid, and extends the Fizz.DisplayGroup class", function() {
+	it("is a DisplayGrid, and extends the DisplayGroup class", function() {
 		expect(grid instanceof Fizz.DisplayGrid).toBeTruthy();
 		expect(grid instanceof Fizz.DisplayGroup).toBeTruthy();
 	});

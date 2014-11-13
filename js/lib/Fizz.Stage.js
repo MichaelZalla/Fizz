@@ -2,8 +2,9 @@
 this.Fizz = this.Fizz || { };
 
 //@TODOS
-// - Implement Fizz.Grid class for easy sprite layouts
-// - Implement Fizz.Type class on top of Fizz.Grid
+// - Implement and test DisplayGroup scaling with child Graphics/Sprites
+// - Implement CollisionDetector and CollisionResolver classes
+// - Factor collision code out of Fizz.Rectangle
 
 (function() {
 
@@ -220,7 +221,7 @@ this.Fizz = this.Fizz || { };
 
 	// Static class members
 
-	Stage.DEFAULT_DIMENSIONS = new Fizz.Point(600, 400);
+	Stage.DEFAULT_DIMENSIONS = new Fizz.Point(640, 480);
 
 	Stage.DEFAULT_FRAME_RATE = (1000 / 60); // 60 FPS
 
@@ -244,7 +245,6 @@ this.Fizz = this.Fizz || { };
 
 	// Banished (protected) properties
 
-	Stage.prototype.banishProperty("parent");
 	Stage.prototype.banishProperty("stage");
 	Stage.prototype.banishProperty("exists");
 	Stage.prototype.banishProperty("life");

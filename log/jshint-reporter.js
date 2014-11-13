@@ -22,7 +22,7 @@ module.exports = {
 			notices.push(noticeTemplate.format(notice));
 		});
 
-		delete String.prototype.format.transformers['getBaseFileName']; // Cleanup
+		delete String.prototype.format.transformers.getBaseFileName; // Cleanup
 
 		if(notices.length) console.log(notices.join("\n\n") + "\n");
 

@@ -2,9 +2,10 @@ describe("A Point", function() {
 		
 	var point = null;
 
-	it("is a Point", function() {
+	it("is a Point, and extends the native Object", function() {
 		point = new Fizz.Point();
 		expect(point instanceof Fizz.Point).toBeTruthy();
+		expect(point instanceof Object).toBeTruthy();
 	});
 
 	it("has an x-coordinate and a y-coordinate", function() {

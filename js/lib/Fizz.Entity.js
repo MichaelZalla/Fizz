@@ -14,7 +14,6 @@ this.Fizz = this.Fizz || { };
 			this._scale = new Fizz.Point(1,1);
 			this._velocity = new Fizz.Point(0,0);
 			this._acceleration = new Fizz.Point(0,0);
-			this._density = 0;
 
 			this.name = "Entity_" + this._guid;
 			this.exists = true;
@@ -50,7 +49,6 @@ this.Fizz = this.Fizz || { };
 				this._scale = entity.scale.clone();
 				this._velocity = entity.velocity.clone();
 				this._acceleration = entity.acceleration.clone();
-				this._density = entity.density;
 			}
 			return this;
 		},
@@ -68,7 +66,8 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_getGlobalPosition: function() {
-			if(Fizz.Stage && this instanceof Fizz.Stage) { return new Fizz.Point(0, 0); }
+			//@TODO Remove forward dependency ugliness
+			// if(Fizz.Stage && this instanceof Fizz.Stage) { return new Fizz.Point(0, 0); }
 			if(null === this.parent) { return new Fizz.Point(this.x, this.y); }
 			return new Fizz.Point(this.x, this.y).add(this.parent._getGlobalPosition());
 		}
@@ -76,6 +75,7 @@ this.Fizz = this.Fizz || { };
 	});
 
 	// Apply Fizz.EventEmitter interface to Fizz.Entity class
+	// (This is where the '_parent' property is given to Entity instances)
 	Fizz.EventEmitter.initialize(Entity.prototype);
 
 	// Static class members
@@ -110,19 +110,18 @@ this.Fizz = this.Fizz || { };
 	Entity.prototype.exposeProperty("acceleration", "_acceleration",
 		Fizz.restrict.toInstanceType("_acceleration", "Fizz.Point"));
 
-	Entity.prototype.exposeProperty("density", "_density",
-		Fizz.restrict.toNumber("_density"));
-
 	// Public dynamic properties
 
 	Entity.prototype.exposeProperty("globalPosition",
 		function() { return this._getGlobalPosition(); });
 
 	Entity.prototype.exposeProperty("stage", function() {
+		//@TODO Remove forward dependency ugliness
 		if(null === this.parent || (Fizz.Stage && this.parent instanceof Fizz.Stage)) { return this.parent; }
 		return this.parent.stage;
 	});
 	
+	//@TODO Refactor when a proper collision-handling system is implemented
 	Entity.prototype.exposeProperty("onStage", function() {
 		//@TODO Make use of quad-tree when implemented!
 		if(null === this.stage) { return false; }
