@@ -28,7 +28,9 @@ this.Fizz = this.Fizz || { };
 			settings.frames.width = settings.glyphSet.width;
 			settings.frames.height = settings.glyphSet.height;
 			settings.frames.count = settings.glyphSet.values.length;
+			
 			this._glyphSet = settings.glyphSet.values;
+			
 			delete settings.glyphSet;
 
 			Fizz.Spritesheet.prototype.init.call(this, settings);

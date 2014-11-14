@@ -29,13 +29,13 @@ this.Fizz = this.Fizz || { };
 			// Cache the DisplayGrid every time that we change content
 			this._caching = true;
 
-			// If a Fontsheet has been assigned to the Graphic, update the
+			// If a Fontsheet has been assigned to the Textbox, update the
 			// Textbox's cache as soon as the Fontsheet data is available
-			if(this._spritesheet) {
-				if(this._spritesheet.loaded) {
+			if(this._fontsheet) {
+				if(this._fontsheet.loaded) {
 					this.updateCache();
 				} else {
-					this._spritesheet.on('load', this.updateCache.bind(this));
+					this._fontsheet.on('load', this.updateCache.bind(this));
 				}
 			}
 
@@ -52,10 +52,8 @@ this.Fizz = this.Fizz || { };
 			this._columns = Math.min(this._content.length, this._maxColumnLength);
 			this._rows = Math.ceil(this._content.length / this._columns);
 
-			var metrics = this.fontsheet.getMetrics();
-			var graphics = [ ];
+			this.empty(); // Clear any previous message content from the grid
 
-			// If there is no content to display, 
 			this._content.forEach(function(glyphValue) {
 				
 				var glyphGraphic = new Fizz.Graphic({
@@ -67,12 +65,13 @@ this.Fizz = this.Fizz || { };
 
 			}, this);
 
-			Fizz.DisplayGrid.prototype.updateCache.call(this);
+			Fizz.DisplayGroup.prototype.updateCache.call(this);
 
 		},
 
 		copy: function(textbox) {
-			Fizz.Graphic.prototype.copy.call(this, textbox);
+			//@TODO Figure out why this breaks our unit tests
+			Fizz.DisplayGrid.prototype.copy.call(this, textbox);
 			if(textbox instanceof Fizz.Textbox) {
 				// Update cache with new content (dynamic setter)
 				this._fontsheet = textbox.fontsheet;

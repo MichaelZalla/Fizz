@@ -33,15 +33,15 @@ this.Fizz = this.Fizz || { };
 
 		updateCache: function() {
 
+			// Computed values (scans children to determine container width)
 			var bounds = this._getChildrenBoundingBox();
 			var width = bounds[1].x - bounds[0].x;
 			var height = bounds[1].y - bounds[0].y;
 
-			// Computed values (scans children to determine container width)
 			//@TODO Figure out why 'width' and 'height' getters return 'undefined',
 			// but '_size.x' and '_size.y' work correctly?
-			this._width = width;
-			this._height = height;
+			this.width = width;
+			this.height = height;
 
 			// Call the super method to prepare the cache canvas
 			Fizz.DisplayEntity.prototype.updateCache.call(this);
@@ -49,8 +49,8 @@ this.Fizz = this.Fizz || { };
 			if(true === this._caching) {
 
 				// Update the group's cache canvas dimensions
-				this._cacheCanvas.width = this._width;
-				this._cacheCanvas.height = this._height;
+				this._cacheCanvas.width = width;
+				this._cacheCanvas.height = height;
 
 				// Clear the current display group cache
 				var ctx = this._cacheCanvasContext;
@@ -58,11 +58,36 @@ this.Fizz = this.Fizz || { };
 
 				// Finally, render children to the cache canvas recursively
 				this.children.forEach(function(c) {
+					
 					if(c instanceof Fizz.DisplayEntity) {
+						
+						// Temporarily change the entity's position such that its
+						// coordinates are relative to the top-left corner of the
+						// DisplayGroup to which the child is attached
+
+						var globalX = c.x,
+							globalY = c.y,
+							originalScaleX = c.scaleX,
+							originalScaleY = c.scaleY;
+
+						c.x -= this.x;
+						c.y -= this.y;
+
+						c.scaleX = originalScaleX * this._scale.x;
+						c.scaleY = originalScaleY * this._scale.y;
+
 						c.updateCache();
 						c.draw(ctx);
+
+						c.x = globalX;
+						c.y = globalY;
+
+						c.scaleX = originalScaleX;
+						c.scaleY = originalScaleY;
+
 					}
-				});
+
+				}, this);
 
 			}
 
@@ -215,10 +240,9 @@ this.Fizz = this.Fizz || { };
 			Fizz.DisplayEntity.prototype.copy.call(this, group);
 			if(group instanceof Fizz.DisplayGroup) {
 				this.empty();
-				var that = this;
 				group.children.forEach(function(child, i) {
 					this.addChild(child.clone(), i);
-				}.bind(that));
+				}, this);
 			}
 		},
 
@@ -237,14 +261,9 @@ this.Fizz = this.Fizz || { };
 
 		_getChildrenBoundingBox: function() {
 
-			if(0 === this._children.length) {
-				return [new Fizz.Point(this._x, this._y),
-						new Fizz.Point(this._x, this._y)];
-			}
-			
-			var top = null, left = null, right = null, btm = null;
+			//@TODO Leverage quad-tree boundaries to speed up computation?
 
-			//@TODO Leverage quad-tree boundaries to speed up computation
+			var top = null, left = null, right = null, btm = null;
 
 			this._children.forEach(function(c) {
 				

@@ -71,14 +71,14 @@ this.Fizz = this.Fizz || { };
 					var len = this._children.length;
 					var fromX, fromY, toX, toY;
 
-					fromX = toX = len ? this._children[len - 1].x : this._cellWidth * -1;
+					fromX = toX = len ? this._children[len - 1].x : this._cellWidth * Math.abs(this._scale.x) * -1;
 					fromY = toY = len ? this._children[len - 1].y : 0;
 					
-					if(fromX < (this._columns - 1) * this._cellWidth) {
-						toX += this._cellWidth;
+					if(fromX < (this._columns - 1) * this._cellWidth * Math.abs(this._scale.x)) {
+						toX += this._cellWidth * Math.abs(this._scale.x);
 					} else {
 						toX = 0;
-						toY += this._cellHeight;
+						toY += this._cellHeight * Math.abs(this._scale.y);
 					}
 
 					child._position = new Fizz.Point(toX, toY);
@@ -94,16 +94,13 @@ this.Fizz = this.Fizz || { };
 		},
 
 		copy: function(grid) {
-			
-			if(!(grid instanceof Fizz.DisplayGroup)) return false;
-			
 			Fizz.DisplayGroup.prototype.copy.call(this, grid);
-			this._rows = grid.rows;
-			this._columns = grid.columns;
-			
-			// In case the entity we're copying from isn't a DisplayGrid
-			this._updateChildLayout();
-
+			if(grid instanceof Fizz.DisplayGrid) {
+				this._rows = grid.rows;
+				this._columns = grid.columns;
+				// Reinitialize the child layout to match the grid settings
+				this._children.forEach(this.addChild, this);
+			}
 		},
 
 		clone: function() {

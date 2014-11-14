@@ -241,13 +241,13 @@ describe("A DisplayGroup", function() {
 		expect(group.height).toEqual(0);
 
 		var child1 = new Fizz.DisplayEntity({
-			position: [20,50],
-			size: [10,10]
+			position: [20, 50],
+			size: [10, 10]
 		});
 
 		var child2 = new Fizz.DisplayEntity({
-			position: [-50,100],
-			size: [30,30]
+			position: [-50, 100],
+			size: [30, 30]
 		});
 
 		group.addChild(child1, child2);

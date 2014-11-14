@@ -91,7 +91,7 @@ this.Fizz = this.Fizz || { };
 			if(false === this.scale.equals(this._localTexturesCache[this._texture].scale)) {
 				
 				// The new cache still needs to be scaled relative to its native size
-				var wrapper = new Fizz.Canvas(this._localTexturesCache[this._texture]);
+				var wrapper = new Fizz.Canvas(this._spritesheet.getFrame(this._texture));
 				
 				cachedTexture = wrapper.scale.call(wrapper, this.scale.x, this.scale.y, true);
 				cachedTexture.scale = this._scale.clone();

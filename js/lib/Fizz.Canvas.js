@@ -16,8 +16,8 @@ this.Fizz = this.Fizz || { };
 		scale: function(scaleX, scaleY, useNearestNeighbor) {
 
 			// No scaling necessary if scale is native
-			if(scaleX === scaleY && 1 === scaleY) {
-				return this._DOMElement.splice();
+			if(1 === scaleX && 1 === scaleY) {
+				return this.splice();
 			}
 
 			useNearestNeighbor = (!!useNearestNeighbor !== false);
@@ -54,6 +54,10 @@ this.Fizz = this.Fizz || { };
 
 		splice: function(x, y, width, height) {
 
+			if(0 === this._DOMElement.width || 0 === this._DOMElement.height) {
+				return document.createElement('canvas');
+			}
+
 			// Allow passing in area parameters as a list
 			if(arguments[0] && arguments[0] instanceof Array) {
 				return this.splice.apply(this, arguments[0]);
@@ -62,8 +66,8 @@ this.Fizz = this.Fizz || { };
 			x = (typeof x === "number") ? x : 0;
 			y = (typeof y === "number") ? y : 0;
 
-			width = (typeof width === "number") ? width : this.width;
-			height = (typeof height === "number") ? height : this.height;
+			width = (typeof width === "number") ? width : this._DOMElement.width;
+			height = (typeof height === "number") ? height : this._DOMElement.height;
 
 			var clipping = document.createElement('canvas');
 				clipping.width = width;
@@ -196,6 +200,16 @@ this.Fizz = this.Fizz || { };
 				}
 			}.assign(baseMouseMappings);
 			
+			// Mousemove event mapping
+			mappings.mousemove = {
+				'type': {
+					property: 'type',
+					transform: function() {
+						return Canvas.EVENTS.MOUSEMOVE;
+					}
+				}
+			}.assign(baseMouseMappings);
+
 			// Keydown event mapping
 			mappings.keydown = {
 				'type': {

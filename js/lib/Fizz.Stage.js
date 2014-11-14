@@ -2,9 +2,10 @@
 this.Fizz = this.Fizz || { };
 
 //@TODOS
-// - Implement and test DisplayGroup scaling with child Graphics/Sprites
 // - Implement CollisionDetector and CollisionResolver classes
 // - Factor collision code out of Fizz.Rectangle
+// - Add support for proxy hitboxes on DisplayEntities
+// - Give '_filters' property to DisplayEntity ('addFilter','removeFilter')
 
 (function() {
 
@@ -202,8 +203,6 @@ this.Fizz = this.Fizz || { };
 						}
 
 						var targets = getMouseTargets(this);
-
-						// console.log(targets);
 
 						if(targets.length > 0) {
 							var delegated = e.clone();

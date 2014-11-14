@@ -213,10 +213,13 @@ describe("A DisplayEntity", function() {
 			'position': [50, 50],
 			'size': [5, 5]
 		});
+
+		entity1.updateCache();
 		
 		var entity2 = entity1.clone();
 		
 		expect(entity2.alpha).toEqual(entity1.alpha);
+		
 		expect(entity2.lineWidth).toEqual(entity1.lineWidth);
 
 		expect(entity1.fillStyle
@@ -227,9 +230,10 @@ describe("A DisplayEntity", function() {
 			.equals(entity2.strokeStyle))
 			.toBeTruthy();
 
-		//@TODO Shouldn't cloned entities be given their own cacheCanvas instance?
-		expect(entity2._cacheCanvas).toBe(entity1._cacheCanvas);
-		expect(entity2._cacheCanvasContext).toBe(entity1._cacheCanvasContext);
+		expect(entity2._cacheCanvas).not.toBe(entity1._cacheCanvas);
+		expect(entity2._cacheCanvas.width).toEqual(entity1._cacheCanvas.width);
+		expect(entity2._cacheCanvas.height).toEqual(entity1._cacheCanvas.height);
+		expect(entity2._cacheCanvasContext.canvas).toBe(entity2._cacheCanvas);
 
 	});
 

@@ -107,15 +107,16 @@ this.Fizz = this.Fizz || { };
 
 			context.drawImage(this._cacheCanvas, global.x + 0.5, global.y + 0.5);
 
-			// Make sure that we're still mapping to global space
-			var data = global.toList().concat([
-				this.width * Math.abs(this.scale.x),
-				this.height * Math.abs(this.scale.y)
-			]);
-			
 			//@TODO Create environment module for setting dev-mode flags
 			// Post-render wireframe (for dev mode)
-			this._drawBoundingBox(context, data);
+			
+			// Make sure that we're still mapping to global space
+			// var data = global.toList().concat([
+			// 	this.width * Math.abs(this.scale.x),
+			// 	this.height * Math.abs(this.scale.y)
+			// ]);
+			
+			// this._drawBoundingBox(context, data);
 
 		},
 
@@ -133,8 +134,18 @@ this.Fizz = this.Fizz || { };
 					this.fillStyle = (new Fizz.Color()).copy(entity.fillStyle);
 				if(entity.strokeStyle !== Fizz.DisplayEntity.DEFAULT_STROKE_STYLE)
 					this.strokeStyle = (new Fizz.Color()).copy(entity.strokeStyle);
-			
-				//@TODO Logic for _cacheCanvas copying
+
+				var cacheCopy = document.createElement("canvas");
+					cacheCopy.width = entity.width + 1;
+					cacheCopy.height = entity.height + 1;
+					
+				var cacheCopyWrapper = new Fizz.Canvas(cacheCopy);
+
+				this._cacheCanvas = cacheCopyWrapper.splice();
+				
+				// Decorate canvas element with scale data
+				this._cacheCanvas.scale = this.scale.clone();
+				this._cacheCanvasContext = this._cacheCanvas.getContext("2d");
 
 			}
 

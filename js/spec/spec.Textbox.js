@@ -103,6 +103,10 @@ describe("A Textbox", function() {
 		expect(textbox.content).toMatch(helloWorld.content);
 		expect(textbox.maxColumnLength).toMatch(helloWorld.maxColumnLength);
 
+		expect(textbox._cacheCanvas).not.toBe(helloWorld._cacheCanvas);
+		expect(textbox._cacheCanvas.width).toEqual(86 * textbox.columns);
+		expect(textbox._cacheCanvas.height).toEqual(140 * textbox.rows);
+
 	});
 
 	it("can be used to create new Textboxes (clones)", function() {

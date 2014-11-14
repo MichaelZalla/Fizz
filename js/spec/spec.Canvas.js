@@ -6,6 +6,14 @@ describe("A Canvas", function() {
 
 	beforeEach(function() {
 
+		// Clear the page of any canvases
+		window.document.body.getElementsByTagName("CANVAS")
+		.forEach(function(canvas) {
+			if(canvas instanceof HTMLCanvasElement) {
+				window.document.body.removeChild(canvas);
+			}
+		});
+		
 		// Construct an empty HTML document
 		doc = window.document;
 		
