@@ -2,6 +2,7 @@
 this.Fizz = this.Fizz || { };
 
 //@TODOS
+// - Look at using Object Pooling for frequently-fired events?
 // - Implement CollisionDetector and CollisionResolver classes
 // - Factor collision code out of Fizz.Rectangle
 // - Add support for proxy hitboxes on DisplayEntities
@@ -32,6 +33,7 @@ this.Fizz = this.Fizz || { };
 			// element associated with it just yet ...
 
 			this._canvas = null;
+			this._prevCanvas = null;
 			this._canvasContext = context;
 
 			// Listen for changes to the Stage context's canvas reference

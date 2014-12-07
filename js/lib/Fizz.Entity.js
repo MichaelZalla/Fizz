@@ -23,7 +23,7 @@ this.Fizz = this.Fizz || { };
 		update: function(deltaT) {
 			deltaT = (typeof deltaT === "number") ? deltaT : 1;
 			if((this._life -= deltaT) < 1) {
-				this.exists = false;
+				this.kill();
 			}
 			this._velocity.x += (this._acceleration.x * deltaT);
 			this._velocity.y += (this._acceleration.y * deltaT);
@@ -34,6 +34,7 @@ this.Fizz = this.Fizz || { };
 		kill: function() {
 			this.emit(Fizz.Entity.EVENTS.DEATH);
 			this.exists = false;
+			//@TODO Should 'kill' remove from parent?
 			this.parent = null;
 			return this;
 		},

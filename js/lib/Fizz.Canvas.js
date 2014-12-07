@@ -147,15 +147,23 @@ this.Fizz = this.Fizz || { };
 				'clientX': {
 					property: 'mouseX',
 					transform: function(x) {
-						return (typeof x === "number") ?
+						var c = this._DOMElement;
+						var cScaleX = (c.clientWidth / c.width);
+						var unscaledXPos = (typeof x === "number") ?
 							x - this.windowPosition.x : 0;
+						// account for CSS scaling of canvas element
+						return Math.floor(unscaledXPos / cScaleX);
 					}
 				},
 				'clientY': {
 					property: 'mouseY',
 					transform: function(y) {
-						return (typeof y === "number") ?
+						var c = this._DOMElement;
+						var cScaleY = (c.clientHeight / c.height);
+						var unscaledYPos = (typeof y === "number") ?
 							y - this.windowPosition.y : 0;
+						// account for CSS scaling of canvas element
+						return Math.floor(unscaledYPos / cScaleY);
 					}
 				}
 			};
@@ -315,6 +323,7 @@ this.Fizz = this.Fizz || { };
 
 	Canvas.prototype.exposeProperty("element", "_DOMElement", function(elem) {
 		if(elem instanceof HTMLCanvasElement) {
+			//@TODO Remove event listeners on previous canvas instance?
 			this._DOMElement = elem;
 			this._registerEventMappingListeners();
 		}

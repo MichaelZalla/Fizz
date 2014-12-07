@@ -73,8 +73,10 @@ this.Fizz = this.Fizz || { };
 				this._cacheCanvas.height = Math.floor(this.height * Math.abs(this.scale.y)) + 1;
 			}
 
+			//@TODO Double-check correctness of zero-pixel offset
 			var context = this._cacheCanvasContext,
-				boundingBoxData = [0.5, 0.5, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
+				// boundingBoxData = [0.5, 0.5, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
+				boundingBoxData = [0, 0, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
 
 			// Reset the canvas and re-draw the bounding box
 			context.clearRect(0, 0, this.width + 1, this.height + 1);
@@ -179,8 +181,8 @@ this.Fizz = this.Fizz || { };
 			context.strokeStyle = this._strokeStyle.toRGB(true);
 			context.lineWidth 	= this._lineWidth;
 			
-			// context.fill();
-			context.stroke();
+			context.fill();
+			// context.stroke();
 		}
 
 	});
