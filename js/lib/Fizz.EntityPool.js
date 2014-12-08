@@ -11,13 +11,14 @@ this.Fizz = this.Fizz || { };
 				throw new Error("EntityPool must be instantiated with a valid Entity prototype");
 			}
 
-			// Initialize class members
 			this._pool = [ ];
 			this._firstAvailable = null;
 			this._prototypeEntity = null;
 			this._resetFn = null;			
 			this._size = 0;
 			this._sizeIsDynamic = false;
+
+			this._activeEntityCount = 0;
 
 			// Update the prototype reference
 			this._prototypeEntity = prototypeEntity;
@@ -64,6 +65,8 @@ this.Fizz = this.Fizz || { };
 			this._resetFn.call(node);
 			node.exists = true;
 
+			this._activeEntityCount += 1;
+
 			return node;
 
 		},
@@ -72,6 +75,7 @@ this.Fizz = this.Fizz || { };
 			// Add the released entity to the front of the list
 			entity._next = this._firstAvailable;
 			this._firstAvailable = entity;
+			this._activeEntityCount -= 1;
 		},
 
 		toString: function() {
@@ -100,18 +104,6 @@ this.Fizz = this.Fizz || { };
 			this._pool.push(clone);
 			this._size += 1;
 
-		},
-
-		_getCountInactive: function() {
-			var count = 0,
-				ptr = this._firstAvailable;
-			//@TODO Could store a size value that updates on reserve/release!
-			while(ptr !== null) {
-				ptr = ptr._next;
-				count += 1;
-			}
-			// O(n) worst-case
-			return count;
 		}
 
 	});
@@ -123,6 +115,7 @@ this.Fizz = this.Fizz || { };
 	// Public properties
 
 	EntityPool.prototype.exposeProperty("size");
+	EntityPool.prototype.exposeProperty("activeEntityCount");
 	
 	EntityPool.prototype.exposeProperty("sizeIsDynamic", "_sizeIsDynamic",
 		Fizz.restrict.toBoolean("_sizeIsDynamic"));
