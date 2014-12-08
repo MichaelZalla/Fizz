@@ -7,15 +7,15 @@ this.Fizz = this.Fizz || { };
 		throw new Error("Error: UID object cannot be instantiated!");
 	};
 
+	// Private properties
+	var _nextID = 0;
+
 	// Public methods
 	UID.get = function() {
-		return UID._nextID++;
+		return _nextID++;
 	};
 
-	// Private properties
-	UID._nextID = 0;
-
-	// Class export
+	// Singleton export
 	Fizz.UID = UID;
 
 }());

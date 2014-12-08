@@ -9,23 +9,25 @@ require('string-format');
 var components = [
 	
 	'Base',
+	'Object',
+	'Logger',
+	'UID',
 	'Math',
+	'Color',
 
 	'Event',
 	'EventEmitter',
+	'Canvas',
 
 	'Point',
 	'Rectangle',
-
-	'UID',
 	'Entity',
+	'EntityPool',
 
-	'Color',
-	'Canvas',
-	
 	'DisplayEntity',
 	'DisplayGroup',
 	'DisplayGrid',
+	
 	'Stage',
 
 	'Spritesheet',
