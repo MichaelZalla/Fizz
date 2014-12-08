@@ -16,7 +16,7 @@ this.Fizz = this.Fizz || { };
 			this._prototypeEntity = null;
 			this._resetFn = null;			
 			this._size = 0;
-			this._sizeIsDynamic = false;
+			this._sizeIsDynamic = true;
 
 			this._activeEntityCount = 0;
 
@@ -110,7 +110,7 @@ this.Fizz = this.Fizz || { };
 
 	// Static class members
 	
-	EntityPool.DEFAULT_SIZE = 100;
+	EntityPool.DEFAULT_SIZE = 0;
 
 	// Public properties
 
