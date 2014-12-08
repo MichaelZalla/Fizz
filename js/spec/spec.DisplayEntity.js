@@ -114,8 +114,8 @@ describe("A DisplayEntity", function() {
 		
 		// Update the dimensions of both entities
 		entity1.width = entity2.width = 200;
-		entity1.draw(context); // Should trigger caching
-		entity2.draw(context); // Should not trigger caching
+		entity1.draw__optimized(context); // Should trigger caching
+		entity2.draw__optimized(context); // Should not trigger caching
 
 		// Compare old cache dimension to current cache dimension
 		expect(previousCacheWidth1).toEqual(entity1._cacheCanvas.width);

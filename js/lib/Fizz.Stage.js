@@ -112,7 +112,7 @@ this.Fizz = this.Fizz || { };
 
 			this.children.forEach(function(c) {
 				if(c instanceof Fizz.DisplayEntity) {
-					c.draw(this._canvasContext);
+					c.draw__optimized(this._canvasContext);
 				}
 			}, this);
 

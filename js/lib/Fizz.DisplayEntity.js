@@ -59,67 +59,85 @@ this.Fizz = this.Fizz || { };
 			// }
 		},
 
+		draw__optimized: function(context) {
+
+			//@TODO 'draw' method should RELY on cache, not vice-versa
+
+			if(typeof context === "undefined") return false;
+			if(false === this.exists || !this._isVisible()) return false;
+
+			var pos = this._getGlobalPosition();
+
+			// Nudge draw position for Retina screens
+			if(this._snapToPixel) {
+				pos.x = Math.floor(pos.x) + 0.5;
+				pos.y = Math.floor(pos.y) + 0.5;
+			}
+
+			// We will rely on trigger to handle updating dirty caches
+			// instead of checking for a dirty cache at draw time
+			if(null === this._cacheCanvas || false === this._caching) {
+				this.updateCache();
+			}
+
+			//@TODO constant save-restore may be unecessary work
+			context.save();
+			context.imageSmoothingEnabled =
+			context.mozImageSmoothingEnabled =
+			context.webkitImageSmoothingEnable = !(this._snapToPixel);
+			context.drawImage(this._cacheCanvas, pos.x, pos.y);
+			context.restore();
+
+			//@TODO Create environment module for setting dev-mode flags
+			// Post-render wireframe (for dev mode)
+
+		},
+
+		draw: function(ctx) {
+
+			ctx.beginPath();
+			ctx.rect(0.5, 0.5,
+				this.width * Math.abs(this.scale.x),
+				this.height * Math.abs(this.scale.y));
+			ctx.closePath();
+			
+			ctx.fillStyle 	= this._fillStyle.toRGB(true);
+			ctx.strokeStyle = this._strokeStyle.toRGB(true);
+			ctx.lineWidth 	= this._lineWidth;
+			
+			ctx.fill();
+
+		},
+
 		updateCache: function() {
 
+			// Prepare the cache canvas to reflect any changes to state
 			if(null === this._cacheCanvas) {
 				this._cacheCanvas = document.createElement("canvas");
 				this._cacheCanvasContext = this._cacheCanvas.getContext("2d");
 			}
 
-			//@TODO should changes to width/height be triggers like scale/alpha?
+			//@TODO Should changes to width/height trigger re-cache (like scale)
 			if(!!(this.width !== this._cacheCanvas.width ||
 				  this.height !== this._cacheCanvas.height)) {
 				this._cacheCanvas.width = Math.floor(this.width * Math.abs(this.scale.x)) + 1;
 				this._cacheCanvas.height = Math.floor(this.height * Math.abs(this.scale.y)) + 1;
 			}
 
-			//@TODO Double-check correctness of zero-pixel offset
-			var context = this._cacheCanvasContext,
-				// boundingBoxData = [0.5, 0.5, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
-				boundingBoxData = [0, 0, this.width * Math.abs(this.scale.x), this.height * Math.abs(this.scale.y)];
+			//@TODO double-check correctness of half-pixel offsets
+			this._cacheCanvasContext.clearRect(
+				0.5,
+				0.5,
+				this.width * Math.abs(this.scale.x),
+				this.height * Math.abs(this.scale.y)
+			);
 
-			// Reset the canvas and re-draw the bounding box
-			context.clearRect(0, 0, this.width + 1, this.height + 1);
-			context.globalAlpha = this._alpha;
-			this._drawBoundingBox(context, boundingBoxData);
+			this._cacheCanvasContext.globalAlpha = this._alpha;
+
+			this._cacheCanvasContext.save();
+			this.draw(this._cacheCanvasContext);
+			this._cacheCanvasContext.restore();
 			
-		},
-
-		draw: function(context) {
-
-			if(typeof context === "undefined") return false;
-			if(false === this.exists || !this._isVisible()) return false;
-
-			var global = this._getGlobalPosition();
-
-			if(this._snapToPixel) {
-				global.x = Math.floor(global.x) + 0.5;
-				global.y = Math.floor(global.y) + 0.5;
-			}
-
-			context.save();
-
-			context.imageSmoothingEnabled =
-			context.mozImageSmoothingEnabled =
-			context.webkitImageSmoothingEnable = !(this._snapToPixel);
-
-			if(null === this._cacheCanvas || false === this._caching) {
-				this.updateCache();
-			}
-
-			context.drawImage(this._cacheCanvas, global.x + 0.5, global.y + 0.5);
-
-			//@TODO Create environment module for setting dev-mode flags
-			// Post-render wireframe (for dev mode)
-			
-			// Make sure that we're still mapping to global space
-			// var data = global.toList().concat([
-			// 	this.width * Math.abs(this.scale.x),
-			// 	this.height * Math.abs(this.scale.y)
-			// ]);
-			
-			// this._drawBoundingBox(context, data);
-
 		},
 
 		copy: function(entity) {
@@ -169,20 +187,6 @@ this.Fizz = this.Fizz || { };
 			return !(0 === this.width * this.scale.x ||
 					 0 === this.height * this.scale.y ||
 					 0 === this._alpha || false === this.exists);
-		},
-
-		_drawBoundingBox: function(context, data) {
-			
-			context.beginPath();
-			context.rect.apply(context, data);
-			context.closePath();
-			
-			context.fillStyle 	= this._fillStyle.toRGB(true);
-			context.strokeStyle = this._strokeStyle.toRGB(true);
-			context.lineWidth 	= this._lineWidth;
-			
-			context.fill();
-			// context.stroke();
 		}
 
 	});
@@ -224,7 +228,7 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("scaleX", "_scale.x",
 		function(value) {
-			if(typeof value === "number") {
+			if(typeof value === "number" && value !== this._scale.x) {
 				this._scale.x = value;
 				this.updateCache();
 			}
@@ -232,7 +236,7 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("scaleY", "_scale.y",
 		function(value) {
-			if(typeof value === "number") {
+			if(typeof value === "number" && value !== this._scale.y) {
 				this._scale.y = value;
 				this.updateCache();
 			}
@@ -240,9 +244,9 @@ this.Fizz = this.Fizz || { };
 
 	DisplayEntity.prototype.exposeProperty("alpha", "_alpha",
 		function(value) {
+			// Only re-cache if the alpha value really changes
 			var tmp = this._alpha;
 			Fizz.restrict.toRange("_alpha", [0, 1]).call(this, value);
-			// Only re-cache if the alpha value really changes
 			if(this._alpha !== tmp) this.updateCache();
 		});
 

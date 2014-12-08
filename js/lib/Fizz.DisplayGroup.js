@@ -93,18 +93,18 @@ this.Fizz = this.Fizz || { };
 
 		},
 
-		draw: function(context) {
+		draw__optimized: function(context) {
 
 			// Either we draw all children recursively
 			if(false === this._caching) {
 				this.children.forEach(function(child) {
-					child.draw(context);
+					child.draw__optimized(context);
 				});
 				return;
 			}
 			
 			// Or we simply paint the entire display group cache
-			Fizz.DisplayEntity.prototype.draw.call(this, context);
+			Fizz.DisplayEntity.prototype.draw__optimized.call(this, context);
 
 		},
 
