@@ -20,7 +20,8 @@ this.Fizz = this.Fizz || { };
 				return this.splice();
 			}
 
-			useNearestNeighbor = (!!useNearestNeighbor !== false);
+			useNearestNeighbor = (typeof useNearestNeighbor === "boolean") ?
+				useNearestNeighbor : true;
 
 			// Create a canvas with new dimensions
 			var copy = document.createElement("canvas");
