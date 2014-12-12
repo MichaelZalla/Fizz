@@ -14,13 +14,15 @@ this.Fizz = this.Fizz || { };
 
 		addEventListener: function(type, listener, useCapture) {
 			
-			// Decorate listener function with phase information
-			//@TODO Double-check that this type of value-casting works as expected
-			listener.useCapture = (!!useCapture !== false); // jshint ignore:line
+			useCapture = (typeof useCapture === "boolean") ?
+				useCapture : false;
+
+			// Decorate the listener function with phase information
+			listener.useCapture = useCapture;
 
 			// Allow first argument to be comma-separated list of types
 			var split = type.replace(/(\s)/,'').split(/[ ,]+/);
-			if(split.length > 1) { type = split; }
+			if(split.length > 1) type = split;
 			
 			if(type instanceof Array) {
 				
@@ -49,10 +51,11 @@ this.Fizz = this.Fizz || { };
 
 		removeEventListener: function(type, listener, useCapture) {
 			
-			useCapture = (!!useCapture !== false); // jshint ignore:line
+			useCapture = (typeof useCapture === "boolean") ?
+				useCapture : false;
 
 			var split = type.replace(/(\s)/,'').split(/[ ,]+/);
-			if(split.length > 1) { type = split; }
+			if(split.length > 1) type = split;
 			
 			if(type instanceof Array) {
 				for(var i = 0; i < type.length; i++) {
