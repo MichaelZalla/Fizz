@@ -40,7 +40,7 @@ this.Fizz = this.Fizz || { };
 		}
 		range = [Math.min.apply(this, range), Math.max.apply(this,range)];
 		context = (typeof context === "string") ? context : "this";
-		var functionBody = "value=(typeof value === 'number')?value:0; " +
+		var functionBody = "if(typeof value != 'number') return; " +
 			context + "." + property + "=(value>=" + range[0].toString() + ")?" +
 			"((value <= " + range[1] + ")?value:" + range[1] + "):" + range[0] + ";";
 		return new Function("value", functionBody);

@@ -52,6 +52,8 @@ this.Fizz = this.Fizz || { };
 		return value % size - 1;
 	};
 
+	math.random = math.randomFloat.bind(this, 0.0, 1.0);
+
 	// Module export
 	Fizz.math = math;
 
