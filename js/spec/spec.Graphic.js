@@ -7,7 +7,7 @@ describe("A Graphic", function() {
 
 		// Create a sample spritesheet
 		spritesheet = new Fizz.Spritesheet({
-			source: '/suites/assets/spritesheets/tiles.png',
+			source: 'assets/spec/spritesheets/tiles.png',
 			frames: {
 				'width': 16,
 				'height': 16,
@@ -41,7 +41,7 @@ describe("A Graphic", function() {
 
 	it("can be instantiated with a URI", function(done) {
 		
-		var uri = "/suites/assets/spritesheets/spy.png";
+		var uri = "assets/spec/spritesheets/spy.png";
 		
 		graphic = new Fizz.Graphic(uri);
 
@@ -61,7 +61,7 @@ describe("A Graphic", function() {
 
 	it("can be instantiated from an existing Image object", function(done) {
 
-		var uri = "/suites/assets/spritesheets/spy.png",
+		var uri = "assets/spec/spritesheets/spy.png",
 			spy = new Image(),
 			graphic = null;
 
@@ -100,7 +100,7 @@ describe("A Graphic", function() {
 
 		expect(graphic.spritesheet).toBe(spritesheet);
 
-		var spysheet = new Fizz.Spritesheet("/suites/assets/spritesheets/spy.png");
+		var spysheet = new Fizz.Spritesheet("assets/spec/spritesheets/spy.png");
 
 		graphic.spritesheet = spysheet;
 		

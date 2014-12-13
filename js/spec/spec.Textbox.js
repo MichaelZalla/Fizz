@@ -1,6 +1,6 @@
 describe("A Textbox", function() {
 
-	var uri = "/suites/assets/fontsheets/font1.png",
+	var uri = "assets/spec/fontsheets/font1.png",
 		fontsheet = null,
 		textbox = null;
 

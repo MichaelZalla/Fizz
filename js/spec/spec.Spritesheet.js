@@ -1,7 +1,7 @@
 describe("A Spritesheet", function() {
 
 	var sheet = null,
-		uri = "/suites/assets/spritesheets/tiles.png";
+		uri = "assets/spec/spritesheets/tiles.png";
 
 	beforeEach(function(done) {
 		sheet = new Fizz.Spritesheet(uri);
@@ -57,7 +57,7 @@ describe("A Spritesheet", function() {
 	it("can load a different image to replace its current image", function(done) {
 		
 		expect(sheet.sourceWidth).toEqual(128);
-		sheet.source = "/suites/assets/spritesheets/spy.png";
+		sheet.source = "assets/spec/spritesheets/spy.png";
 		sheet.addEventListener('load', function() {
 			expect(sheet.sourceWidth).toEqual(184);
 			done();

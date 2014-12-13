@@ -1,4 +1,19 @@
-describe("The Object module", function() {
+describe("The Fizz library", function() {
+
+	it("introduces the Fizz library object into the global scope", function() {
+		expect(Fizz).toBeDefined();
+		expect(window.Fizz).toBeDefined();
+		expect(Fizz).toBe(window.Fizz);
+	});
+
+	describe("The 'noop' function", function() {
+
+		it("acts as a single referencable instance of an empty function", function() {
+			expect(typeof Fizz.noop).toMatch("function");
+			expect(Fizz.noop()).toBeUndefined();
+		});
+
+	});
 
 	it("gives the Object prototype a method for assigning getters for an " +
 	   "object's 'private' properties", function() {

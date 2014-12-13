@@ -3,8 +3,6 @@ this.Fizz = this.Fizz || { };
 
 (function() {
 
-	Fizz.noop = function() { };
-
 	/* Fizz.restrict module for setter generator methods */
 
 	Fizz.restrict = { };
@@ -48,4 +46,4 @@ this.Fizz = this.Fizz || { };
 		return new Function("value", functionBody);
 	};
 
-})();
+}());

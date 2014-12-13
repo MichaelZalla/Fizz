@@ -3,7 +3,9 @@ this.Fizz = this.Fizz || { };
 
 (function() {
 
-	/* Non-enumerable extensions to native Object prototype */
+	Fizz.noop = function() { };
+
+	/* Non-enumerable ES5 extensions to native Object prototype */
 
 	/* Object.prototype.exposeProperty */
 	Object.defineProperty(Object.prototype, 'exposeProperty', {
@@ -112,10 +114,14 @@ this.Fizz = this.Fizz || { };
 	if(typeof Object.prototype.keys !== "function") {
 		Object.defineProperty(Object.prototype, 'keys', {
 			value: function() {
-				if(this instanceof Array) {
-					return Array.prototype.keys.call(this);
-				}
 				var keys = [ ];
+				//@TODO Is this actually a thing?
+				//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/keys
+				// if(typeof Array.prototype.keys === "function" && this instanceof Array) {
+				// 	var iter = Array.prototype.keys.call(this);
+				// 	while(keys.push(iter.next().value)) { }
+				// 	return keys;
+				// }
 				for(var key in this) {
 					if(this.hasOwnProperty(key)) {
 						keys.push(key);

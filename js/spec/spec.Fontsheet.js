@@ -1,7 +1,7 @@
 describe("A Fontsheet", function() {
 
 	var sheet = null,
-		uri = "/suites/assets/fontsheets/font1.png";
+		uri = "assets/spec/fontsheets/font1.png";
 
 	beforeEach(function(done) {
 

@@ -102,26 +102,13 @@ describe("A Canvas", function() {
 
 	});
 
-	it("offers a method for returning a copy of the canvas that has been " +
-	   "scaled as specified", function() {
+	it("offers a method for returning a scaled copy of the canvas", function() {
 
 	   	var scaledDown = wrapper.scale(0.5, 0.25);
 	   	expect(scaledDown.width).toEqual(canvasElement.width * 0.5);
 	   	expect(scaledDown.height).toEqual(canvasElement.height * 0.25);
 
 	});
-
-	//@TODO Should this functionality be here?
-	// it("will decorate scaled canvas copies with a 'scale' property," +
-	//    "which holds a Fizz.Point instance describing its scale relative" +
-	//    "to the canvas from which the copy originated", function() {
-
-	//    	var newScale = new Fizz.Point(4, 4);
-	//    	var scaledUp = wrapper.scale.apply(wrapper, newScale.toList());
-	//    	expect(scaledUp.scale).not.toBe(newScale);
-	//    	expect(scaledUp.scale.equals(newScale)).toBeTruthy();
-
-	// });
 	
 	it("offers a method for copying a portion (or all) of its associated " +
 	   "canvas element's image data into a new canvas element", function() {

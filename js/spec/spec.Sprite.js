@@ -45,7 +45,7 @@ describe("A Sprite", function() {
 	   "the current (animation) frame", function(done) {
 
 		sheet = new Fizz.Spritesheet({
-			source: "/suites/assets/spritesheets/tiles.png",
+			source: "assets/spec/spritesheets/tiles.png",
 			frames: {
 				width: 16,
 				height: 16,
@@ -78,7 +78,7 @@ describe("A Sprite", function() {
 	it("offers methods for changing its current animation", function() {
 
 		sheet = new Fizz.Spritesheet({
-			source: "/suites/assets/spritesheets/tiles.png",
+			source: "assets/spec/spritesheets/tiles.png",
 			frames: {
 				width: 16,
 				height: 16,
@@ -106,7 +106,7 @@ describe("A Sprite", function() {
 	it("can assume the properties of an existing Sprite", function() {
 
 		sheet = new Fizz.Spritesheet({
-			source: "/suites/assets/spritesheets/tiles.png",
+			source: "assets/spec/spritesheets/tiles.png",
 			frames: {
 				width: 16,
 				height: 16,
@@ -138,7 +138,7 @@ describe("A Sprite", function() {
 	it("can be used to create new Sprites (clones)", function() {
 
 		sheet = new Fizz.Spritesheet({
-			source: "/suites/assets/spritesheets/tiles.png",
+			source: "assets/spec/spritesheets/tiles.png",
 			frames: {
 				width: 16,
 				height: 16,
