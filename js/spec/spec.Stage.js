@@ -36,7 +36,7 @@ describe("A Stage", function() {
 
 	});
 
-	it("expects a HTMLCanvasContext2D instance to be passed to its constructor",
+	it("expects a CanvasRenderingContext2D instance to be passed to its constructor",
 	function() {
 		var canvas = window.document.createElement("canvas");
 		var context = canvas.getContext("2d");
