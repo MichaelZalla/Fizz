@@ -7,18 +7,17 @@ this.Fizz = this.Fizz || { };
 			
 		init: function(prototypeEntity, size, sizeIsDynamic, resetFn) {
 			
+			//@TODO Is it *really* necessary that the prototype must be an Entity?
+			// All the entity should really (optionally) need is a 'clone' method
 			if(false === prototypeEntity instanceof Fizz.Entity) {
 				throw new Error("EntityPool must be instantiated with a valid Entity prototype");
 			}
 
 			this._pool = [ ];
-			this._firstAvailable = null;
-			this._prototypeEntity = null;
-			this._resetFn = null;			
 			this._size = 0;
 			this._sizeIsDynamic = true;
-
 			this._activeEntityCount = 0;
+			this._firstAvailable = null;
 
 			// Update the prototype reference
 			this._prototypeEntity = prototypeEntity;
@@ -34,12 +33,11 @@ this.Fizz = this.Fizz || { };
 			}
 
 			// Via dynamic setters
-			this.resetFn = resetFn;			
 			this.sizeIsDynamic = sizeIsDynamic;
 
 			size = (typeof size === "number") ? size : EntityPool.DEFAULT_SIZE;
 
-			this._grow(size); // zero to 'size'
+			if(size > 0) { this._grow(size); }
 
 		},
 
@@ -50,7 +48,7 @@ this.Fizz = this.Fizz || { };
 			// If all entities are reserved (or pool is empty)
 			if(null === node) {
 				if(this._sizeIsDynamic) {
-					this._grow(this._size); // double the pool size – O(ln)
+					this._grow(this._size || 1); // double the pool size – O(ln)
 					node = this._firstAvailable;
 				} else {
 					return node;
@@ -77,6 +75,15 @@ this.Fizz = this.Fizz || { };
 			this._firstAvailable = entity;
 			this._activeEntityCount -= 1;
 		},
+		
+		drain: function() {
+			// Lose all references local to the pool object. This will trigger
+			// garbage collection for entities that aren't referenced elsewhere
+			this._firstAvailable = null;
+			this._size = 0;
+			this._activeEntityCount = 0;
+			this._pool = [ ];
+		},
 
 		toString: function() {
 			return "[EntityPool (size='" + this._size + "')]";
@@ -86,23 +93,31 @@ this.Fizz = this.Fizz || { };
 
 		_grow: function(size) {
 
-			// Allow pool to grow based on an incremental value
-			if(arguments.length && typeof size === "number" && size) {
-				console.log("Growing pool to size ", this._size + size);
-				for(var i = 0; i < size; i++) {
-					this._grow();
-				}
-				return;
+			size = (typeof size === "number" && 0 < size) ? size : 1;
+
+			if(1 < size) {
+				// console.log("Growing pool to size ", this._size + size);
 			}
 
-			// Use metadata to create a linked list of free entities
-			clone = this._prototypeEntity.clone();
-			clone._next = this._firstAvailable;
+			for(var i = 0; i < size; i++) {
 
-			// Add the 'node' to the pool
-			this._firstAvailable = clone;
-			this._pool.push(clone);
-			this._size += 1;
+				var entity = this._prototypeEntity.clone();
+
+				// Use metadata to create a free-list of entities
+				entity._next = null;
+
+				// Add a new entity to the pool and increment size
+				this._pool.push(entity);
+				this._size += 1;
+
+				// Cleanup '_firstAvailable' reference if necessary
+				if(null === this._firstAvailable) {
+					this._firstAvailable = entity;
+				} else {
+					this._pool[this._size - 2]._next = entity; 
+				}
+
+			}
 
 		}
 
