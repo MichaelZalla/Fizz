@@ -5,12 +5,12 @@ this.Fizz = this.Fizz || { };
 
 	var Canvas = Object.extend({
 
-		init: function(canvasElement) {
+		init: function(element) {
 
-			// Safely assign or ignore value of 'canvasElement'
+			// Safely assign or ignore value of 'element'
 			this._DOMElement = document.createElement("canvas");
-
-			this.element = canvasElement;
+			this._DOMElementListeners = [ ];
+			this.element = element;
 
 		},
 
@@ -133,9 +133,9 @@ this.Fizz = this.Fizz || { };
 
 		},
 
-		_registerEventMappingListeners: function() {
+		_bind: function(element) {
 
-			if(null === this._DOMElement) return;
+			if(!(element instanceof HTMLCanvasElement)) return null;
 			
 			// Decorate canvas event objects with context-dependent data
 			
@@ -148,7 +148,7 @@ this.Fizz = this.Fizz || { };
 				'clientX': {
 					property: 'mouseX',
 					transform: function(x) {
-						var c = this._DOMElement;
+						var c = element;
 						var cScaleX = (c.clientWidth / c.width);
 						var unscaledXPos = (typeof x === "number") ?
 							x - this.windowPosition.x : 0;
@@ -159,7 +159,7 @@ this.Fizz = this.Fizz || { };
 				'clientY': {
 					property: 'mouseY',
 					transform: function(y) {
-						var c = this._DOMElement;
+						var c = element;
 						var cScaleY = (c.clientHeight / c.height);
 						var unscaledYPos = (typeof y === "number") ?
 							y - this.windowPosition.y : 0;
@@ -245,11 +245,8 @@ this.Fizz = this.Fizz || { };
 
 			mappings.foreach(function(mapping, domEventType) {
 
-				var domTarget = (globalDOMEvents.indexOf(domEventType) > -1) ?
-					window.document.body : this._DOMElement;
-
 				// Catch the DOM event when it occurs on the document/canvas
-				domTarget.addEventListener(domEventType, function(e) {
+				var mapDOMEvent = function(e) {
 
 					// Construct a data object for decorating the new Fizz.Event
 					var data = { };
@@ -272,16 +269,31 @@ this.Fizz = this.Fizz || { };
 
 					// Emit a custom (decorated) Fizz.Event from the Canvas
 					this.emit.call(this, data.type, data);
+					
+				}.bind(this);
 
-				}.bind(this));
+				// Resolve the DOM event's target element
+				var domTarget = (globalDOMEvents.indexOf(domEventType) > -1) ?
+					window.document.body : element;
+
+				// Add a listener for the current DOM event type
+				domTarget.addEventListener(domEventType, mapDOMEvent);
+
+				// Keep track of all current listeners so we can remove them later
+				this._DOMElementListeners.push({
+					'type': domEventType,
+					'listener': mapDOMEvent
+				});
 
 			}, this);
 
-			// Suppress context menus in browser if possible
 			//@TODO Browser testing
-			this._DOMElement.addEventListener('contextmenu', function(e) {
+			// Suppress context menus in browser if possible
+			element.addEventListener('contextmenu', function(e) {
 				e.preventDefault();
 			});
+
+			return element;
 
 		}
 
@@ -319,9 +331,14 @@ this.Fizz = this.Fizz || { };
 
 	Canvas.prototype.exposeProperty("element", "_DOMElement", function(elem) {
 		if(elem instanceof HTMLCanvasElement) {
-			//@TODO Remove event listeners on previous canvas instance?
-			this._DOMElement = elem;
-			this._registerEventMappingListeners();
+			// Remove all listeners for the previous canvas element, so that
+			// it no longer interacts with the Canvas wrapper
+			this._DOMElementListeners.foreach(function(record) {
+				this._DOMElement.removeEventListener(record.type, record.listener);
+			});
+			// Register a new set of event listeners on the DOM element,
+			// and return it to update the wrapper's element reference
+			this._DOMElement = this._bind(elem);
 		}
 	});
 

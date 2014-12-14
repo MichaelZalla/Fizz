@@ -120,26 +120,31 @@ this.Fizz = this.Fizz || { };
 					// could be delegated, check whether or not there is
 					// a valid display target to delegate it to; if it
 					// gets delegated, stop immediate propogation to avoid
-					// multiple (and possible cyclic) triggering of listeners
+					// multiple (and possibly cyclic) triggering of listeners
 
 					var coordinate = new Fizz.Point(e.mouseX, e.mouseY);
 
-					function getMouseTargets(context) {
+					var rect = new Fizz.Rectangle();
+
+					function getMouseTargets(container) {
 						
 						var targets = [ ];
 
 						// Base case (exit condition)
-						if(typeof context.children === "undefined") {
+						if(typeof container.children === "undefined") {
 							
 							// Map event's global space coordinate to local space
-							var rect = new Fizz.Rectangle(context.globalPosition, context.size);
-							if(rect.intersects(coordinate)) targets.push(context);
+							// var rect = new Fizz.Rectangle(container.globalPosition, container.size);
+							rect.position = container.globalPosition;
+							rect.size = container.size;
+
+							if(rect.intersects(coordinate)) targets.push(container);
 							return targets;
 
 						}
 
-						context.children.foreach(function(child) {
-							targets = targets.concat(getMouseTargets(child));
+						container.children.foreach(function(child) {
+							targets.push.apply(targets, getMouseTargets(child));
 						});
 
 						return targets;
@@ -149,6 +154,7 @@ this.Fizz = this.Fizz || { };
 					var targets = getMouseTargets(this);
 
 					if(targets.length > 0) {
+						//@TODO Can't we just recycle the existing Event instance?
 						var delegated = e.clone();
 						e.stopImmediatePropagation();
 						targets[0].emit(delegated);

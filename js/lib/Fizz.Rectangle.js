@@ -52,6 +52,7 @@ this.Fizz = this.Fizz || { };
 
 			if(!(rectangle instanceof Fizz.Rectangle)) return false;
 
+			// Separating axis theorem
 			return !(this.top > rectangle.bottom || this.bottom < rectangle.top ||
 					 this.left > rectangle.right || this.right < rectangle.left);
 

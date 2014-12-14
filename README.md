@@ -1,14 +1,18 @@
 ### @TODOS
 
+- Write specs for Fizz.Logger class
 - Write specs and implementation for Fizz.Demo class
+- Look at object pooling for frequently fired events, such as 'mouseover'?
+- Add a 'filters' API to Fizz.DisplayEntity class ('addFilter', 'removeFilter')
+  for bitmap (r,g,b) filtering: myFilter = function(x, y, colorData) { ... }
 
-##### Curiosities...
+##### Curiosities and considerations...
 
-- Stage shouldn't necessarily have to be tighly coupled with a single context
-- Shouldn't Stage be able to render to any arbitrary context,
-  while binding on a single context at a time?
-- Could collision code be factored out of Fizz.Rectangle and Fizz.Stage (line 191)?
 - Should EntityPool class allow reserving multiple entities at once?
-- Look at using Object Pooling for frequently-fired events?
-- Add support for proxy hitboxes on DisplayEntities?
-- Give '_filters' property to DisplayEntity ('addFilter','removeFilter')?
+- Should EntityPool class have a method for explicitly deallocating X number of entities
+- Should EntityPool class occasionally test for good times to slim down its pool?
+- Could collision code be factored out of Fizz.Rectangle and Fizz.Stage (line 191)?
+
+##### Outside the scope
+
+- Add support for proxy hitboxes for DisplayEntities

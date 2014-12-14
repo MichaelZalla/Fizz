@@ -2,7 +2,7 @@ describe("A Canvas", function() {
 
 	var doc = null,
 		wrapper = null,
-		canvasElement = null;
+		element = null;
 
 	beforeEach(function() {
 
@@ -18,30 +18,32 @@ describe("A Canvas", function() {
 		doc = window.document;
 		
 		// Create a HTMLCanvasElement and configure
-		canvasElement = doc.createElement("canvas");
-		canvasElement.width = 640;
-		canvasElement.height = 480;
-		canvasElement.style.width = canvasElement.width + 'px';
-		canvasElement.style.height = canvasElement.height + 'px';
+		element = doc.createElement("canvas");
+		element.width = 640;
+		element.height = 480;
+		element.style.width = element.width + 'px';
+		element.style.height = element.height + 'px';
 		
 		// Append the canvas element to the detatched document
 		// (Necessary for testing)
-		doc.body.appendChild(canvasElement);
+		doc.body.appendChild(element);
 
 		// Wrap the element with Canvas functionality
-		wrapper = new Fizz.Canvas(canvasElement);
+		wrapper = new Fizz.Canvas(element);
 
 	});
 
 	afterEach(function() {
-		if(canvasElement.parentNode === doc) {
-			doc.body.removeChild(canvasElement);
+		if(element.parentNode === doc) {
+			doc.body.removeChild(element);
 		}
 	});
 
 	it("is a Canvas (wrapper), and extends the native Object", function() {
+		
 		expect(wrapper instanceof Fizz.Canvas).toBeTruthy();
 		expect(wrapper instanceof Object).toBeTruthy();
+		
 	});
 
 	it("exposes a reference to the current associated canvas element", function() {
@@ -55,9 +57,9 @@ describe("A Canvas", function() {
 	it("restricts its 'element' property to be of type HTMLCanvasElement", function() {
 
 		expect(wrapper.element instanceof HTMLCanvasElement).toBeTruthy();
-		expect(wrapper.element).toBe(canvasElement);
+		expect(wrapper.element).toBe(element);
 		wrapper.element = 123;
-		expect(wrapper.element).toBe(canvasElement);
+		expect(wrapper.element).toBe(element);
 
 	});
 
@@ -87,7 +89,7 @@ describe("A Canvas", function() {
 	it("yields a windowPosition of [0, 0] if the current associated canvas " +
 	   "element is not attached to a document", function() {
 
-	   	doc.body.removeChild(canvasElement);
+	   	doc.body.removeChild(element);
 	   	expect(wrapper.windowPosition.toList()).toEqual([ 0, 0 ]);
 
 	});
@@ -105,8 +107,8 @@ describe("A Canvas", function() {
 	it("offers a method for returning a scaled copy of the canvas", function() {
 
 	   	var scaledDown = wrapper.scale(0.5, 0.25);
-	   	expect(scaledDown.width).toEqual(canvasElement.width * 0.5);
-	   	expect(scaledDown.height).toEqual(canvasElement.height * 0.25);
+	   	expect(scaledDown.width).toEqual(element.width * 0.5);
+	   	expect(scaledDown.height).toEqual(element.height * 0.25);
 
 	});
 	
