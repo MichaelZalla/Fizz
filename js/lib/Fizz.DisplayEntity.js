@@ -69,30 +69,41 @@ this.Fizz = this.Fizz || { };
 			//@TODO constant save-restore may be unecessary work
 			
 			context.save();
+
 			context.imageSmoothingEnabled =
 			context.mozImageSmoothingEnabled =
 			context.webkitImageSmoothingEnable = !(this._snapToPixel);
 			context.drawImage(this._cacheCanvas, pos.x, pos.y);
+
+			// Post-render wireframe for dev mode
+			if(Fizz.getEnv() === 'dev') {
+
+				context.beginPath();
+				context.rect(0.5 + this.x, 0.5 + this.y,
+					this.width * Math.abs(this.scale.x),
+					this.height * Math.abs(this.scale.y));
+				context.closePath();
+				
+				context.strokeStyle = this._strokeStyle.toRGB(true);
+				context.lineWidth 	= this._lineWidth;
+				context.stroke();
+
+			}
+			
 			context.restore();
 
 		},
 
-		draw: function(ctx) {
+		draw: function(context) {
 
-			ctx.beginPath();
-			ctx.rect(0.5, 0.5,
+			context.beginPath();
+			context.rect(0.5, 0.5,
 				this.width * Math.abs(this.scale.x),
 				this.height * Math.abs(this.scale.y));
-			ctx.closePath();
+			context.closePath();
 			
-			ctx.fillStyle 	= this._fillStyle.toRGB(true);
-			ctx.strokeStyle = this._strokeStyle.toRGB(true);
-			ctx.lineWidth 	= this._lineWidth;
-			
-			ctx.fill();
-
-			// Post-render wireframe for dev mode
-			if(Fizz.getEnv() === 'dev') ctx.stroke();
+			context.fillStyle = this._fillStyle.toRGB(true);
+			context.fill();
 
 		},
 
