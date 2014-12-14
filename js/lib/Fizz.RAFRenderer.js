@@ -36,11 +36,10 @@ this.Fizz = this.Fizz || { };
 				this._actualFramerate = now - this._lastRenderTime;
 
 				if(this._logFPS && 0 === (now & (64 - 1))) {
-					console.log(
-						"Rendering at",
-						(1000 / this._actualFramerate).toFixed(2),
-						"frames per second"
-					);
+					Fizz.logger
+						.filter("all")
+						.log("Rendering {0} frames per seconds",
+							  (1000 / this._actualFramerate).toFixed(2));
 				}
 
 				this._stage.draw();
@@ -116,14 +115,19 @@ this.Fizz = this.Fizz || { };
 	// Public properties
 
 	RAFRenderer.prototype.exposeProperty("rendering");
-	RAFRenderer.prototype.exposeProperty("actualFramerate");
 
 	RAFRenderer.prototype.exposeProperty("stage", "_stage",
 		Fizz.restrict.toInstanceType("_stage", "Fizz.Stage"));
 
 	RAFRenderer.prototype.exposeProperty("framerate", "_framerate",
 		Fizz.restrict.toRange("_framerate", [10, Infinity]));
-	
+
+	RAFRenderer.prototype.exposeProperty("actualFramerate");
+
+	RAFRenderer.prototype.exposeProperty("actualFPS", function() {
+		return (1000 / this._actualFramerate).toFixed(2);
+	});
+
 	RAFRenderer.prototype.exposeProperty("logFPS", "_logFPS",
 		Fizz.restrict.toBoolean("_logFPS"));
 
