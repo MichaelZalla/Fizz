@@ -45,7 +45,7 @@ this.Fizz = this.Fizz || { };
 			this.position = entity.position.clone();
 			this.size = entity.size.clone();
 			if(entity instanceof Fizz.Entity) {
-				this.name = entity.name;
+				// this.name = entity.name;
 				this.exists = entity.exists;
 				this._scale = entity.scale.clone();
 				this._velocity = entity.velocity.clone();
@@ -121,14 +121,17 @@ this.Fizz = this.Fizz || { };
 		if(null === this.parent || (Fizz.Stage && this.parent instanceof Fizz.Stage)) { return this.parent; }
 		return this.parent.stage;
 	});
-	
-	//@TODO Refactor when a proper collision-handling system is implemented
-	Entity.prototype.exposeProperty("onStage", function() {
-		//@TODO Make use of quad-tree when implemented!
-		if(null === this.stage) { return false; }
-		return this.intersects(this.stage);
+
+	// Override Fizz.Rectangle's dynamic position properties to account for scale
+	Entity.prototype.exposeProperty("right",  function() {
+		return this._position.x + this._size.x * Math.abs(this._scale.x);
 	});
 
+	// Override Fizz.Rectangle's dynamic position properties to account for scale
+	Entity.prototype.exposeProperty("bottom", function() {
+		return this._position.y + this._size.y * Math.abs(this._scale.y);
+	});
+	
 	// Class export
 	Fizz.Entity = Entity;
 
