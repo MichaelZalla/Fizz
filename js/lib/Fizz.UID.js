@@ -18,4 +18,6 @@ this.Fizz = this.Fizz || { };
 	// Singleton export
 	Fizz.UID = UID;
 
+	Fizz.logger.filter('all').log("Loaded module 'UID'.");
+
 }());

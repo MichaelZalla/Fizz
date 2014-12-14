@@ -29,7 +29,7 @@ describe("A Color", function() {
 
 	});
 
-	it("represents black by default", function() {
+	it("represents the color black by default", function() {
 		color = new Fizz.Color();
 		expect(color.r).toEqual(0);
 		expect(color.g).toEqual(0);
@@ -116,8 +116,8 @@ describe("A Color", function() {
 
 describe("The Color constructor", function() {
 
-	it("exposes dynamic getters for several pre-defined Color " +
-	   "configurations", function() {
+	it("exposes dynamic getters for several pre-defined Color configurations",
+	function() {
 
 	   	var black = Fizz.Color.BLACK;
 	   	var white = Fizz.Color.WHITE;
@@ -126,8 +126,8 @@ describe("The Color constructor", function() {
 
 	});
 
-	it("yields copies of these configurations which won't " +
-	   "modify them", function() {
+	it("yields copies of these configurations which won't modify them",
+	function() {
 
 	   	var violet = Fizz.Color.CYAN;
 	   		violet.r = 255;

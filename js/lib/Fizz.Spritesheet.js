@@ -124,7 +124,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Spritesheet (source='" + (this._source || 'null') + "')]";
+			return String.format("[Spritesheet (source='{0}')]",
+				this._source || "null");
 		},
 
 		// Private methods
@@ -147,7 +148,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		_onImageError: function() {
-			window.console.warn("Failed to load resource from'" + this._source + "'.");
+			Fizz.logger.filter("all")
+				.warn("Failed to load resource from '{0}'.", this._source);
 		},
 
 		_refreshImageCache: function() {
@@ -189,6 +191,7 @@ this.Fizz = this.Fizz || { };
 	// Dynamic public properties
 
 	// Notice that we attach onload listeners for automatic re-caching
+	//@TODO Move this out to a 'private' method
 	Spritesheet.prototype.exposeProperty("source", "_source",
 
 		function(value) {
@@ -222,5 +225,7 @@ this.Fizz = this.Fizz || { };
 
 	// Class export
 	Fizz.Spritesheet = Spritesheet;
+
+	Fizz.logger.filter('all').log("Loaded module 'Spritesheet'.");
 
 }());

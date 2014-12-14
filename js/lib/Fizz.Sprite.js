@@ -113,4 +113,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Sprite = Sprite;
 
+	Fizz.logger.filter('all').log("Loaded module 'Sprite'.");
+
 }());

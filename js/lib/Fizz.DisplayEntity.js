@@ -256,4 +256,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.DisplayEntity = DisplayEntity;
 
+	Fizz.logger.filter('all').log("Loaded module 'DisplayEntity'.");
+
 }());

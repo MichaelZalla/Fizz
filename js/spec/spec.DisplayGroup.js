@@ -8,9 +8,9 @@ describe("A DisplayGroup", function() {
 	beforeEach(function() {
 
 		group = new Fizz.DisplayGroup();		
-		child1 = new Fizz.DisplayEntity({ name: "myChild1" });
-		child2 = new Fizz.DisplayEntity({ name: "myChild2" });
-		child3 = new Fizz.DisplayEntity({ name: "myChild3" });
+		child1 = new Fizz.DisplayEntity({ name: "myChild1", x: 10 });
+		child2 = new Fizz.DisplayEntity({ name: "myChild2", x: 20 });
+		child3 = new Fizz.DisplayEntity({ name: "myChild3", x: 30 });
 
 	});
 
@@ -264,11 +264,13 @@ describe("A DisplayGroup", function() {
 		group.copy(group2);
 
 		expect(group.childAt(0)).not.toBe(child1);
-		expect(group.childAt(0).name).toMatch(child1.name);
+		expect(group.childAt(0).x).toMatch(child1.x);
+
 		expect(group.childAt(1)).not.toBe(child2);
-		expect(group.childAt(0).name).toMatch(child1.name);
+		expect(group.childAt(1).x).toMatch(child2.x);
+
 		expect(group.childAt(2)).not.toBe(child3);
-		expect(group.childAt(0).name).toMatch(child1.name);
+		expect(group.childAt(2).x).toMatch(child3.x);
 
 	});
 

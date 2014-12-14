@@ -30,6 +30,10 @@ this.Fizz = this.Fizz || { };
 
 			} else {
 
+				Fizz.logger.filter("dev")
+					.log("Adding '{0}' listener to {1} (useCapture='{2}')",
+						type, this.toString(), useCapture.toString());
+
 				if(!(type in this._events)) {
 					this._events[type] = listener;
 					return;
@@ -117,16 +121,15 @@ this.Fizz = this.Fizz || { };
 			
 			// This should only be triggered at an Event's original source
 			if(!(E instanceof Fizz.Event)) {
-				// Allow Event constructors to be passed (default arguments)
-				if(typeof E === "function") e = new E();
-				// Allow eventType strings to be passed
-				else if(typeof E === "string") {
+				if(typeof E === "function") {
+					// Allow Event constructors to be passed (default arguments)
+					e = new E();
+				} else if(typeof E === "string") {
+					// Allow eventType strings to be passed
 					e = new Fizz.Event({ 'type': E });
-				}
-				else {
-					throw new Error("Call was made to 'emit' method with " +
-						"invalid value for argument 'eventObj'. Argument must " +
-						"be a string or Fizz.Event instance");
+				} else {
+					Fizz.throws("Call was made to 'emit' method with invalid value " +
+						"for 'eventObj'. Argument must be a string or Fizz.Event instance");
 				}
 			} else {
 				e = E;
@@ -136,9 +139,6 @@ this.Fizz = this.Fizz || { };
 			
 			// Allow decoration of Event instance with arbitrary contextual data
 			e.assign(data);
-
-			// For testing/debugging
-			// console.log("Event occurred:" + e);
 
 			// Construct capture path for event processing
 			var capturePath = this._buildCapturePath();
@@ -244,7 +244,16 @@ this.Fizz = this.Fizz || { };
 
 	// Syntactic sugar
 
-	EventEmitter.prototype.on = EventEmitter.prototype.addEventListener;
+	// EventEmitter.prototype.on = function() {
+	// 	EventEmitter.prototype.addEventListener.apply(this, arguments);
+	// 	return this;
+	// };
+	EventEmitter.prototype.on  = EventEmitter.prototype.addEventListener;
+
+	// EventEmitter.prototype.off = function() {
+	// 	EventEmitter.prototype.removeEventListener.apply(this, arguments);
+	// 	return this;
+	// };
 	EventEmitter.prototype.off = EventEmitter.prototype.removeEventListener;
 
 	// Public properties
@@ -254,5 +263,7 @@ this.Fizz = this.Fizz || { };
 
 	// Class export
 	Fizz.EventEmitter = EventEmitter;
+
+	Fizz.logger.filter('all').log("Loaded module 'EventEmitter'.");
 
 }());

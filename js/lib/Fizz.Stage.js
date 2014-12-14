@@ -20,6 +20,14 @@ this.Fizz = this.Fizz || { };
 
 			} else {
 				
+				// Also allows passing of canvas element ID as 'context'
+				if(typeof context === "string") {
+					var canvas = window.document.getElementById(context.replace('#',''));
+					if(canvas) {
+						context = canvas.getContext("2d");
+					}
+				}
+
 				// Also allows passing of canvas element as 'context'
 				if(context instanceof HTMLCanvasElement)
 					context = context.getContext("2d");
@@ -181,5 +189,7 @@ this.Fizz = this.Fizz || { };
 
 	// Stage export
 	Fizz.Stage = Stage;
+
+	Fizz.logger.filter('all').log("Loaded module 'Stage'.");
 
 }());

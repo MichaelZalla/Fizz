@@ -10,13 +10,27 @@ this.Fizz = this.Fizz || { };
 			this._fontName = null;
 			this._glyphSet = Fizz.Fontsheet.DEFAULT_GLYPH_SET;
 
+			var error = "Attempt was made to instantiate a Fontsheet without a valid glyphSet definition";
+
 			// Enforce proper instantiation of Fontsheets via a glyph-set definition
-			var err = new Error("Attempt was made to instantiate a Fontsheet without a valid glyphSet definition");
-			if(null === settings || typeof settings !== "object") throw err;
-			if(!('glyphSet' in settings) || typeof settings.glyphSet !== "object") throw err;
-			if(!('values' in settings.glyphSet || typeof settings.glyphSet.values !== "string")) throw err;
-			if(0 === settings.glyphSet.values.length) throw err;
-				
+
+			// 'settings' must be object
+			if(!( typeof settings === "object" && settings !== null )) {
+				Fizz.throws(error);
+			}
+
+			// 'settings' must include a 'glyphSet' object
+			if(!( typeof settings.glyphSet === "object" &&
+						 settings.glyphSet !== null )) {
+				Fizz.throws(error);
+			}
+
+			// 'glyphSet' must include a 'values' string of non-zero length
+			if(!( typeof settings.glyphSet.values === "string" &&
+						 settings.glyphSet.values.length )) {
+				Fizz.throws(error);
+			}
+
 			// Allow the Fontsheet to be decorated with a font name for reference
 			if('fontName' in settings && typeof settings.fontName === "string") {
 				this._fontName = settings.fontName;
@@ -79,5 +93,7 @@ this.Fizz = this.Fizz || { };
 	
 	// Class export
 	Fizz.Fontsheet = Fontsheet;
+
+	Fizz.logger.filter('all').log("Loaded module 'Fontsheet'.");
 
 }());

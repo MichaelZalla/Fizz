@@ -234,7 +234,9 @@ describe("The Fizz library", function() {
 	   		.toMatch("one: 1, two: 2, three: 3");
 
 	   	var agenda = String.format("Step 1. {0}, Step 2. {1}, Step 3. {2}",
-	   		"Collect underpants.", undefined, "Profit!");
+	   		"Collect underpants", undefined, "Profit!");
+
+	   	expect(agenda).toEqual("Step 1. Collect underpants, Step 2. {1}, Step 3. Profit!");
 
 	});
 

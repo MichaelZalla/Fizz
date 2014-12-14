@@ -6,9 +6,10 @@ this.Fizz = this.Fizz || { };
 	var Canvas = Object.extend({
 
 		init: function(canvasElement) {
-			
+
 			// Safely assign or ignore value of 'canvasElement'
 			this._DOMElement = document.createElement("canvas");
+
 			this.element = canvasElement;
 
 		},
@@ -91,7 +92,7 @@ this.Fizz = this.Fizz || { };
 		copy: function(canvas) {
 
 			if(!(canvas && canvas instanceof Fizz.Canvas)) {
-				throw new Error("Argument 'canvas' must be a Fizz.Canvas instance!");
+				Fizz.throws("Argument 'canvas' must be a Fizz.Canvas instance!");
 			}
 
 			this.width = canvas.width;
@@ -108,16 +109,14 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			// return "[Canvas (width='" + this.width + "', height='" + this.height + "')]";
-			return String.format("[Canvas (width='{0}', height='{1}')]", this.width, this.height);
+			return String.format("[Canvas (width='{0}', height='{1}')]",
+				this.width, this.height);
 		},
 
 		// Private methods
 
 		_getWindowPosition: function() {
 			
-			// https://github.com/jquery/jquery/blob/740e190223d19a114d5373758127285d14d6b71e/src/offset.js
-
 			var position = new Fizz.Point(0,0);
 	
 			if(this._DOMElement && this._DOMElement.ownerDocument) {
@@ -138,7 +137,7 @@ this.Fizz = this.Fizz || { };
 
 			if(null === this._DOMElement) return;
 			
-			/** Decorate canvas event objects with context-dependent data **/
+			// Decorate canvas event objects with context-dependent data
 			
 			var mappings = { };
 
@@ -252,10 +251,6 @@ this.Fizz = this.Fizz || { };
 				// Catch the DOM event when it occurs on the document/canvas
 				domTarget.addEventListener(domEventType, function(e) {
 
-					//@TODO Remove this
-					// Prevent any unwanted browser behaviors
-					// e.preventDefault();
-
 					// Construct a data object for decorating the new Fizz.Event
 					var data = { };
 
@@ -271,13 +266,12 @@ this.Fizz = this.Fizz || { };
 						}
 					}, this);
 
+					// Log the event
+					Fizz.logger.filter("dev")
+						.log("Event occurred: [Event (type='{0}')]", data.type);
+
 					// Emit a custom (decorated) Fizz.Event from the Canvas
 					this.emit.call(this, data.type, data);
-
-					//@TODO Remove this
-					// Prevent the DOM event from being intercepted by other
-					// listeners on elements within the current document
-					// e.stopPropagation();
 
 				}.bind(this));
 
@@ -333,5 +327,7 @@ this.Fizz = this.Fizz || { };
 
 	// Stage export
 	Fizz.Canvas = Canvas;
+
+	Fizz.logger.filter('all').log("Loaded module 'Canvas'.");
 
 }());

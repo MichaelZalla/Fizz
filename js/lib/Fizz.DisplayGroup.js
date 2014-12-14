@@ -320,4 +320,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.DisplayGroup = DisplayGroup;
 
+	Fizz.logger.filter('all').log("Loaded module 'DisplayGroup'.");
+
 }());

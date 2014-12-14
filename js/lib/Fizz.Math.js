@@ -57,4 +57,6 @@ this.Fizz = this.Fizz || { };
 	// Module export
 	Fizz.math = math;
 
+	Fizz.logger.filter('all').log("Loaded module 'Math'.");
+
 })();

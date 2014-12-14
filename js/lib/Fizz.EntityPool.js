@@ -10,7 +10,7 @@ this.Fizz = this.Fizz || { };
 			//@TODO Is it *really* necessary that the prototype must be an Entity?
 			// All the entity should really (optionally) need is a 'clone' method
 			if(false === prototypeEntity instanceof Fizz.Entity) {
-				throw new Error("EntityPool must be instantiated with a valid Entity prototype");
+				Fizz.throws("EntityPool must be instantiated with a valid Entity prototype");
 			}
 
 			this._pool = [ ];
@@ -32,11 +32,9 @@ this.Fizz = this.Fizz || { };
 				this._resetFn = Fizz.noop;
 			}
 
-			// Via dynamic setters
 			this.sizeIsDynamic = sizeIsDynamic;
 
 			size = (typeof size === "number") ? size : EntityPool.DEFAULT_SIZE;
-
 			if(size > 0) { this._grow(size); }
 
 		},
@@ -70,23 +68,34 @@ this.Fizz = this.Fizz || { };
 		},
 
 		release: function(entity) {
+
 			// Add the released entity to the front of the list
 			entity._next = this._firstAvailable;
 			this._firstAvailable = entity;
+
 			this._activeEntityCount -= 1;
+
 		},
 		
 		drain: function() {
+			
+			Fizz.logger.filter("dev").log("Draining pool to size zero");
+
 			// Lose all references local to the pool object. This will trigger
 			// garbage collection for entities that aren't referenced elsewhere
+			
 			this._firstAvailable = null;
 			this._size = 0;
 			this._activeEntityCount = 0;
 			this._pool = [ ];
+
 		},
 
 		toString: function() {
-			return "[EntityPool (size='" + this._size + "')]";
+
+			return String.format("[EntityPool (size='{0}', activeEntityCount='{1}')]",
+				this._size, this._activeEntityCount);
+
 		},
 
 		// Private methods
@@ -96,7 +105,9 @@ this.Fizz = this.Fizz || { };
 			size = (typeof size === "number" && 0 < size) ? size : 1;
 
 			if(1 < size) {
-				// console.log("Growing pool to size ", this._size + size);
+				Fizz.logger
+					.filter("dev")
+					.log("Growing pool to size {0}", this._size + size);
 			}
 
 			for(var i = 0; i < size; i++) {
@@ -140,5 +151,7 @@ this.Fizz = this.Fizz || { };
 	
 	// EntityPool export
 	Fizz.EntityPool = EntityPool;
+
+	Fizz.logger.filter('all').log("Loaded module 'EntityPool'.");
 
 }());

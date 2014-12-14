@@ -268,7 +268,7 @@ describe("An EntityPool", function() {
 	it("can be represented as a string",
 	function() {
 		pool = new Fizz.EntityPool(entity);
-		expect(pool.toString()).toMatch("[EntityPool (size='0')]");
+		expect(pool.toString()).toMatch("[EntityPool (size='0', activeEntityCount='0')]");
 	});
 
 });
