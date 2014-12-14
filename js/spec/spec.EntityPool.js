@@ -64,7 +64,7 @@ describe("An EntityPool", function() {
 	it("places a '_next' pointer onto each new Entity created for the pool",
 	function() {
 		pool = new Fizz.EntityPool(entity, 3);
-		pool._pool.forEach(function(ent) {
+		pool._pool.foreach(function(ent) {
 			expect(ent._next).toBeDefined();
 			expect(typeof ent._next).toMatch("object"); // May be null!
 		});
@@ -214,7 +214,7 @@ describe("An EntityPool", function() {
 		}
 
 		expect(count).toEqual(4);
-		pool._pool.forEach(function(entity) {
+		pool._pool.foreach(function(entity) {
 			expect(entity.wasTouched);
 		});
 

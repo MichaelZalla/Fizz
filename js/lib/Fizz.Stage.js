@@ -62,7 +62,7 @@ this.Fizz = this.Fizz || { };
 			this._canvasContext.clearRect(0, 0, this._canvas.width, this._canvas.height);
 
 			// We never cache the Stage's display group
-			this.children.forEach(function(c) {
+			this.children.foreach(function(c) {
 				if(c instanceof Fizz.DisplayEntity) {
 					c.draw__optimized(this._canvasContext);
 				}
@@ -99,7 +99,7 @@ this.Fizz = this.Fizz || { };
 				Fizz.Canvas.EVENTS.MOUSEMOVE
 			];
 
-			delegatedEvents.forEach(function(type) {
+			delegatedEvents.foreach(function(type) {
 				
 				this.on(type, function(e) {
 
@@ -130,7 +130,7 @@ this.Fizz = this.Fizz || { };
 
 						}
 
-						context.children.forEach(function(child) {
+						context.children.foreach(function(child) {
 							targets = targets.concat(getMouseTargets(child));
 						});
 

@@ -103,7 +103,7 @@ describe("A Stage", function() {
 	it("banishes several inherited properties which are no longer " +
 	   "appropriate for Stage", function() {
 	   		['acceleration','alpha','exists','life','scale','stage','velocity']
-	   			.forEach(function(prop) {
+	   			.foreach(function(prop) {
 		   			expect(stage[prop]).toBeUndefined();
 		   		});
 	});

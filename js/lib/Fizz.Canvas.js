@@ -244,7 +244,7 @@ this.Fizz = this.Fizz || { };
 
 			var globalDOMEvents = ['keydown','keyup'];
 
-			mappings.forEach(function(mapping, domEventType) {
+			mappings.foreach(function(mapping, domEventType) {
 
 				var domTarget = (globalDOMEvents.indexOf(domEventType) > -1) ?
 					window.document.body : this._DOMElement;
@@ -261,7 +261,7 @@ this.Fizz = this.Fizz || { };
 
 					// Map values from the DOM event's properties to custom
 					// properties that's we'll place on the new Fizz.Event instance
-					mapping.forEach(function(to, from) {
+					mapping.foreach(function(to, from) {
 						if(from in e) {
 							if(typeof to === "string") {
 								data[to] = e[from];

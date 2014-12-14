@@ -8,7 +8,7 @@ describe("A Canvas", function() {
 
 		// Clear the page of any canvases
 		window.document.body.getElementsByTagName("CANVAS")
-		.forEach(function(canvas) {
+		.foreach(function(canvas) {
 			if(canvas instanceof HTMLCanvasElement) {
 				window.document.body.removeChild(canvas);
 			}

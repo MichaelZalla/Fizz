@@ -46,7 +46,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		copy: function(e) {
-			e.forEach(function(value, prop) {
+			e.foreach(function(value, prop) {
 				this[prop] = value;
 			}, this);
 		},

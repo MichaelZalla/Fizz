@@ -26,7 +26,7 @@ this.Fizz = this.Fizz || { };
 			
 			if(type instanceof Array) {
 				
-				type.forEach(function(t) { this.addEventListener(t, listener); });
+				type.foreach(function(t) { this.addEventListener(t, listener); });
 
 			} else {
 
@@ -206,7 +206,7 @@ this.Fizz = this.Fizz || { };
 	EventEmitter.initialize = function(target) {
 		
 		// Decorate the target object with the EventEmitter API
-		EventEmitter.prototype.forEach(function(fn, methodName) {
+		EventEmitter.prototype.foreach(function(fn, methodName) {
 			if(-1 === ['constructor','init','toString'].indexOf(methodName)) {
 				target[methodName] = this[methodName];
 			}

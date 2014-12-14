@@ -135,8 +135,8 @@ this.Fizz = this.Fizz || { };
 		});
 	}
 
-	/* Object.prototype.forEach */
-	Object.defineProperty(Object.prototype, 'forEach', {
+	/* Object.prototype.foreach */
+	Object.defineProperty(Object.prototype, 'foreach', {
 		value: function(callback, context) {
 			if(typeof context === "undefined") {
 				context = this;

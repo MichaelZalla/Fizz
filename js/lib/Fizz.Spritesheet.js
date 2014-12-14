@@ -82,7 +82,7 @@ this.Fizz = this.Fizz || { };
 					
 					if('animations' in settings) {
 
-						settings.animations.forEach(function(data, name) {
+						settings.animations.foreach(function(data, name) {
 							
 							if(data instanceof Array && data.length >= 2) {
 								this._animations[name] = {

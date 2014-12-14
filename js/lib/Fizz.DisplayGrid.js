@@ -60,7 +60,7 @@ this.Fizz = this.Fizz || { };
 
 				var hitCapacity = false;
 
-				children.forEach(function(child) {
+				children.foreach(function(child) {
 
 					// Check whether we've hit capacity (full grid)
 					if(this._children.length === this.capacity) {
@@ -99,7 +99,7 @@ this.Fizz = this.Fizz || { };
 				this._rows = grid.rows;
 				this._columns = grid.columns;
 				// Reinitialize the child layout to match the grid settings
-				this._children.forEach(this.addChild, this);
+				this._children.foreach(this.addChild, this);
 			}
 		},
 

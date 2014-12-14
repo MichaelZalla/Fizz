@@ -26,7 +26,7 @@ this.Fizz = this.Fizz || { };
 			// before the 'update' method is invoked
 			Fizz.DisplayEntity.prototype.update.call(this, deltaT);
 			// Shallow copy, as we are modifying the array length
-			this._children.slice(0).forEach(function(child) {
+			this._children.slice(0).foreach(function(child) {
 				child.update(deltaT);
 			});
 		},
@@ -57,7 +57,7 @@ this.Fizz = this.Fizz || { };
 					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
 				// Finally, render children to the cache canvas recursively
-				this.children.forEach(function(c) {
+				this.children.foreach(function(c) {
 					
 					if(c instanceof Fizz.DisplayEntity) {
 						
@@ -97,7 +97,7 @@ this.Fizz = this.Fizz || { };
 
 			// Either we draw all children recursively
 			if(false === this._caching) {
-				this.children.forEach(function(child) {
+				this.children.foreach(function(child) {
 					child.draw__optimized(context);
 				});
 				return;
@@ -240,7 +240,7 @@ this.Fizz = this.Fizz || { };
 			Fizz.DisplayEntity.prototype.copy.call(this, group);
 			if(group instanceof Fizz.DisplayGroup) {
 				this.empty();
-				group.children.forEach(function(child, i) {
+				group.children.foreach(function(child, i) {
 					this.addChild(child.clone(), i);
 				}, this);
 			}
@@ -265,7 +265,7 @@ this.Fizz = this.Fizz || { };
 
 			var top = null, left = null, right = null, btm = null;
 
-			this._children.forEach(function(c) {
+			this._children.foreach(function(c) {
 				
 				// Initialize boundaries with first child
 				if(typeof top 	!== "number") top = c.y;

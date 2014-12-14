@@ -92,7 +92,7 @@ describe("A Rectangle", function() {
 			overlapping.push(new Fizz.Point(10, 10));
 			overlapping.push(new Fizz.Point(20, 20));
 		
-		overlapping.forEach(function(p) {
+		overlapping.foreach(function(p) {
 			expect(rect.intersects(p)).toBeTruthy();
 		});
 		
@@ -101,7 +101,7 @@ describe("A Rectangle", function() {
 			nonOverlapping.push(new Fizz.Point(10, -5));
 			nonOverlapping.push(new Fizz.Point(21, 21));
 		
-		nonOverlapping.forEach(function(p) {
+		nonOverlapping.foreach(function(p) {
 			expect(rect.intersects(p)).toBeFalsy();
 		});
 

@@ -54,7 +54,7 @@ this.Fizz = this.Fizz || { };
 
 			this.empty(); // Clear any previous message content from the grid
 
-			this._content.forEach(function(glyphValue) {
+			this._content.foreach(function(glyphValue) {
 				
 				var glyphGraphic = new Fizz.Graphic({
 					'spritesheet': this.fontsheet,
