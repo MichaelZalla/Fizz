@@ -4,38 +4,54 @@ require('grunt-verbosity');
 require('string-format');
 
 // Preserve order of dependecies
-// (Replace this with 'require'?)
 
 var components = [
 	
-	'Base',
+	// Base modules
+
 	'Object',
-	'Logger',
-	'UID',
+	'Restrict',
+	'Environment',
+	'Logger', // Missing spec!
+
+	// Utilities
+
 	'Math',
 	'Color',
 
+	// Event system
+
 	'Event',
 	'EventEmitter',
-	'Canvas',
+
+	// Entity system
 
 	'Point',
 	'Rectangle',
+	
+	'UID',
 	'Entity',
 	'EntityPool',
+
+	// Display system
 
 	'DisplayEntity',
 	'DisplayGroup',
 	'DisplayGrid',
-	
+	'Canvas',
 	'Stage',
 
+	// Graphics
+
 	'Spritesheet',
+	'Fontsheet',
 	'Graphic',
 	'Sprite',
+	'Textbox',
+
+	// Renderers
 	
-	'Fontsheet',
-	'Textbox'
+	'RAFRenderer'
 	
 ];
 
@@ -53,9 +69,7 @@ module.exports = function(grunt) {
 
 		pkg: grunt.file.readJSON('package.json'),
 
-		verbosity: {
-
-		},
+		verbosity: { },
 
 		debug: {
 			options: {

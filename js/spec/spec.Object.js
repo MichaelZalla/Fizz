@@ -202,6 +202,7 @@ describe("The Fizz library", function() {
 	it("gives the Object prototype a method for returning non-inherited " +
 	   "properties", function() {
 
+	   	//@TODO Should Object.prototype.keys work for native array types?
 	   	// expect([1,2,3,4].keys()).toEqual([1,2,3,4]);
 
 	   	var Person = Function.extend({

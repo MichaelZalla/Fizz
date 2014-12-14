@@ -260,7 +260,9 @@ describe("An EventEmitter", function() {
 
 	it("can be represented by a string", function() {
 		emitter = new Fizz.EventEmitter();
-		expect(emitter.toString()).toEqual("[EventEmitter]");
+		emitter.addEventListener('foo', function(e) { console.log(e); });
+		emitter.addEventListener('bar', function(e) { console.log(e); });
+		expect(emitter.toString()).toEqual("[EventEmitter (activeListeners='foo,bar')]");
 	});
 
 });

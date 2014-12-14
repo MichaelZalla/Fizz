@@ -3,19 +3,55 @@ this.Fizz = this.Fizz || { };
 
 (function() {
 
-	// Private properties
-	var _privateFoo = 0;
+	var _currentEnvFilter = Fizz.getEnv();
 
 	var Logger = function() {
-		throw new Error("Error: Logger object cannot be instantiated!");
+		if(Fizz.logger) {
+			Fizz.logger.error("Error: The Logger class cannot be instantiated!");
+		}
 	};
 
-	// Public methods
-	Logger.foo = function() {
-		return false;
+	Logger.prototype.filter = function(env) {
+		_currentEnvFilter = env.toString().toLowerCase();
+		return this;
+	};
+
+	Logger.prototype.log = function() {
+		if(_currentEnvFilter !== Fizz.getEnv()) return;
+		window.console.log("[" + Fizz.getEnv().toUpperCase() +
+			"] " + String.format.apply(this, arguments));
+		return this;
+	};
+
+	Logger.prototype.debug = function() {
+		if(_currentEnvFilter !== Fizz.getEnv()) return;
+		window.console.debug("[" + Fizz.getEnv().toUpperCase() +
+			"] " + String.format.apply(this, arguments));
+		return this;
+	};
+
+	Logger.prototype.info = function() {
+		if(_currentEnvFilter !== Fizz.getEnv()) return;
+		window.console.info("[" + Fizz.getEnv().toUpperCase() +
+			"] " + String.format.apply(this, arguments));
+		return this;
+	};
+
+	Logger.prototype.warn = function() {
+		if(_currentEnvFilter !== Fizz.getEnv()) return;
+		window.console.warn("[" + Fizz.getEnv().toUpperCase() +
+			"] " + String.format.apply(this, arguments));
+		return this;
+	};
+
+	Logger.prototype.error = function() {
+		if(_currentEnvFilter !== Fizz.getEnv()) return;
+		window.console.error("[" + Fizz.getEnv().toUpperCase() +
+			"] " + String.format.apply(this, arguments));
+		return this;
 	};
 
 	// Singleton export
-	Fizz.Logger = Logger;
+	Fizz.logger = new Logger();
 
 }());

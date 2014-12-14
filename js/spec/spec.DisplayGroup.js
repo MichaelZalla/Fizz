@@ -304,7 +304,7 @@ describe("A DisplayGroup", function() {
 
 	it("can be represented by a string", function() {
 		var name = "[DisplayGroup (name='" + group.name + "', " +
-			"childCount='" + group.children.length + "')]";
+			"children='" + group.children.length + "')]";
 		expect(group.toString()).toEqual(name);
 	});
 

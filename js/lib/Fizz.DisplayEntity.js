@@ -45,20 +45,6 @@ this.Fizz = this.Fizz || { };
 
 		},
 
-		update: function(deltaT) {
-			Fizz.Entity.prototype.update.call(this, deltaT);
-			//@TODO Fading on death shouldn't be part of the class definition
-			//@TODO Migrate this elsewhere (maybe a particle class?)
-			// this._fadeOnDeath = false;
-			// this._fadeTime = 100;
-			// if(this._fadeOnDeath && this._life < this._fadeTime + 1) {
-			// 	if(this._life % 10 == 0) {
-			// 		this._alpha -= 0.1;
-			// 		this.updateCache();
-			// 	}
-			// }
-		},
-
 		draw__optimized: function(context) {
 
 			//@TODO 'draw' method should RELY on cache, not vice-versa
@@ -81,15 +67,13 @@ this.Fizz = this.Fizz || { };
 			}
 
 			//@TODO constant save-restore may be unecessary work
+			
 			context.save();
 			context.imageSmoothingEnabled =
 			context.mozImageSmoothingEnabled =
 			context.webkitImageSmoothingEnable = !(this._snapToPixel);
 			context.drawImage(this._cacheCanvas, pos.x, pos.y);
 			context.restore();
-
-			//@TODO Create environment module for setting dev-mode flags
-			// Post-render wireframe (for dev mode)
 
 		},
 
@@ -106,6 +90,9 @@ this.Fizz = this.Fizz || { };
 			ctx.lineWidth 	= this._lineWidth;
 			
 			ctx.fill();
+
+			// Post-render wireframe for dev mode
+			if(Fizz.getEnv() === 'dev') ctx.stroke();
 
 		},
 
@@ -178,7 +165,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[DisplayEntity (name='" + this.name + "')]";
+			return String.format("[DisplayEntity (name='{0}')]", this.name);
 		},
 
 		// Private methods

@@ -110,6 +110,7 @@ describe("A Stage", function() {
 
 	it("can be represented by a string", function() {
 		expect(stage.toString()).toMatch("[Stage (width='400', height='600')]");
+		//@TODO Is it possible to test with a canvas-less context instance?
 	});
 
 });
