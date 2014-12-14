@@ -253,8 +253,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[DisplayGroup (name='" + this.name + "', " +
-				   "childCount='" + this.children.length + "')]";
+			return String.format("[DisplayGroup (name='{0}', children='{1}')]",
+				this.name, this.children.length);
 		},
 
 		// Private methods

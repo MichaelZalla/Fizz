@@ -58,8 +58,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Event (type='" + this._type + "', " +
-						   "target='" + this._target + "')]";
+			return String.format("[Event (type='{0}', target='{1}')]",
+				this._type, this._target);
 		}
 
 	});

@@ -110,7 +110,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[DisplayGrid (name='" + this.name + "')]";
+			return String.format("[DisplayGrid (name='{0}')]", this.name);
 		}
 
 	});

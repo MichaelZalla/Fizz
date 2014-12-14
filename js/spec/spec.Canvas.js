@@ -147,9 +147,7 @@ describe("A Canvas", function() {
 	});
 	
 	it("can be represented by a string", function(){
-
 		expect(wrapper.toString()).toMatch("[Stage (width='600',height='400')]");
-
 	});
 
 });

@@ -79,6 +79,12 @@ this.Fizz = this.Fizz || { };
 
 		},
 
+		toString: function() {
+			return "[RAFRenderer (rendering='" + this._rendering.toString() + "', " +
+								 "framerate='" + this._framerate.toFixed(2) + "', " +
+								 "logFPS='" + this._logFPS.toString() + "')]";
+		},
+
 		// Private methods
 
 		_getRAFMethod: function() {

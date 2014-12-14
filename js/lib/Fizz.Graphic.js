@@ -127,7 +127,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Graphic (name='" + this.name + "')]";
+			return String.format("[Graphic (name='{0}')]", this.name);
 		},
 
 	});

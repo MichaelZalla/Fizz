@@ -73,11 +73,12 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			if(null === this._canvasContext.canvas) {
+			var canvas = this._canvasContext.canvas;
+			if(null === canvas) {
 				return "[Stage (canvas='null')]";
 			} else {
-				return "[Stage (width='" + this._canvasContext.canvas.width +
-							"', height='" + this._canvasContext.canvas.height + "')]";
+				return String.format("[Stage (width='{0}', height='{1}')]",
+					canvas.width, canvas.height);
 			}
 		},
 

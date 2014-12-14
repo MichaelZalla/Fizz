@@ -66,7 +66,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Sprite (name='" + this.name + "')]";
+			return String.format("[Sprite (name='{0}')]", this.name);
 		},
 
 		// Private methods

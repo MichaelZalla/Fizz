@@ -62,7 +62,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Fontsheet (fontName='" + this._fontName + "')]";
+			return String.format("[Fontsheet (fontName='{0}')]", this._fontName);
 		}
 
 	});

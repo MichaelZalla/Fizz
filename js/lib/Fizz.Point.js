@@ -38,7 +38,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Point (x='" + this._x + "',y='" + this._y + "')]";
+			return String.format("[Point (x='{0}', y='{1}')]", this._x, this._y);
 		}
 
 	});

@@ -66,8 +66,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Rectangle (x='" + this._position.x + "', y='" + this._position.y +
-							"', width='" + this._size.x + "', height='" + this._size.y + "')]";
+			return String.format("[Rectangle (x='{0}', y='{1}', width='{2}', height='{3}')]",
+				this._position.x, this._position.y, this._size.x, this._size.y);
 		}
 
 	});

@@ -183,7 +183,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[EventEmitter]";
+			return String.format("[EventEmitter (activeListeners='" +
+				this._events.keys().toString() + "')]");
 		},
 
 		// Private methods

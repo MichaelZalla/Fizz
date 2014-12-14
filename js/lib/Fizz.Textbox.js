@@ -88,8 +88,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			// Implicit conversion to string
-			return "[Text (content='" + this._content + "')]";
+			return String.format("[Text (content='{0}')]", this._content.toString());
 		}
 
 	});

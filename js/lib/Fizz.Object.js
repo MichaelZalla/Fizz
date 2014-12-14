@@ -154,4 +154,15 @@ this.Fizz = this.Fizz || { };
 		enumerable: false
 	});
 
+	/* String.format */
+	if(typeof String.format !== "function") {
+		String.format = function(string) {
+			var args = Array.prototype.slice.call(arguments, 1);
+			return string.replace(/{(\d+)}/g, function(match, index) {
+				return typeof args[index] !== "undefined" ?
+					args[index] : match;
+			});
+		};
+	}
+
 })();

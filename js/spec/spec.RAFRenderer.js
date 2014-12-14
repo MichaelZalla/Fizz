@@ -44,9 +44,9 @@ describe("A RAFRenderer (RequestAnimationFrame Renderer)", function() {
 		var logFPS = true;
 		var renderer = new Fizz.RAFRenderer(stage2, framerate, logFPS);
 
-		expect(stage2).toBe(stage2);
-		expect(framerate).toEqual(1000 / 30);
-		expect(logFPS).toBeTruthy();
+		expect(renderer.stage).toBe(stage2);
+		expect(renderer.framerate).toEqual(1000 / 30);
+		expect(renderer.logFPS).toBeTruthy();
 
 	});
 
@@ -83,6 +83,11 @@ describe("A RAFRenderer (RequestAnimationFrame Renderer)", function() {
 		expect(renderer.framerate).toEqual(10);
 		renderer.framerate = 1;
 		expect(renderer.framerate).toEqual(10);
+	});
+
+	it("can be represented by a string", function() {
+		expect(renderer.toString()).toMatch("[RAFRenderer " +
+			"(rendering='true', framerate='16.66', logFPS='false')]");
 	});
 
 });

@@ -108,7 +108,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Canvas (width='" + this.width + "', height='" + this.height + "')]";
+			// return "[Canvas (width='" + this.width + "', height='" + this.height + "')]";
+			return String.format("[Canvas (width='{0}', height='{1}')]", this.width, this.height);
 		},
 
 		// Private methods

@@ -219,4 +219,22 @@ describe("The Fizz library", function() {
 
 	});
 
+	it("gives the String constructor (object) a 'format' method for " +
+	   "interpolating string values given a template and an arbitrary " +
+	   "number of arguments", function() {
+
+	   	expect(typeof String.format).toMatch("function");
+
+	   	expect(String.format("Hello")).toMatch("Hello");
+
+	   	expect(String.format("Hello, {0}", "Michael")).toMatch("Hello, Michael");
+
+	   	expect(String.format("one: {0}, two: {1}, three: {2}", 1, 2, 3))
+	   		.toMatch("one: 1, two: 2, three: 3");
+
+	   	var agenda = String.format("Step 1. {0}, Step 2. {1}, Step 3. {2}",
+	   		"Collect underpants.", undefined, "Profit!");
+
+	});
+
 });

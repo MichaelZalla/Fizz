@@ -61,7 +61,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[Entity (name='" + this.name + "')]";
+			return String.format("[Entity (name='{0}')]", this.name);
 		},
 
 		// Private methods
