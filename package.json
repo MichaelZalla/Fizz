@@ -1,7 +1,7 @@
 {
   "name": "Fizz",
   "title": "Fizz",
-  "description": "Front-end JavaScript library for interactive 2D graphics, games and animation with HTML5 canvas.",
+  "description": "An extensible JavaScript library for writing interactive 2D graphics and simulations with HTML5 canvas.",
   "version": "0.0.2",
   "main": "js/min/fizz.min.js",
   "homepage": "https://github.com/MichaelZalla/Fizz",

@@ -47,14 +47,14 @@ this.Fizz = this.Fizz || { };
 
 		draw__optimized: function(context) {
 
-			//@TODO 'draw' method should RELY on cache, not vice-versa
+			//@TODO 'draw' method should rely on 'cache' method, not vice-versa
 
 			if(typeof context === "undefined") return false;
 			if(false === this.exists || !this._isVisible()) return false;
 
 			var pos = this._getGlobalPosition();
 
-			// Nudge draw position for Retina screens
+			// Nudge draw position (for Retina screens)
 			if(this._snapToPixel) {
 				pos.x = Math.floor(pos.x) + 0.5;
 				pos.y = Math.floor(pos.y) + 0.5;
@@ -73,6 +73,7 @@ this.Fizz = this.Fizz || { };
 			context.imageSmoothingEnabled =
 			context.mozImageSmoothingEnabled =
 			context.webkitImageSmoothingEnable = !(this._snapToPixel);
+			
 			context.drawImage(this._cacheCanvas, pos.x, pos.y);
 
 			// Post-render wireframe for dev mode
@@ -97,9 +98,12 @@ this.Fizz = this.Fizz || { };
 		draw: function(context) {
 
 			context.beginPath();
+
+			// Fill in the boundaries of the Entity
 			context.rect(0.5, 0.5,
 				this.width * Math.abs(this.scale.x),
 				this.height * Math.abs(this.scale.y));
+				
 			context.closePath();
 			
 			context.fillStyle = this._fillStyle.toRGB(true);
@@ -182,9 +186,11 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_isVisible: function() {
-			return !(0 === this.width * this.scale.x ||
-					 0 === this.height * this.scale.y ||
-					 0 === this._alpha || false === this.exists);
+			if(false === this.exists) return false;
+			if(0 === this._alpha) return false;
+			if(0 === this.width * this.scale.x) return false;
+			if(0 === this.height * this.scale.y) return false;
+			return true;
 		}
 
 	});

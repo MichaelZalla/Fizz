@@ -154,7 +154,8 @@ this.Fizz = this.Fizz || { };
 					var targets = getMouseTargets(this);
 
 					if(targets.length > 0) {
-						//@TODO Can't we just recycle the existing Event instance?
+						//@TODO Is there a way to recycle the existing Event
+						// instance to avoid instantiating a new copy?
 						var delegated = e.clone();
 						e.stopImmediatePropagation();
 						targets[0].emit(delegated);
@@ -190,7 +191,6 @@ this.Fizz = this.Fizz || { };
 	Stage.prototype.banishProperty("scale");
 	Stage.prototype.banishProperty("velocity");
 	Stage.prototype.banishProperty("acceleration");
-	Stage.prototype.banishProperty("density");
 	Stage.prototype.banishProperty("alpha");
 
 	// Stage export

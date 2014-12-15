@@ -34,7 +34,8 @@ this.Fizz = this.Fizz || { };
 		kill: function() {
 			this.emit(Fizz.Entity.EVENTS.DEATH);
 			this.exists = false;
-			//@TODO Should 'kill' remove from parent?
+			//@TODO Should 'kill' remove from parent? Note that an entity's
+			// given DisplayGroup will still hold a child reference to it
 			this.parent = null;
 			return this;
 		},
@@ -67,8 +68,6 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_getGlobalPosition: function() {
-			//@TODO Remove forward dependency ugliness
-			// if(Fizz.Stage && this instanceof Fizz.Stage) { return new Fizz.Point(0, 0); }
 			if(null === this.parent) { return new Fizz.Point(this.x, this.y); }
 			return new Fizz.Point(this.x, this.y).add(this.parent._getGlobalPosition());
 		}

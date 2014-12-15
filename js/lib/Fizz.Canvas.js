@@ -120,7 +120,9 @@ this.Fizz = this.Fizz || { };
 			var position = new Fizz.Point(0,0);
 	
 			if(this._DOMElement && this._DOMElement.ownerDocument) {
-				 
+				
+				//@TODO Account for CSS padding
+				
 				var d = this._DOMElement.ownerDocument.documentElement,
 					clientRect = this._DOMElement.getBoundingClientRect();
 

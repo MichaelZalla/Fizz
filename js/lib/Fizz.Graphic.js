@@ -9,8 +9,10 @@ this.Fizz = this.Fizz || { };
 
 			Fizz.DisplayEntity.prototype.init.call(this, null, false);
 
-			// Default appearance for rendering bounding box
-			//@TODO Should be assigned conditionally based on current environment
+			//@TODO Reconsider the pre-load appearance of a graphic/texture
+			// Should the library provide a default texture to stretch over
+			// a Graphic's cache until its spritesheet has loaded?
+			// Maybe something base-64 encoded to avoid any async requests
 			this._fillStyle = Fizz.Color.CLEAR;
 			this._strokeStyle = Fizz.Color.CYAN;
 			this._lineWidth = 2;
@@ -33,7 +35,7 @@ this.Fizz = this.Fizz || { };
 
 			// Otherwise, assume that the user has passed in an actual settings object
 			if(null !== settings && typeof settings === "object") {
-				//@TODO Is this step necessary?
+				//@TODO Is this step necessary? It will be recached 
 				if('scale' in settings && settings.scale instanceof Fizz.Point) {
 					// Triggers re-caching
 					this.scaleX = settings.scale.x;
@@ -106,8 +108,8 @@ this.Fizz = this.Fizz || { };
 			this._cacheCanvasContext = this._cacheCanvas.getContext('2d');
 
 			// Post-processing of cached bitmap data (alpha, filters, etc)
-			//@TODO Implement some generic image filtering functions and
-			// filter assignment for DisplayEntities
+			//@TODO Implement some generic image filters and add filters list
+			// to DisplayEntity class
 
 		},
 

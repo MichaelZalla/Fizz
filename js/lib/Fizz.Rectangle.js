@@ -81,9 +81,7 @@ this.Fizz = this.Fizz || { };
 	Rectangle.prototype.exposeProperty("size", "_size",
 		Fizz.restrict.toInstanceType("_size", "Fizz.Point"));
 	
-	// Note that we delegate assignment validation to the Point class (it has its own restrictions in place)
-	//@TODO Is it necessary to include these setters, or does it introduce redundancy?
-	
+	// Note that we delegate validation to the Point class (which sets assignment restrictions)
 	Rectangle.prototype.exposeProperty("x", "_position.x",  Fizz.restrict.toNumber("_position.x"));
 	Rectangle.prototype.exposeProperty("y", "_position.y",  Fizz.restrict.toNumber("_position.y"));
 	Rectangle.prototype.exposeProperty("width",  "_size.x", Fizz.restrict.toNumber("_size.x"));

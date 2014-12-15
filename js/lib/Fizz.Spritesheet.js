@@ -130,6 +130,38 @@ this.Fizz = this.Fizz || { };
 
 		// Private methods
 
+		_setImageSource: function(value) {
+
+			function interceptLoad() { this.emit(Fizz.Spritesheet.EVENTS.LOAD); }
+			function interceptError() { this.emit(Fizz.Spritesheet.EVENTS.ERROR); }
+
+			if(typeof value === "string") {
+				
+				this._source = value;
+				this._sourceImage = new Image();
+
+				// Attach onload listeners for automatic re-caching
+				this._sourceImage.onload = interceptLoad.bind(this);
+				this._sourceImage.onerror = interceptError.bind(this);
+				
+				this._sourceImage.src = this._source;
+
+			} else if(value instanceof Image && value.src) {
+
+				this._source = value.src;
+				this._sourceImage = value;
+				
+				if(this._sourceImage.complete) {
+					setTimeout(this.emit.bind(this, Fizz.Spritesheet.EVENTS.LOAD), 10);
+				}
+				else {
+					this._sourceImage.onload = interceptLoad.bind(this);
+					this._sourceImage.onerror = interceptError.bind(this);
+				}
+			}
+		
+		},
+
 		_onImageLoad: function() {
 			
 			this._loaded = true;
@@ -190,38 +222,8 @@ this.Fizz = this.Fizz || { };
 
 	// Dynamic public properties
 
-	// Notice that we attach onload listeners for automatic re-caching
-	//@TODO Move this out to a 'private' method
 	Spritesheet.prototype.exposeProperty("source", "_source",
-
-		function(value) {
-
-			function interceptLoad() { this.emit(Fizz.Spritesheet.EVENTS.LOAD); }
-			function interceptError() { this.emit(Fizz.Spritesheet.EVENTS.ERROR); }
-
-			if(typeof value === "string") {
-				
-				this._source = value;
-				this._sourceImage = new Image();
-				this._sourceImage.onload = interceptLoad.bind(this);
-				this._sourceImage.onerror = interceptError.bind(this);
-				this._sourceImage.src = this._source;
-
-			} else if(value instanceof Image && value.src) {
-
-				this._source = value.src;
-				this._sourceImage = value;
-				
-				if(this._sourceImage.complete) {
-					setTimeout(this.emit.bind(this, Fizz.Spritesheet.EVENTS.LOAD), 10);
-				}
-				else {
-					this._sourceImage.onload = interceptLoad.bind(this);
-					this._sourceImage.onerror = interceptError.bind(this);
-				}
-			}
-		
-		});
+		Spritesheet.prototype._setImageSource);
 
 	// Class export
 	Fizz.Spritesheet = Spritesheet;
