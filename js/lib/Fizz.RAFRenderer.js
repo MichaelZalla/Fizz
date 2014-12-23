@@ -79,9 +79,10 @@ this.Fizz = this.Fizz || { };
 		},
 
 		toString: function() {
-			return "[RAFRenderer (rendering='" + this._rendering.toString() + "', " +
-								 "framerate='" + this._framerate.toFixed(2) + "', " +
-								 "logFPS='" + this._logFPS.toString() + "')]";
+			return String.format("[RAFRenderer (rendering='{0}', framerate='{1}', logFPS='{2}')]",
+				this._rendering.toString(),
+				this._framerate.toFixed(2),
+				this._logFPS.toString());
 		},
 
 		// Private methods
