@@ -46,7 +46,6 @@ this.Fizz = this.Fizz || { };
 			this.position = entity.position.clone();
 			this.size = entity.size.clone();
 			if(entity instanceof Fizz.Entity) {
-				// this.name = entity.name;
 				this.exists = entity.exists;
 				this._scale = entity.scale.clone();
 				this._velocity = entity.velocity.clone();

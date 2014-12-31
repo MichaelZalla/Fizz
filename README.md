@@ -4,28 +4,19 @@ An extensible JavaScript library for writing interactive 2D graphics and simulat
 
 ### To-Do's
 
+- [ ] DisplayEntity class should check a '_dirty' flag on each call to 'draw__optimized' (setters for 'width', 'height', 'opacity', etc, should simply set the flag)
+- [ ] DisplayEntity class should support an explicit z-index value that is used when rendering a scene
+- [ ] DisplayEntity class should support a bitmap filter API ('addFilter', 'removeFilter')
+		'''
+		var myFilter = function(x, y, pixelData) { ... }
+		'''
+- [ ] Write spec and implementation for Fizz.Camera class
+- [ ] Add camera registration specs and implementation to Fizz.Stage class
 - [ ] Write specs and implementation for Fizz.Demo class
 
-- [ ] Add variable playback speed for Sprite animations
+##### Considerations...
 
-- [ ] Add a 'filters' API to Fizz.DisplayEntity class ('addFilter', 'removeFilter') for bitmap (r,g,b) filtering: myFilter = function(x, y, colorData) { ... }
-
-- [ ] Changes to a DisplayEntity's dimensions ('width'/'height') should trigger a re-cache
-
-- [ ] DisplayEntities should be given an explicit Z-index used when rendering a scene
-
-- [ ] Look at object pooling for frequently fired events, such as 'mouseover'?
-
-- [ ] Fizz.DisplayGrid class might be missing some specs (copy, clone)
-
-##### Curiosities and considerations...
-
-- Should EntityPool class allow reserving multiple entities at once?
-
-- Should EntityPool class have a method for explicitly deallocating X number of entities
-
-- Should EntityPool class occasionally test for good times to slim down its pool?
-
-- Should object/entity resetting be handled outside of the EntityPool class?
-
-- Could collision code be factored out of Fizz.Rectangle and Fizz.Stage?
+- [ ] Sprite animations should support customization of playback speeds
+- [ ] Memory usage could be reduced by pulling instances of frequently-firing events (e.g. – 'mousemove') from an event object pool
+- [ ] The EntityPool class supports dynamic growth; dynamic shrinking of the pool should be possible as well
+- [ ] Should the EntityPool class also allow you to reserve an arbitrary number of entities with a single method call?
