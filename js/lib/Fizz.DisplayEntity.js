@@ -186,10 +186,12 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_isVisible: function() {
-			if(false === this.exists) return false;
-			if(0 === this._alpha) return false;
-			if(0 === this.width * this.scale.x) return false;
-			if(0 === this.height * this.scale.y) return false;
+			if(false === this.exists) { return false; }
+			if(0 === this._alpha) 	  { return false; }
+			if(0 === this.width) 	  { return false; }
+			if(0 === this.height) 	  { return false; }
+			if(0 === this.scale.x) 	  { return false; }
+			if(0 === this.scale.y) 	  { return false; }
 			return true;
 		}
 
