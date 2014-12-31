@@ -100,7 +100,7 @@ this.Fizz = this.Fizz || { };
 
 		toHex: function() {
 			var values = ['_r','_g','_b'].map(function(p) {
-				return this[p].toString(16).toLowerCase();
+				return ('0' + this[p].toString(16)).slice(-2);
 			}.bind(this));
 			return "#" + values.toString().replace(/,/g,'');
 		},
