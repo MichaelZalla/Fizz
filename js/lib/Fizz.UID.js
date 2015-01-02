@@ -4,7 +4,7 @@ this.Fizz = this.Fizz || { };
 (function() {
 
 	var UID = function() {
-		throw new Error("Error: UID object cannot be instantiated!");
+		Fizz.throws("UID object cannot be instantiated!");
 	};
 
 	// Public methods

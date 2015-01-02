@@ -8,8 +8,7 @@ describe("A UID", function() {
 	});
 
 	it("cannot be directly instantiated", function() {
-		var e = new Error("Error: UID object cannot be instantiated!");
-		expect(function() { uid = new Fizz.UID(); }).toThrow(e);
+		expect(function() { uid = new Fizz.UID(); }).toThrow();
 	});
 
 	it("creates an internal counter whose value begins at zero", function() {
