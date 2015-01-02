@@ -70,10 +70,10 @@ describe("A RAFRenderer (RequestAnimationFrame Renderer)", function() {
 		expect(renderer.rendering).toBeFalsy();
 	});
 
-	it("has a 'startRendering' method and 'stopRendering' method", function() {
-		renderer.startRendering();
+	it("has a 'start' method and 'stop' method", function() {
+		renderer.start();
 		expect(renderer.rendering).toBeTruthy();
-		renderer.stopRendering();
+		renderer.stop();
 		expect(renderer.rendering).toBeFalsy();
 	});
 

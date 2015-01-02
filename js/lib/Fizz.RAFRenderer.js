@@ -21,7 +21,7 @@ this.Fizz = this.Fizz || { };
 
 		},
 
-		startRendering: function() {
+		start: function() {
 
 			if(this._rendering || null === this._stage) return;
 			
@@ -67,7 +67,7 @@ this.Fizz = this.Fizz || { };
 
 		},
 
-		stopRendering: function() {
+		stop: function() {
 
 			if(!this._rendering) return;
 
