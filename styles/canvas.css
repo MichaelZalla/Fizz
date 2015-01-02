@@ -1,13 +1,15 @@
 #canvas {
 	
 	/* See StackOverflow (http://stackoverflow.com/questions/7615009/) */
-    image-rendering: -moz-crisp-edges;          // FF 6.0+
-    image-rendering: -webkit-optimize-contrast; // Webkit
-                                                // (Safari now, Chrome soon)
-    image-rendering: -o-crisp-edges;            // OS X & Windows Opera (12.02+)
-    image-rendering: optimize-contrast;         // Possible future browsers
-    -ms-interpolation-mode: nearest-neighbor;   // IE
-    
+    image-rendering: optimizeSpeed;
+    /*image-rendering: optimize-contrast;         /* Possible future browsers */*/
+    image-rendering: -moz-crisp-edges;          /* FF 6.0+ */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (Safari) */
+    image-rendering: -o-crisp-edges;            /* Opera 12.02+ */
+    image-rendering: pixelated;                 /* Webkit (Chrome) */
+
+    -ms-interpolation-mode: nearest-neighbor;   /* IE */
+
     user-select:            none;
     -ms-user-select:        none;
     -webkit-user-select:    none;
