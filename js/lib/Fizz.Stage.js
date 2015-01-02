@@ -13,7 +13,6 @@ this.Fizz = this.Fizz || { };
 				
 				// If no drawing context is specified, create a new canvas
 				// element and assign it the default Stage dimensions
-				
 				context = window.document.createElement("canvas").getContext("2d");
 				context.canvas.width = Stage.DEFAULT_DIMENSIONS.x;
 				context.canvas.height = Stage.DEFAULT_DIMENSIONS.y;
@@ -33,7 +32,7 @@ this.Fizz = this.Fizz || { };
 					context = context.getContext("2d");
 				
 				if(!(context instanceof CanvasRenderingContext2D))
-					throw new Error("Attempt was made to instantiate a Stage instance without a valid drawing context");
+					Fizz.throws("Attempt was made to instantiate a Stage instance without a valid drawing context");
 				
 			}
 
@@ -125,6 +124,10 @@ this.Fizz = this.Fizz || { };
 					var coordinate = new Fizz.Point(e.mouseX, e.mouseY);
 
 					var rect = new Fizz.Rectangle();
+
+					//@TODO Maybe Entities should be given a 'pointerEvents' flag
+					// so they can pass on mouse events, delegating them to entities
+					// 'below' them in z-space
 
 					function getMouseTargets(container) {
 						

@@ -55,11 +55,12 @@ this.Fizz = this.Fizz || { };
 			var pos = this._getGlobalPosition();
 
 			// Nudge draw position (for Retina screens)
-			if(this._snapToPixel) {
-				pos.x = Math.floor(pos.x) + 0.5;
-				pos.y = Math.floor(pos.y) + 0.5;
-			}
+			// if(this._snapToPixel) {
+			// 	pos.x = Math.floor(pos.x) + 0.5;
+			// 	pos.y = Math.floor(pos.y) + 0.5;
+			// }
 
+			//@TODO Update this...
 			// We will rely on trigger to handle updating dirty caches
 			// instead of checking for a dirty cache at draw time
 			if(null === this._cacheCanvas || false === this._caching) {
@@ -73,16 +74,20 @@ this.Fizz = this.Fizz || { };
 			context.imageSmoothingEnabled =
 			context.mozImageSmoothingEnabled =
 			context.webkitImageSmoothingEnable = !(this._snapToPixel);
-			
+
 			context.drawImage(this._cacheCanvas, pos.x, pos.y);
 
 			// Post-render wireframe for dev mode
 			if(Fizz.getEnv() === 'dev') {
 
 				context.beginPath();
-				context.rect(0.5 + this.x, 0.5 + this.y,
+				
+				context.rect(
+					pos.x + 0.5,
+					pos.y + 0.5,
 					this.width * Math.abs(this.scale.x),
 					this.height * Math.abs(this.scale.y));
+
 				context.closePath();
 				
 				context.strokeStyle = this._strokeStyle.toRGB(true);
@@ -101,8 +106,8 @@ this.Fizz = this.Fizz || { };
 
 			// Fill in the boundaries of the Entity
 			context.rect(0.5, 0.5,
-				this.width * Math.abs(this.scale.x),
-				this.height * Math.abs(this.scale.y));
+				this.width * Math.abs(this.scale.x) - 1,
+				this.height * Math.abs(this.scale.y) - 1);
 				
 			context.closePath();
 			
@@ -200,7 +205,7 @@ this.Fizz = this.Fizz || { };
 	// Static class members
 
 	DisplayEntity.BOUNDING_BOX_FILL_STYLE = Fizz.Color.WHITE;
-	DisplayEntity.BOUNDING_BOX_STROKE_STYLE = Fizz.Color.BLUE;
+	DisplayEntity.BOUNDING_BOX_STROKE_STYLE = Fizz.Color.YELLOW;
 	DisplayEntity.BOUNDING_BOX_LINE_WIDTH = 1;
 
 	DisplayEntity.EVENTS = { };

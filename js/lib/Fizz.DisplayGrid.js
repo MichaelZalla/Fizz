@@ -49,47 +49,49 @@ this.Fizz = this.Fizz || { };
 
 		addChild: function(children) {
 
+			if(this._children.length === this.capacity) return false;
+
 			// Normalize inputs (argument vs array lists)
 			if(arguments.length > 1) {
 				var args = Array.prototype.slice.call(arguments, 0);
 				return this.addChild.call(this, args);
 			}
+			if(children instanceof Fizz.Entity) children = [children];
+			if(!(children instanceof Array)) return false;
 
-			if(children instanceof Fizz.DisplayEntity) children = [children];
-			if(children instanceof Array) {
+			var hitCapacity = false;
 
-				var hitCapacity = false;
+			children.foreach(function(child) {
 
-				children.foreach(function(child) {
-
-					// Check whether we've hit capacity (full grid)
-					if(this._children.length === this.capacity) {
-						hitCapacity = true;
-						return;
-					}
-
-					var len = this._children.length;
-					var fromX, fromY, toX, toY;
-
-					fromX = toX = len ? this._children[len - 1].x : this._cellWidth * Math.abs(this._scale.x) * -1;
-					fromY = toY = len ? this._children[len - 1].y : 0;
+				// Check whether we've hit capacity (full grid)
+				if(this._children.length === this.capacity) {
 					
-					if(fromX < (this._columns - 1) * this._cellWidth * Math.abs(this._scale.x)) {
-						toX += this._cellWidth * Math.abs(this._scale.x);
-					} else {
-						toX = 0;
-						toY += this._cellHeight * Math.abs(this._scale.y);
-					}
+					hitCapacity = true;
+					
+					return;
+					
+				}
 
-					child._position = new Fizz.Point(toX, toY);
+				var len = this._children.length;
+				var fromX, fromY, toX, toY;
 
-					Fizz.DisplayGroup.prototype.addChildAt.call(this, child);
+				fromX = toX = len ? this._children[len - 1].x : this._cellWidth * Math.abs(this._scale.x) * -1;
+				fromY = toY = len ? this._children[len - 1].y : 0;
+				
+				if(fromX < (this._columns - 1) * this._cellWidth * Math.abs(this._scale.x)) {
+					toX += this._cellWidth * Math.abs(this._scale.x);
+				} else {
+					toX = 0;
+					toY += this._cellHeight * Math.abs(this._scale.y);
+				}
 
-				}, this);
+				child._position = new Fizz.Point(toX, toY);
 
-				return !hitCapacity;
+				Fizz.DisplayGroup.prototype.addChildAt.call(this, child);
 
-			}
+			}, this);
+
+			return !hitCapacity;
 
 		},
 

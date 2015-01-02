@@ -13,10 +13,12 @@ this.Fizz = this.Fizz || { };
 			this._texture = this._currentAnimation.begin;
 			this._paused = true;
 
+			this._timeUntilTransition = 0;
+
 			// Allow animation to be specified at creation for pre-caching
 			if(null !== settings && typeof settings === "object") {
 				if('animation' in settings && typeof settings.animation === "string") {
-					this.gotoAndStop(settings.animation);
+					this.gotoAndPlay(settings.animation);
 					delete settings.animation;
 				}
 			}
@@ -27,7 +29,13 @@ this.Fizz = this.Fizz || { };
 			Fizz.Graphic.prototype.update.call(this, deltaT);
 			if(false === this._paused && this._currentAnimation.begin < this._currentAnimation.end) {
 				//@TODO Implement speed variable in animation objects
-				this._advanceFrame();
+				// this._advanceFrame();
+				if(this._timeUntilTransition <= 0) {
+					this._advanceFrame();
+					this._timeUntilTransition = parseInt(1000 / this._currentAnimation.speed);
+				} else {
+					this._timeUntilTransition -= deltaT;
+				}
 			}
 		},
 
