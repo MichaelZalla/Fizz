@@ -119,15 +119,15 @@ this.Fizz = this.Fizz || { };
 			
 			var position = new Fizz.Point(0,0);
 	
-			if(this._DOMElement && this._DOMElement.ownerDocument) {
+			if(this._DOMElement && this._DOMElement.ownerDocument) {				
 				
 				//@TODO Account for CSS padding
 				
 				var d = this._DOMElement.ownerDocument.documentElement,
 					clientRect = this._DOMElement.getBoundingClientRect();
 
-				position.x = clientRect.left + window.pageXOffset - d.offsetLeft;
-				position.y = clientRect.top + window.pageYOffset - d.offsetTop;
+				position.x = clientRect.left - d.offsetLeft;// + window.pageXOffset;
+				position.y = clientRect.top - d.offsetTop;// + window.pageYOffset;
 
 			}
 			
@@ -264,10 +264,6 @@ this.Fizz = this.Fizz || { };
 							}
 						}
 					}, this);
-
-					// Log the event
-					Fizz.logger.filter("dev")
-						.log("Event occurred: [Event (type='{0}')]", data.type);
 
 					// Emit a custom (decorated) Fizz.Event from the Canvas
 					this.emit.call(this, data.type, data);
