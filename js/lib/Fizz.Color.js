@@ -126,15 +126,18 @@ this.Fizz = this.Fizz || { };
 	// (Note that we exposing these on the constructor and not the prototype)
 
 	Color.exposeProperty('BLACK', 	function() { return new Color("#000000"); });
-	Color.exposeProperty('BLUE', 	function() { return new Color("#0000FF"); });
-	Color.exposeProperty('CYAN', 	function() { return new Color("#00FFFF"); });
 	Color.exposeProperty('GRAY', 	function() { return new Color("#808080"); });
-	Color.exposeProperty('GREEN', 	function() { return new Color("#008000"); });
-	Color.exposeProperty('MAGENTA', function() { return new Color("#FF00FF"); });
-	Color.exposeProperty('RED', 	function() { return new Color("#FF0000"); });
 	Color.exposeProperty('WHITE', 	function() { return new Color("#FFFFFF"); });
-	Color.exposeProperty('YELLOW', 	function() { return new Color("#FFFF00"); });
 	Color.exposeProperty('CLEAR', 	function() { return new Color(0,0,0,0.0); });
+	
+	Color.exposeProperty('LIME', 	function() { return new Color("#00ff00"); });
+	Color.exposeProperty('CYAN', 	function() { return new Color("#00FFFF"); });
+	Color.exposeProperty('MAGENTA', function() { return new Color("#FF00FF"); });
+	
+	Color.exposeProperty('RED', 	function() { return new Color("#FF0000"); });
+	Color.exposeProperty('YELLOW', 	function() { return new Color("#FFFF00"); });
+	Color.exposeProperty('GREEN', 	function() { return new Color("#008000"); });
+	Color.exposeProperty('BLUE', 	function() { return new Color("#0000FF"); });
 
 	// Public properties
 
