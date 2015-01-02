@@ -13,9 +13,8 @@ this.Fizz = this.Fizz || { };
 			// Should the library provide a default texture to stretch over
 			// a Graphic's cache until its spritesheet has loaded?
 			// Maybe something base-64 encoded to avoid any async requests
-			this._fillStyle = Fizz.Color.CLEAR;
-			this._strokeStyle = Fizz.Color.CYAN;
-			this._lineWidth = 2;
+			this._fillStyle = Fizz.Color.LIME;
+			this._lineWidth = 1;
 
 			this._spritesheet = null;
 			this._texture = Fizz.Graphic.DEFAULT_TEXTURE;

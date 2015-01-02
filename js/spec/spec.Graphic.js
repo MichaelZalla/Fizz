@@ -28,11 +28,10 @@ describe("A Graphic", function() {
 		expect(graphic instanceof Fizz.DisplayEntity).toBeTruthy();
 	});
 
-	it("will render as a blue bounding-box when no spritesheet data is available",
+	it("will render as a lime-green bounding-box when no spritesheet data is available",
 	function() {
-		expect(graphic.fillStyle.equals(Fizz.Color.CLEAR)).toBeTruthy();
-		expect(graphic.strokeStyle.equals(Fizz.Color.CYAN)).toBeTruthy();
-		expect(graphic.lineWidth).toEqual(2);
+		expect(graphic.fillStyle.equals(Fizz.Color.LIME)).toBeTruthy();
+		expect(graphic.strokeStyle.equals(Fizz.Color.YELLOW)).toBeTruthy();
 	});
 
 	it("can be instantiated from an existing Spritesheet object", function() {
