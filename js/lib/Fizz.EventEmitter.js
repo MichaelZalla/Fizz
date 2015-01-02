@@ -136,9 +136,14 @@ this.Fizz = this.Fizz || { };
 			}
 
 			e.target = this;
+
 			
 			// Allow decoration of Event instance with arbitrary contextual data
 			e.assign(data);
+
+			// Log the event
+			Fizz.logger.filter("dev")
+				.log("Event occurred: [Event (type='{0}', target='{1}')]", e.type, e.target.name || e.target);
 
 			// Construct capture path for event processing
 			var capturePath = this._buildCapturePath();
