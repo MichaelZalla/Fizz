@@ -33,15 +33,14 @@ this.Fizz = this.Fizz || { };
 
 		updateCache: function() {
 
-			// Computed values (scans children to determine container width)
+			// Computed values (scans children to determine container dimensions)
 			var bounds = this._getChildrenBoundingBox();
 			var width = bounds[1].x - bounds[0].x;
 			var height = bounds[1].y - bounds[0].y;
 
-			//@TODO Figure out why 'width' and 'height' getters return 'undefined',
-			// but '_size.x' and '_size.y' work correctly?
-			this.width = width;
-			this.height = height;
+			// Update container size
+			this.size.x = width;
+			this.size.y = height;
 
 			// Call the super method to prepare the cache canvas
 			Fizz.DisplayEntity.prototype.updateCache.call(this);
@@ -49,8 +48,8 @@ this.Fizz = this.Fizz || { };
 			if(true === this._caching) {
 
 				// Update the group's cache canvas dimensions
-				this._cacheCanvas.width = width;
-				this._cacheCanvas.height = height;
+				this._cacheCanvas.width = this.size.x;
+				this._cacheCanvas.height = this.size.y;
 
 				// Clear the current display group cache
 				var ctx = this._cacheCanvasContext;
@@ -282,7 +281,7 @@ this.Fizz = this.Fizz || { };
 			});
 
 			return [new Fizz.Point(left, top),
-					new Fizz.Point(right, btm)];
+					new Fizz.Point(right - left, btm - top)];
 
 		}
 
@@ -303,23 +302,13 @@ this.Fizz = this.Fizz || { };
 
 	// Public dynamic properties
 	
-	DisplayGroup.prototype.exposeProperty("width", function() {
-		var cbb = this._getChildrenBoundingBox();
-		var topLeft = cbb[0],
-			bottomRight = cbb[1];
-		return bottomRight.x - topLeft.x;
-	});
-	
-	DisplayGroup.prototype.exposeProperty("height", function() {
-		var cbb = this._getChildrenBoundingBox();
-		var topLeft = cbb[0],
-			bottomRight = cbb[1];
-		return bottomRight.y - topLeft.y;
+	DisplayGroup.prototype.exposeProperty("_size", function() {
+		return this._getChildrenBoundingBox()[1];
 	});
 
 	// Class export
 	Fizz.DisplayGroup = DisplayGroup;
 
-	Fizz.logger.filter('all').log("Loaded module 'DisplayGroup'.");
+	Fizz.logger.filter('dev').log("Loaded module 'DisplayGroup'.");
 
 }());

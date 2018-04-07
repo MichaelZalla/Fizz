@@ -251,6 +251,7 @@ describe("A DisplayGroup", function() {
 		});
 
 		group.addChild(child1, child2);
+		
 		expect(group.width).toEqual(80);
 		expect(group.height).toEqual(80);
 
