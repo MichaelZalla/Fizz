@@ -34,7 +34,8 @@ this.Fizz = this.Fizz || { };
 		},
 
 		copy: function(point) {
-			this.init(point.x, point.y);
+			this.x = point.x;
+			this.y = point.y;
 		},
 
 		clone: function() {
