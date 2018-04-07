@@ -65,14 +65,15 @@ describe("A Stage", function() {
 	   	expect(stage.height).toEqual(480);
 	});
 
-	it("will throw an error if the context reference passed to the constructor is invalid",
-	function() {
-		function willThrowOnInvalidContextReference() {
-			var stage = new Fizz.Stage(window);
-			return stage;
-		}
-		expect(willThrowOnInvalidContextReference).toThrow();
-	});
+	//@TODO Remove this (Stage constructor has a fallback, so initialization will always succeed)
+	// it("will throw an error if the context reference passed to the constructor is invalid",
+	// function() {
+	// 	function willThrowOnInvalidContextReference() {
+	// 		var stage = new Fizz.Stage(window);
+	// 		return stage;
+	// 	}
+	// 	expect(willThrowOnInvalidContextReference).toThrow();
+	// });
 
 	it("has a 'draw' method that will draw all of its DisplayEntity children to " +
 		"its assigned context",

@@ -5,35 +5,41 @@ this.Fizz = this.Fizz || { };
 
 	var Stage = Fizz.DisplayGroup.extend({
 			
-		init: function(context) {
+		init: function() {
 
-			// Normalize context parameter
+			// Normalize constructor argument(s)
 
-			if(0 === arguments.length) {
-				
-				// If no drawing context is specified, create a new canvas
-				// element and assign it the default Stage dimensions
-				context = window.document.createElement("canvas").getContext("2d");
-				context.canvas.width = Stage.DEFAULT_DIMENSIONS.x;
-				context.canvas.height = Stage.DEFAULT_DIMENSIONS.y;
+			var context;
 
-			} else {
-				
-				// Also allows passing of canvas element ID as 'context'
-				if(typeof context === "string") {
-					var canvas = window.document.getElementById(context.replace('#',''));
-					if(canvas) {
-						context = canvas.getContext("2d");
-					}
+			// Allow passing of canvas context
+			if(arguments[0] instanceof CanvasRenderingContext2D) {
+				context = arguments[0];
+			}
+
+			// Allow passing of canvas element instance
+			else if(arguments[0] instanceof HTMLCanvasElement) {
+				context = arguments[0].getContext("2d");
+			}
+			
+			// Allow passing of canvas element ID
+			else if(typeof arguments[0] === "string") {
+				var canvasElement = window.document.getElementById(arguments[0].replace('#',''));
+				if(canvasElement) {
+					context = canvasElement.getContext("2d");
 				}
+			}
 
-				// Also allows passing of canvas element as 'context'
-				if(context instanceof HTMLCanvasElement)
-					context = context.getContext("2d");
-				
-				if(!(context instanceof CanvasRenderingContext2D))
-					Fizz.throws("Attempt was made to instantiate a Stage instance without a valid drawing context");
-				
+			else {
+
+				// If no drawing context was determined, create a new canvas element
+				// and assign it either custom or default dimensions depending on the input
+				var width = (typeof arguments[0] === "number") ? width : Stage.DEFAULT_DIMENSIONS.x,
+					height = (typeof arguments[1] === "number") ? height : Stage.DEFAULT_DIMENSIONS.y;
+
+				context = window.document.createElement("canvas").getContext("2d");
+				context.canvas.width = width;
+				context.canvas.height = height;
+
 			}
 
 			Fizz.DisplayGroup.prototype.init.call(this, null, false);
@@ -44,6 +50,11 @@ this.Fizz = this.Fizz || { };
 
 			if(this._canvas !== null) {
 
+				//@TODO If we choose to change units from pixels to something
+				// else, then we'll need to compute a conversion here
+				this._size.x = this._canvas.width;
+				this._size.y = this._canvas.height;
+
 				// Create a new canvas wrapper for capturing events
 				this._canvasWrapper = new Fizz.Canvas(this._canvas);
 
@@ -53,9 +64,6 @@ this.Fizz = this.Fizz || { };
 				this._setDelegatedCanvasListeners();
 			
 			}
-
-			this._width = (null !== this._canvas) ? this._canvas.width : null;
-			this._height = (null !== this._canvas) ? this._canvas.height : null;
 
 			this.name = "Stage";
 
@@ -182,23 +190,24 @@ this.Fizz = this.Fizz || { };
 
 	Stage.prototype.exposeProperty("canvas", "_canvasContext.canvas");
 
-	// Overwriting dynamic 'width' and 'height' getter-setter pairs
-	Stage.prototype.exposeProperty("width");
-	Stage.prototype.exposeProperty("height");
+	// Make 'alpha' a read-only property
+	Stage.prototype.banishProperty("alpha");
+
+	// Overwriting dynamic 'width' and 'height' properties
+	Stage.prototype.exposeProperty("width", "_canvas.width");
+	Stage.prototype.exposeProperty("height", "_canvas.height");
 
 	// Banished (protected) properties
-
 	Stage.prototype.banishProperty("stage");
 	Stage.prototype.banishProperty("exists");
 	Stage.prototype.banishProperty("life");
 	Stage.prototype.banishProperty("scale");
 	Stage.prototype.banishProperty("velocity");
 	Stage.prototype.banishProperty("acceleration");
-	Stage.prototype.banishProperty("alpha");
 
 	// Stage export
 	Fizz.Stage = Stage;
 
-	Fizz.logger.filter('all').log("Loaded module 'Stage'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Stage'.");
 
 }());
