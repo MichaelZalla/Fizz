@@ -13,6 +13,8 @@ An extensible JavaScript library for writing interactive 2D graphics and simulat
 - [ ] Write spec and implementation for Fizz.Camera class
 - [ ] Add camera registration specs and implementation to Fizz.Stage class
 - [ ] Write specs and implementation for Fizz.Demo class
+- [ ] Update 'new Error' to 'Fizz.throws' where necessary
+- [ ] Add test for nested alpha values
 
 ##### Considerations...
 
