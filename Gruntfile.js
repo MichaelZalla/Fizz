@@ -12,7 +12,8 @@ var components = [
 	'Object',
 	'Restrict',
 	'Environment',
-	'Logger', // Missing spec!
+	/* Missing spec! */
+	'Logger',
 
 	// Utilities
 
