@@ -121,15 +121,25 @@ this.Fizz = this.Fizz || { };
 	});
 
 	// Override Fizz.Rectangle's dynamic position properties to account for scale
+	
 	Entity.prototype.exposeProperty("right",  function() {
 		return this._position.x + this._size.x * Math.abs(this._scale.x);
 	});
 
-	// Override Fizz.Rectangle's dynamic position properties to account for scale
 	Entity.prototype.exposeProperty("bottom", function() {
 		return this._position.y + this._size.y * Math.abs(this._scale.y);
 	});
 	
+	// Override Fizz.Rectangle's dynamic position properties to account for scale
+	
+	Entity.prototype.exposeProperty("width", function() {
+		return this.size.x * Math.abs(this.scale.x);
+	});
+
+	Entity.prototype.exposeProperty("height", function() {
+		return this.size.y * Math.abs(this.scale.y);
+	});
+
 	// Class export
 	Fizz.Entity = Entity;
 
