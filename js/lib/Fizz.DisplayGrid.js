@@ -123,6 +123,20 @@ this.Fizz = this.Fizz || { };
 
 		toString: function() {
 			return String.format("[DisplayGrid (name='{0}')]", this.name);
+		},
+
+		// Private methods
+
+		_repopulate: function() {
+
+			var children = this._children.slice(0);
+
+			this.empty();
+
+			children.foreach(function(child) {
+				this.addChildAt(this._children.length);
+			});
+
 		}
 
 	});
@@ -134,10 +148,38 @@ this.Fizz = this.Fizz || { };
 
 	// Public properties
 
-	DisplayGrid.prototype.exposeProperty("rows");
-	DisplayGrid.prototype.exposeProperty("columns");
-	DisplayGrid.prototype.exposeProperty("cellWidth");
-	DisplayGrid.prototype.exposeProperty("cellHeight");
+	DisplayGrid.prototype.exposeProperty("rows", "_rows",
+		function(value) {
+			if(typeof value === "number" && value !== this.rows && value >= 0) {
+				this._rows = value;
+				this._repopulate();
+			}
+		});
+
+	DisplayGrid.prototype.exposeProperty("columns", "_columns",
+		function(value) {
+			if(typeof value === "number" && value !== this.columns && value >= 0) {
+				this._columns = value;
+				this._repopulate();
+			}
+		});
+
+	DisplayGrid.prototype.exposeProperty("cellWidth", "_cellWidth",
+		function(value) {
+			if(typeof value === "number" && value !== this.cellWidth && value >= 0) {
+				this._cellWidth = value;
+				this._repopulate();
+			}
+		});
+
+	DisplayGrid.prototype.exposeProperty("cellHeight", "_cellHeight",
+		function(value) {
+			if(typeof value === "number" && value !== this.cellHeight && value >= 0) {
+				this._cellHeight = value;
+				this._repopulate();
+			}
+		});
+
 
 	// Public dynamic properties
 
