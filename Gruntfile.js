@@ -93,7 +93,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			files: sources.concat(specs),
-			tasks: ['jasmine', 'jshint']
+			tasks: ['jasmine', 'jshint', 'minify']
 		},
 
 		jasmine: {
