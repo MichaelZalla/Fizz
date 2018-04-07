@@ -87,7 +87,7 @@ describe("A DisplayEntity", function() {
 		expect(entity._cacheCanvasContext).toBeDefined();
 		
 		var previousCacheWidth = entity._cacheCanvas.width;
-		entity.width = 25;
+		entity.size.x = 25;
 		entity.updateCache();
 		expect(entity._cacheCanvas.width).not.toEqual(previousCacheWidth);
 
@@ -102,18 +102,23 @@ describe("A DisplayEntity", function() {
 		
 		var entity1 = new Fizz.DisplayEntity({
 			'size': [0, 50],
-			'caching': true }, true);
+			'caching': true
+		});
 
 		var entity2 = new Fizz.DisplayEntity({
 			'size': [0, 50],
-			'caching': false }, true);
+			'caching': false
+		});
+
+		entity1.updateCache();
+		entity2.updateCache();
 
 		// Record the original width of both caches
 		var previousCacheWidth1 = entity1._cacheCanvas.width;
 		var previousCacheWidth2 = entity2._cacheCanvas.width;
 		
 		// Update the dimensions of both entities
-		entity1.width = entity2.width = 200;
+		entity1.size.x = entity2.size.x = 200;
 		entity1.draw__optimized(context); // Should trigger caching
 		entity2.draw__optimized(context); // Should not trigger caching
 
@@ -139,8 +144,8 @@ describe("A DisplayEntity", function() {
 
 		var dirtyCache = null;
 
-		entity.width = 256;
-		entity.height = 256;
+		entity.size.x = 256;
+		entity.size.y = 256;
 
 		//@TODO Should this trigger re-caching automatically?
 		entity.updateCache();
@@ -160,18 +165,6 @@ describe("A DisplayEntity", function() {
 		expect(entity.scale.y).toEqual(0.5);
 		expect(entity._cacheCanvas.width).toEqual(128 + 1);
 		expect(entity._cacheCanvas.height).toEqual(128 + 1);
-
-	});
-
-	it("will update its cache when the entity's alpha value is changed", function() {
-
-		expect(entity._cacheCanvasContext.globalAlpha).toEqual(1.0);
-
-		entity.alpha = 0.5;
-		expect(Math.floor(entity._cacheCanvasContext.globalAlpha * 10)).toEqual(5);
-
-		entity.alpha = 0.3;
-		expect(Math.floor(entity._cacheCanvasContext.globalAlpha * 10)).toEqual(3);
 
 	});
 

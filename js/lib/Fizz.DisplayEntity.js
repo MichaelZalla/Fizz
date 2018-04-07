@@ -5,7 +5,7 @@ this.Fizz = this.Fizz || { };
 
 	var DisplayEntity = Fizz.Entity.extend({
 	
-		init: function(settings, cacheOnCreation) {
+		init: function(settings) {
 
 			var args = [];
 			if(typeof settings === "object" && settings !== null) {
@@ -24,7 +24,7 @@ this.Fizz = this.Fizz || { };
 			this._cacheCanvas = null;
 			this._cacheCanvasContext = null;
 
-			this._alpha = 1.0;
+			this._alpha = 1;
 
 			// Relies on shared default Color instances until
 			// otherwise specified (fine to assign primitives)
@@ -38,11 +38,6 @@ this.Fizz = this.Fizz || { };
 				this.assign(settings);
 			}
 
-			// Cache immediately if specified
-			if(typeof cacheOnCreation === "boolean" && cacheOnCreation) {
-				this.updateCache();
-			}
-
 		},
 
 		draw__optimized: function(context) {
@@ -50,44 +45,42 @@ this.Fizz = this.Fizz || { };
 			//@TODO 'draw' method should rely on 'cache' method, not vice-versa
 
 			if(typeof context === "undefined") return false;
-			if(false === this.exists || !this._isVisible()) return false;
+			if(false === this.exists) return false;
 
 			var pos = this._getGlobalPosition();
 
 			// Nudge draw position (for Retina screens)
-			// if(this._snapToPixel) {
-			// 	pos.x = Math.floor(pos.x) + 0.5;
-			// 	pos.y = Math.floor(pos.y) + 0.5;
-			// }
-
-			//@TODO Update this...
-			// We will rely on trigger to handle updating dirty caches
-			// instead of checking for a dirty cache at draw time
-			if(null === this._cacheCanvas || false === this._caching) {
-				this.updateCache();
+			if(this._snapToPixel) {
+				pos.x = Math.floor(pos.x); // + 0.5;
+				pos.y = Math.floor(pos.y); // + 0.5;
 			}
 
-			//@TODO constant save-restore may be unecessary work
-			
-			context.save();
+			if(this._isVisible()) {
 
-			context.imageSmoothingEnabled =
-			context.mozImageSmoothingEnabled =
-			context.webkitImageSmoothingEnable = !(this._snapToPixel);
+				//@TODO Update this...
+				// We will rely on trigger to handle updating dirty caches
+				// instead of checking for a dirty cache at draw time
+				if(null === this._cacheCanvas || false === this._caching) {
+					this.updateCache();
+				}
 
-			context.drawImage(this._cacheCanvas, pos.x, pos.y);
+				context.globalAlpha = this._getGlobalAlpha();
+
+				context.imageSmoothingEnabled =
+				context.mozImageSmoothingEnabled =
+				context.webkitImageSmoothingEnable = !(this._snapToPixel);
+
+				context.drawImage(this._cacheCanvas, pos.x, pos.y);
+
+			}
 
 			// Post-render wireframe for dev mode
 			if(Fizz.getEnv() === 'dev') {
 
-				context.beginPath();
-				
-				context.rect(
-					pos.x + 0.5,
-					pos.y + 0.5,
-					this.width * Math.abs(this.scale.x),
-					this.height * Math.abs(this.scale.y));
+				context.globalAlpha = 1;
 
+				context.beginPath();
+				context.rect(pos.x + 0.5, pos.y + 0.5, this.width, this.height);
 				context.closePath();
 				
 				context.strokeStyle = this._strokeStyle.toRGB(true);
@@ -95,8 +88,6 @@ this.Fizz = this.Fizz || { };
 				context.stroke();
 
 			}
-			
-			context.restore();
 
 		},
 
@@ -124,25 +115,19 @@ this.Fizz = this.Fizz || { };
 				this._cacheCanvasContext = this._cacheCanvas.getContext("2d");
 			}
 
-			//@TODO Should changes to width/height trigger re-cache (like scale)
 			if(!!(this.width !== this._cacheCanvas.width ||
 				  this.height !== this._cacheCanvas.height)) {
-				this._cacheCanvas.width = Math.floor(this.width * Math.abs(this.scale.x)) + 1;
-				this._cacheCanvas.height = Math.floor(this.height * Math.abs(this.scale.y)) + 1;
+				this._cacheCanvas.width = Math.floor(this.width) + 1;
+				this._cacheCanvas.height = Math.floor(this.height) + 1;
 			}
 
 			//@TODO double-check correctness of half-pixel offsets
-			this._cacheCanvasContext.clearRect(
-				0.5,
-				0.5,
-				this.width * Math.abs(this.scale.x),
-				this.height * Math.abs(this.scale.y)
-			);
-
-			this._cacheCanvasContext.globalAlpha = this._alpha;
+			this._cacheCanvasContext.clearRect(0.5, 0.5, this.width, this.height);
 
 			this._cacheCanvasContext.save();
+
 			this.draw(this._cacheCanvasContext);
+
 			this._cacheCanvasContext.restore();
 			
 		},
@@ -189,6 +174,11 @@ this.Fizz = this.Fizz || { };
 		},
 
 		// Private methods
+
+		_getGlobalAlpha: function() {
+			if(null === this.parent) { return this._alpha; }
+			return this._alpha * this.parent._getGlobalAlpha();
+		},
 
 		_isVisible: function() {
 			if(false === this.exists) { return false; }
@@ -252,14 +242,9 @@ this.Fizz = this.Fizz || { };
 				this.updateCache();
 			}
 		});
-
+	
 	DisplayEntity.prototype.exposeProperty("alpha", "_alpha",
-		function(value) {
-			// Only re-cache if the alpha value really changes
-			var tmp = this._alpha;
-			Fizz.restrict.toRange("_alpha", [0, 1]).call(this, value);
-			if(this._alpha !== tmp) this.updateCache();
-		});
+		Fizz.restrict.toRange("_alpha", [0, 1]));
 
 	// Public dynamic properties
 
