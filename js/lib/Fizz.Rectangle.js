@@ -97,6 +97,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Rectangle = Rectangle;
 
-	Fizz.logger.filter('all').log("Loaded module 'Rectangle'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Rectangle'.");
 
 }());

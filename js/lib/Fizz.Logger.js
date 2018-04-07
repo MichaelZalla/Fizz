@@ -59,6 +59,6 @@ this.Fizz = this.Fizz || { };
 		this.filter("all").error(err);
 	}.bind(Fizz.logger);
 
-	Fizz.logger.filter('all').log("Loaded module 'Logger'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Logger'.");
 
 }());

@@ -103,6 +103,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Event = Event;
 
-	Fizz.logger.filter('all').log("Loaded module 'Event'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Event'.");
 
 }());

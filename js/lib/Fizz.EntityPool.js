@@ -152,6 +152,6 @@ this.Fizz = this.Fizz || { };
 	// EntityPool export
 	Fizz.EntityPool = EntityPool;
 
-	Fizz.logger.filter('all').log("Loaded module 'EntityPool'.");
+	Fizz.logger.filter('dev').log("Loaded module 'EntityPool'.");
 
 }());

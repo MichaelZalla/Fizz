@@ -153,6 +153,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Color = Color;
 
-	Fizz.logger.filter('all').log("Loaded module 'Color'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Color'.");
 
 }());

@@ -228,6 +228,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Spritesheet = Spritesheet;
 
-	Fizz.logger.filter('all').log("Loaded module 'Spritesheet'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Spritesheet'.");
 
 }());

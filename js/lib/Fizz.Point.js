@@ -57,6 +57,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Point = Point;
 
-	Fizz.logger.filter('all').log("Loaded module 'Point'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Point'.");
 
 }());

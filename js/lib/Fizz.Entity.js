@@ -133,6 +133,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Entity = Entity;
 
-	Fizz.logger.filter('all').log("Loaded module 'Entity'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Entity'.");
 
 }());

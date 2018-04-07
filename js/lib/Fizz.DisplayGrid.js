@@ -138,6 +138,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.DisplayGrid = DisplayGrid;
 
-	Fizz.logger.filter('all').log("Loaded module 'DisplayGrid'.");
+	Fizz.logger.filter('dev').log("Loaded module 'DisplayGrid'.");
 
 }());

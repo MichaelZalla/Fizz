@@ -135,6 +135,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.RAFRenderer = RAFRenderer;
 
-	Fizz.logger.filter('all').log("Loaded module 'RAFRenderer'.");
+	Fizz.logger.filter('dev').log("Loaded module 'RAFRenderer'.");
 
 }());

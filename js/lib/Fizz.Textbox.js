@@ -135,6 +135,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Textbox = Textbox;
 
-	Fizz.logger.filter('all').log("Loaded module 'Textbox'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Textbox'.");
 
 }());

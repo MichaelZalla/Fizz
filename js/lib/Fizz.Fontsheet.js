@@ -94,6 +94,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Fontsheet = Fontsheet;
 
-	Fizz.logger.filter('all').log("Loaded module 'Fontsheet'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Fontsheet'.");
 
 }());

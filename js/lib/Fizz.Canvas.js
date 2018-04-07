@@ -343,6 +343,6 @@ this.Fizz = this.Fizz || { };
 	// Stage export
 	Fizz.Canvas = Canvas;
 
-	Fizz.logger.filter('all').log("Loaded module 'Canvas'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Canvas'.");
 
 }());

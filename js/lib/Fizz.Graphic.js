@@ -150,6 +150,6 @@ this.Fizz = this.Fizz || { };
 	// Class export
 	Fizz.Graphic = Graphic;
 
-	Fizz.logger.filter('all').log("Loaded module 'Graphic'.");
+	Fizz.logger.filter('dev').log("Loaded module 'Graphic'.");
 
 }());
