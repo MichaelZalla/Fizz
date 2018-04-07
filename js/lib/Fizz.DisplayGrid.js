@@ -20,7 +20,7 @@ this.Fizz = this.Fizz || { };
 				
 				// We're keeping 'rows' and 'columns' as read-only for now,
 				// so don't assign them via the normal means ('assign')
-				
+
 				if('rows' in settings && typeof settings.rows === "number") {
 					this._rows = settings.rows;
 					delete settings.rows;
@@ -44,6 +44,16 @@ this.Fizz = this.Fizz || { };
 				this.assign(settings);
 
 			}
+
+		},
+
+		childAtCoordinate: function(columnIndex, rowIndex) {
+
+			// Does not assume toroidal grid projection
+			if(columnIndex < 0 || columnIndex >= this._columns) return null;
+			if(rowIndex < 0 || rowIndex >= this._rows) return null;
+
+			return this.childAt(rowIndex * this._columns + columnIndex);
 
 		},
 
