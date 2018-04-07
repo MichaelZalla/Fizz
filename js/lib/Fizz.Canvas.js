@@ -51,7 +51,7 @@ this.Fizz = this.Fizz || { };
 			ctx.restore();
 
 			return copy;
-			
+
 		},
 
 		splice: function(x, y, width, height) {
@@ -116,13 +116,13 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_getWindowPosition: function() {
-			
+
 			var position = new Fizz.Point(0,0);
-	
-			if(this._DOMElement && this._DOMElement.ownerDocument) {				
-				
+
+			if(this._DOMElement && this._DOMElement.ownerDocument) {
+
 				//@TODO Account for CSS padding
-				
+
 				var d = this._DOMElement.ownerDocument.documentElement,
 					clientRect = this._DOMElement.getBoundingClientRect();
 
@@ -130,7 +130,7 @@ this.Fizz = this.Fizz || { };
 				position.y = clientRect.top - d.offsetTop;// + window.pageYOffset;
 
 			}
-			
+
 			return (this._windowPosition = position.clone());
 
 		},
@@ -138,9 +138,9 @@ this.Fizz = this.Fizz || { };
 		_bind: function(element) {
 
 			if(!(element instanceof HTMLCanvasElement)) return null;
-			
+
 			// Decorate canvas event objects with context-dependent data
-			
+
 			var mappings = { };
 
 			var baseKeyboardMappings = { 'keyCode': 'keyCode' };
@@ -195,7 +195,7 @@ this.Fizz = this.Fizz || { };
 			mappings.mouseup = {
 				'type': {
 					property: 'type',
-					transform: function() { 
+					transform: function() {
 						return Canvas.EVENTS.MOUSEUP;
 					}
 				}
@@ -210,7 +210,7 @@ this.Fizz = this.Fizz || { };
 					}
 				}
 			}.assign(baseMouseMappings);
-			
+
 			// Mousemove event mapping
 			mappings.mousemove = {
 				'type': {
@@ -235,7 +235,7 @@ this.Fizz = this.Fizz || { };
 			mappings.keyup = {
 				'type': {
 					property: 'type',
-					transform: function() { 
+					transform: function() {
 						return Canvas.EVENTS.KEYUP;
 					}
 				}
@@ -267,7 +267,7 @@ this.Fizz = this.Fizz || { };
 
 					// Emit a custom (decorated) Fizz.Event from the Canvas
 					this.emit.call(this, data.type, data);
-					
+
 				}.bind(this);
 
 				// Resolve the DOM event's target element

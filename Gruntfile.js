@@ -28,7 +28,6 @@ var components = [
 
 	'Point',
 	'Rectangle',
-	
 	'UID',
 	'Entity',
 	'EntityPool',

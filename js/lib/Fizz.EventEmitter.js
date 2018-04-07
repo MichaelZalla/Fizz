@@ -13,7 +13,7 @@ this.Fizz = this.Fizz || { };
 		},
 
 		addEventListener: function(type, listener, useCapture) {
-			
+
 			useCapture = (typeof useCapture === "boolean") ?
 				useCapture : false;
 
@@ -23,9 +23,9 @@ this.Fizz = this.Fizz || { };
 			// Allow first argument to be comma-separated list of types
 			var split = type.replace(/(\s)/,'').split(/[ ,]+/);
 			if(split.length > 1) type = split;
-			
+
 			if(type instanceof Array) {
-				
+
 				type.foreach(function(t) { this.addEventListener(t, listener); });
 
 			} else {
@@ -49,18 +49,18 @@ this.Fizz = this.Fizz || { };
 
 				this._events[type].push(listener);
 
-			}	
+			}
 
 		},
 
 		removeEventListener: function(type, listener, useCapture) {
-			
+
 			useCapture = (typeof useCapture === "boolean") ?
 				useCapture : false;
 
 			var split = type.replace(/(\s)/,'').split(/[ ,]+/);
 			if(split.length > 1) type = split;
-			
+
 			if(type instanceof Array) {
 				for(var i = 0; i < type.length; i++) {
 					this.removeEventListener(type[i], listener);
@@ -118,7 +118,7 @@ this.Fizz = this.Fizz || { };
 		emit: function(E, data) {
 
 			var e;
-			
+
 			// This should only be triggered at an Event's original source
 			if(!(E instanceof Fizz.Event)) {
 				if(typeof E === "function") {
@@ -137,7 +137,7 @@ this.Fizz = this.Fizz || { };
 
 			e.target = this;
 
-			
+
 			// Allow decoration of Event instance with arbitrary contextual data
 			e.assign(data);
 
@@ -209,7 +209,7 @@ this.Fizz = this.Fizz || { };
 	// Static class members
 
 	EventEmitter.initialize = function(target) {
-		
+
 		// Decorate the target object with the EventEmitter API
 		EventEmitter.prototype.foreach(function(fn, methodName) {
 			if(-1 === ['constructor','init','toString'].indexOf(methodName)) {
@@ -220,9 +220,9 @@ this.Fizz = this.Fizz || { };
 		// Modify the target to include the necessary emitter properties
 
 		if(target.hasOwnProperty('init') && typeof target.init === "function") {
-			
+
 			// We are extending a class prototype
-			
+
 			// Make a copy of the prototype's original init method
 			var init_copy = new Function('return ' + target.init.toString())();
 			for(var prop in target.init) {
@@ -239,7 +239,7 @@ this.Fizz = this.Fizz || { };
 			};
 
 		} else {
-			
+
 			// We are extending a class instance object
 			EventEmitter.prototype.init.call(this);
 
