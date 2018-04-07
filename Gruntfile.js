@@ -50,7 +50,11 @@ var components = [
 
 	// Renderers
 	
-	'RAFRenderer'
+	'RAFRenderer',
+
+	// Helper classes
+
+	'Demo'
 	
 ];
 
