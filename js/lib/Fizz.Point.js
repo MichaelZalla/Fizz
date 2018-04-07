@@ -16,6 +16,14 @@ this.Fizz = this.Fizz || { };
 			return new Fizz.Point(this._x + point.x, this._y + point.y);
 		},
 
+		scale: function(scaleX, scaleY) {
+			if(arguments.length === 1) {
+				scaleY = scaleX;
+			}
+			this.x *= scaleX;
+			this.y *= scaleY;
+		},
+
 		equals: function(point) {
 			return !!(this._x === point.x && this._y === point.y);
 		},
