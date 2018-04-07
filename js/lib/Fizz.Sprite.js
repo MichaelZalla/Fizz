@@ -80,15 +80,22 @@ this.Fizz = this.Fizz || { };
 		// Private methods
 
 		_goto: function(frameIndex) {
+
+			this._timeUntilTransition = 0;
+			
 			if(typeof frameIndex === "string") {
+				
 				// Passed in the name of an animation
 				var data = this._spritesheet.getAnimation(frameIndex);
 				this._currentAnimation = (data !== null) ? data : this._currentAnimation;
 				this._texture = this._currentAnimation.begin;
+
 			} else {
+				
 				// Passed in the index of a frame (integer)
 				this._currentAnimation = Sprite.DEFAULT_ANIMATION;
 				this._texture = frameIndex;
+				
 			}
 		},
 
