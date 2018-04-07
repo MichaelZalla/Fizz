@@ -16,7 +16,7 @@ this.Fizz = this.Fizz || { };
 		DEVELOPMENT: 'dev'
 	};
 
-	var _environment = _environments.PRODUCTION;
+	var _environment = window.FIZZ_ENVIRONMENT || _environments.PRODUCTION;
 
 	Fizz.getEnv = function() {
 		return _environment;
