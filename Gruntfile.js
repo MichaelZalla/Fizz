@@ -1,12 +1,12 @@
 "use strict";
 
 require('grunt-verbosity');
-require('string-format');
+// require('string-format');
 
 // Preserve order of dependecies
 
 var components = [
-	
+
 	// Base modules
 
 	'Object',
@@ -50,21 +50,21 @@ var components = [
 	'Textbox',
 
 	// Renderers
-	
+
 	'RAFRenderer',
 
 	// Helper classes
 
 	'Demo'
-	
+
 ];
 
 var sources = components.map(function(c) {
-	return "js/lib/Fizz.{0}.js".format(c);
+	return "src/js/lib/Fizz." + c + ".js";
 });
 
 var specs = components.map(function(c) {
-	return "js/spec/spec.{0}.js".format(c);
+	return "src/js/spec/spec." + c + ".js";
 });
 
 module.exports = function(grunt) {
@@ -85,15 +85,19 @@ module.exports = function(grunt) {
 			files: sources.concat(specs),
 			options: {
 				force: true,
-				jshintrc: './log/.jshintrc',
-				reporter: './log/jshint-reporter.js',
-				reporterOutput: './log/reporter.log'
+				jshintrc: './.jshintrc',
+				reporter: './jshint-reporter.js',
+				reporterOutput: './reporter.log'
 			}
 		},
 
 		watch: {
 			files: sources.concat(specs),
-			tasks: ['jasmine', 'jshint', 'minify']
+			tasks: [
+				'jasmine',
+				'jshint',
+				'minify'
+			],
 		},
 
 		jasmine: {
@@ -109,7 +113,7 @@ module.exports = function(grunt) {
 		uglify: {
 			lib: {
 				files: {
-					'js/min/fizz.min.js': sources
+					'dist/min/fizz.min.js': sources,
 				},
 			},
 			options: {
@@ -128,7 +132,7 @@ module.exports = function(grunt) {
 	// Grunt debug tasks
 	grunt.loadNpmTasks('grunt-verbosity');
 	grunt.loadNpmTasks('grunt-debug-task');
-	
+
 	// Grunt dev tasks
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
@@ -139,5 +143,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('minify', ['uglify']);
 	grunt.registerTask('default', ['watch']);
 	grunt.registerTask('debug', ['debug']);
-	
+
 };

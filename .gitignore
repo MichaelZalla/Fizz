@@ -1,16 +1,35 @@
-# hidden osx files
+# macOS
 .DS_Store
 .Spotlight-V100
 .Trashes
 
-# dev dependencies
+# npm
 node_modules
 bower_components
+.grunt
 
-# jshint notices
+# jshint
+.jshintrc
+jshint-reporter.js
 log/**/*.log
 
-# misc files
+# dist
+dist
+
+# misc
 _SpecRunner.html
 js/templates
-demos
+
+# demos
+.min.js
+.min.js.map
+demos/_demo-11
+demos/_demo-birds
+demos/_demo-camera
+demos/_demo-game-behaviors
+demos/_demo-test
+demos/demo-gyro
+demos/demo-simulation
+demos/demo-sprite-animation
+demos/demo-sprite-grid
+demos/demo-textbox
